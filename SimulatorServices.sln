@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.Admin", "src\LagoVista.IoT.Simulator.Admin\LagoVista.IoT.Simulator.Admin.csproj", "{E9FA6740-A4B2-4B49-8805-DBA148828DD3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.Admin.Rest", "src\LagoVista.IoT.Simulator.Admin.Rest\LagoVista.IoT.Simulator.Admin.Rest.csproj", "{61F632BA-F2A6-4A59-A4BD-BF2C9A92AE00}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.CloudRepos", "src\LagoVista.IoT.Simulator.CloudRepos\LagoVista.IoT.Simulator.CloudRepos.csproj", "{BE719524-95E8-46B9-9171-8BF22EB8E308}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E9FA6740-A4B2-4B49-8805-DBA148828DD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9FA6740-A4B2-4B49-8805-DBA148828DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9FA6740-A4B2-4B49-8805-DBA148828DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9FA6740-A4B2-4B49-8805-DBA148828DD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F632BA-F2A6-4A59-A4BD-BF2C9A92AE00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F632BA-F2A6-4A59-A4BD-BF2C9A92AE00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F632BA-F2A6-4A59-A4BD-BF2C9A92AE00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F632BA-F2A6-4A59-A4BD-BF2C9A92AE00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE719524-95E8-46B9-9171-8BF22EB8E308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE719524-95E8-46B9-9171-8BF22EB8E308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE719524-95E8-46B9-9171-8BF22EB8E308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE719524-95E8-46B9-9171-8BF22EB8E308}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,241 @@
+﻿using System.Globalization;
+using System.Reflection;
+
+//Resources:SimulatorResources:Common_Description
+namespace LagoVista.IoT.Simulator.Admin.Resources
+{
+	public class SimulatorResources
+	{
+        private static global::System.Resources.ResourceManager _resourceManager;
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        private static global::System.Resources.ResourceManager ResourceManager 
+		{
+            get 
+			{
+                if (object.ReferenceEquals(_resourceManager, null)) 
+				{
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LagoVista.IoT.Simulator.Admin.Resources.SimulatorResources", typeof(SimulatorResources).GetTypeInfo().Assembly);
+                    _resourceManager = temp;
+                }
+                return _resourceManager;
+            }
+        }
+        
+        /// <summary>
+        ///   Returns the formatted resource string.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        private static string GetResourceString(string key, params string[] tokens)
+		{
+			var culture = CultureInfo.CurrentCulture;;
+            var str = ResourceManager.GetString(key, culture);
+
+			for(int i = 0; i < tokens.Length; i += 2)
+				str = str.Replace(tokens[i], tokens[i+1]);
+										
+            return str;
+        }
+        
+        /// <summary>
+        ///   Returns the formatted resource string.
+        /// </summary>
+		/*
+        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        private static HtmlString GetResourceHtmlString(string key, params string[] tokens)
+		{
+			var str = GetResourceString(key, tokens);
+							
+			if(str.StartsWith("HTML:"))
+				str = str.Substring(5);
+
+			return new HtmlString(str);
+        }*/
+		
+		public static string Common_Description { get { return GetResourceString("Common_Description"); } }
+//Resources:SimulatorResources:Common_IsPublic
+
+		public static string Common_IsPublic { get { return GetResourceString("Common_IsPublic"); } }
+//Resources:SimulatorResources:Common_Key
+
+		public static string Common_Key { get { return GetResourceString("Common_Key"); } }
+//Resources:SimulatorResources:Common_Key_Help
+
+		public static string Common_Key_Help { get { return GetResourceString("Common_Key_Help"); } }
+//Resources:SimulatorResources:Common_Key_Validation
+
+		public static string Common_Key_Validation { get { return GetResourceString("Common_Key_Validation"); } }
+//Resources:SimulatorResources:Common_Name
+
+		public static string Common_Name { get { return GetResourceString("Common_Name"); } }
+//Resources:SimulatorResources:Common_Script
+
+		public static string Common_Script { get { return GetResourceString("Common_Script"); } }
+//Resources:SimulatorResources:Connection_Select_Type
+
+		public static string Connection_Select_Type { get { return GetResourceString("Connection_Select_Type"); } }
+//Resources:SimulatorResources:Connection_Type_AMQP
+
+		public static string Connection_Type_AMQP { get { return GetResourceString("Connection_Type_AMQP"); } }
+//Resources:SimulatorResources:Connection_Type_AzureEventHub
+
+		public static string Connection_Type_AzureEventHub { get { return GetResourceString("Connection_Type_AzureEventHub"); } }
+//Resources:SimulatorResources:Connection_Type_AzureIoTHub
+
+		public static string Connection_Type_AzureIoTHub { get { return GetResourceString("Connection_Type_AzureIoTHub"); } }
+//Resources:SimulatorResources:Connection_Type_AzureServiceBus
+
+		public static string Connection_Type_AzureServiceBus { get { return GetResourceString("Connection_Type_AzureServiceBus"); } }
+//Resources:SimulatorResources:Connection_Type_Custom
+
+		public static string Connection_Type_Custom { get { return GetResourceString("Connection_Type_Custom"); } }
+//Resources:SimulatorResources:Connection_Type_MQTT
+
+		public static string Connection_Type_MQTT { get { return GetResourceString("Connection_Type_MQTT"); } }
+//Resources:SimulatorResources:Connection_Type_Rest
+
+		public static string Connection_Type_Rest { get { return GetResourceString("Connection_Type_Rest"); } }
+//Resources:SimulatorResources:Connection_Type_Soap
+
+		public static string Connection_Type_Soap { get { return GetResourceString("Connection_Type_Soap"); } }
+//Resources:SimulatorResources:Connection_Type_TCP
+
+		public static string Connection_Type_TCP { get { return GetResourceString("Connection_Type_TCP"); } }
+//Resources:SimulatorResources:Connection_Type_UDP
+
+		public static string Connection_Type_UDP { get { return GetResourceString("Connection_Type_UDP"); } }
+//Resources:SimulatorResources:Message_MessageHeaders
+
+		public static string Message_MessageHeaders { get { return GetResourceString("Message_MessageHeaders"); } }
+//Resources:SimulatorResources:Message_MessageToken_Help
+
+		public static string Message_MessageToken_Help { get { return GetResourceString("Message_MessageToken_Help"); } }
+//Resources:SimulatorResources:Message_MessageTokens
+
+		public static string Message_MessageTokens { get { return GetResourceString("Message_MessageTokens"); } }
+//Resources:SimulatorResources:Message_PayloadType
+
+		public static string Message_PayloadType { get { return GetResourceString("Message_PayloadType"); } }
+//Resources:SimulatorResources:Message_PayloadType_Binary
+
+		public static string Message_PayloadType_Binary { get { return GetResourceString("Message_PayloadType_Binary"); } }
+//Resources:SimulatorResources:Message_PayloadType_Help
+
+		public static string Message_PayloadType_Help { get { return GetResourceString("Message_PayloadType_Help"); } }
+//Resources:SimulatorResources:Message_PayloadType_Text
+
+		public static string Message_PayloadType_Text { get { return GetResourceString("Message_PayloadType_Text"); } }
+//Resources:SimulatorResources:Message_SelectPayloadType
+
+		public static string Message_SelectPayloadType { get { return GetResourceString("Message_SelectPayloadType"); } }
+//Resources:SimulatorResources:MessageHeader_Description
+
+		public static string MessageHeader_Description { get { return GetResourceString("MessageHeader_Description"); } }
+//Resources:SimulatorResources:MessageHeader_Help
+
+		public static string MessageHeader_Help { get { return GetResourceString("MessageHeader_Help"); } }
+//Resources:SimulatorResources:MessageHeader_Key
+
+		public static string MessageHeader_Key { get { return GetResourceString("MessageHeader_Key"); } }
+//Resources:SimulatorResources:MessageHeader_Key_Help
+
+		public static string MessageHeader_Key_Help { get { return GetResourceString("MessageHeader_Key_Help"); } }
+//Resources:SimulatorResources:MessageHeader_Title
+
+		public static string MessageHeader_Title { get { return GetResourceString("MessageHeader_Title"); } }
+//Resources:SimulatorResources:MessageHeader_Value
+
+		public static string MessageHeader_Value { get { return GetResourceString("MessageHeader_Value"); } }
+//Resources:SimulatorResources:MessageHeader_Value_Help
+
+		public static string MessageHeader_Value_Help( string epoch, string deviceid, string jsonutcdate) { return GetResourceString("MessageHeader_Value_Help", "{epoch}", epoch, "{deviceid}", deviceid, "{jsonutcdate}", jsonutcdate); }
+//Resources:SimulatorResources:MessageTemplate_BinaryPayload
+
+		public static string MessageTemplate_BinaryPayload { get { return GetResourceString("MessageTemplate_BinaryPayload"); } }
+//Resources:SimulatorResources:MessageTemplate_Description
+
+		public static string MessageTemplate_Description { get { return GetResourceString("MessageTemplate_Description"); } }
+//Resources:SimulatorResources:MessageTemplate_Help
+
+		public static string MessageTemplate_Help { get { return GetResourceString("MessageTemplate_Help"); } }
+//Resources:SimulatorResources:MessageTemplate_TextPayload
+
+		public static string MessageTemplate_TextPayload { get { return GetResourceString("MessageTemplate_TextPayload"); } }
+//Resources:SimulatorResources:MessageTemplate_Title
+
+		public static string MessageTemplate_Title { get { return GetResourceString("MessageTemplate_Title"); } }
+//Resources:SimulatorResources:Simulator_Deployment_Config
+
+		public static string Simulator_Deployment_Config { get { return GetResourceString("Simulator_Deployment_Config"); } }
+//Resources:SimulatorResources:Simulator_Description
+
+		public static string Simulator_Description { get { return GetResourceString("Simulator_Description"); } }
+//Resources:SimulatorResources:Simulator_Device_Config
+
+		public static string Simulator_Device_Config { get { return GetResourceString("Simulator_Device_Config"); } }
+//Resources:SimulatorResources:Simulator_Help
+
+		public static string Simulator_Help { get { return GetResourceString("Simulator_Help"); } }
+//Resources:SimulatorResources:Simulator_MessageTemplates
+
+		public static string Simulator_MessageTemplates { get { return GetResourceString("Simulator_MessageTemplates"); } }
+//Resources:SimulatorResources:Simulator_PipelineModule_Config
+
+		public static string Simulator_PipelineModule_Config { get { return GetResourceString("Simulator_PipelineModule_Config"); } }
+//Resources:SimulatorResources:Simulator_Title
+
+		public static string Simulator_Title { get { return GetResourceString("Simulator_Title"); } }
+
+		public static class Names
+		{
+			public const string Common_Description = "Common_Description";
+			public const string Common_IsPublic = "Common_IsPublic";
+			public const string Common_Key = "Common_Key";
+			public const string Common_Key_Help = "Common_Key_Help";
+			public const string Common_Key_Validation = "Common_Key_Validation";
+			public const string Common_Name = "Common_Name";
+			public const string Common_Script = "Common_Script";
+			public const string Connection_Select_Type = "Connection_Select_Type";
+			public const string Connection_Type_AMQP = "Connection_Type_AMQP";
+			public const string Connection_Type_AzureEventHub = "Connection_Type_AzureEventHub";
+			public const string Connection_Type_AzureIoTHub = "Connection_Type_AzureIoTHub";
+			public const string Connection_Type_AzureServiceBus = "Connection_Type_AzureServiceBus";
+			public const string Connection_Type_Custom = "Connection_Type_Custom";
+			public const string Connection_Type_MQTT = "Connection_Type_MQTT";
+			public const string Connection_Type_Rest = "Connection_Type_Rest";
+			public const string Connection_Type_Soap = "Connection_Type_Soap";
+			public const string Connection_Type_TCP = "Connection_Type_TCP";
+			public const string Connection_Type_UDP = "Connection_Type_UDP";
+			public const string Message_MessageHeaders = "Message_MessageHeaders";
+			public const string Message_MessageToken_Help = "Message_MessageToken_Help";
+			public const string Message_MessageTokens = "Message_MessageTokens";
+			public const string Message_PayloadType = "Message_PayloadType";
+			public const string Message_PayloadType_Binary = "Message_PayloadType_Binary";
+			public const string Message_PayloadType_Help = "Message_PayloadType_Help";
+			public const string Message_PayloadType_Text = "Message_PayloadType_Text";
+			public const string Message_SelectPayloadType = "Message_SelectPayloadType";
+			public const string MessageHeader_Description = "MessageHeader_Description";
+			public const string MessageHeader_Help = "MessageHeader_Help";
+			public const string MessageHeader_Key = "MessageHeader_Key";
+			public const string MessageHeader_Key_Help = "MessageHeader_Key_Help";
+			public const string MessageHeader_Title = "MessageHeader_Title";
+			public const string MessageHeader_Value = "MessageHeader_Value";
+			public const string MessageHeader_Value_Help = "MessageHeader_Value_Help";
+			public const string MessageTemplate_BinaryPayload = "MessageTemplate_BinaryPayload";
+			public const string MessageTemplate_Description = "MessageTemplate_Description";
+			public const string MessageTemplate_Help = "MessageTemplate_Help";
+			public const string MessageTemplate_TextPayload = "MessageTemplate_TextPayload";
+			public const string MessageTemplate_Title = "MessageTemplate_Title";
+			public const string Simulator_Deployment_Config = "Simulator_Deployment_Config";
+			public const string Simulator_Description = "Simulator_Description";
+			public const string Simulator_Device_Config = "Simulator_Device_Config";
+			public const string Simulator_Help = "Simulator_Help";
+			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
+			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
+			public const string Simulator_Title = "Simulator_Title";
+		}
+	}
+}
