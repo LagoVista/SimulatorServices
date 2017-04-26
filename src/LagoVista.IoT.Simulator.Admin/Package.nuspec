@@ -8,19 +8,15 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectUrl>https://github.com/LagoVista/IoTEngine</projectUrl>
     <iconUrl>http://bytemaster.blob.core.windows.net/icons/LagoVistaIcon.png</iconUrl>
-    <description>Provides Interfaces, Models and Managers for Managing Simulators for the LagoVista IoT and Devices Framework</description>
+    <description>Provides Interfaces, Models and Managers for Managing Simulators for the LagoVista Devices, IoT and Home Automation Frameworks</description>
     <releaseNotes>Initial and Unstable Release</releaseNotes>
     <copyright>Copyright 2017</copyright>
-    <tags>HomeAutomation IoT Cloud</tags>
+    <tags>HomeAutomation IoT Cloud LagoVista</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="10.0.1" />
-      <dependency id="LagoVista.Core" version="0.8.112-alpha00944" />
-      <dependency id="LagoVista.Core.Authentication" version="0.8.112-alpha00944" />
-      <dependency id="LagoVista.IoT.DeviceAdmin" version="0.8.112-alpha00944" />      
     </dependencies>
   </metadata>
   <files>
-    <file src="ReadMe.html" target="" />
     <file src="bin\release\netstandard1.2\*.dll" target="lib\netstandard1.2" />
   </files>
 </package>

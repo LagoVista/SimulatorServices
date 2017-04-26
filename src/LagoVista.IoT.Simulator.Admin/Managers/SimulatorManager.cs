@@ -46,7 +46,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
         public async Task<Models.Simulator> GetSimulatorAsync(string id, EntityHeader org, EntityHeader user)
         {
             var simulator = await _simulatorRepo.GetSimulatorAsync(id);
-            await AuthorizeAsync(simulator, AuthorizeActions.Read, user);
+            await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
             return simulator;
         }
 
@@ -83,7 +83,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
 
         public async Task<InvokeResult> UpdateSimulatorAsync(Models.Simulator simulator, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeAsync(simulator, AuthorizeActions.Create, user);
+            await AuthorizeAsync(simulator, AuthorizeActions.Create, user, org);
             await _simulatorRepo.UpdateSimulatorAsync(simulator);
             return InvokeResult.Success;
         }
