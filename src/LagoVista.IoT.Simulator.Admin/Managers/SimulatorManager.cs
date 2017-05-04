@@ -6,11 +6,8 @@ using LagoVista.Core.Validation;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 using LagoVista.IoT.Simulator.Admin.Repos;
-using LagoVista.IoT.DeviceAdmin.Managers;
-using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Managers;
 using static LagoVista.Core.Models.AuthorizeResult;
-using LagoVista.Core.Authentication.Exceptions;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.Interfaces;
 
