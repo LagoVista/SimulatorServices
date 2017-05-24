@@ -13,6 +13,7 @@ namespace LagoVista.IoT.Simulator.Admin.Repos
         Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId);
         Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId);
         Task<IEnumerable<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string orgId);
+        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId);
         Task<IEnumerable<SimulatorSummary>> GetSimulatorsForOrgAsync(string orgId);
         Task UpdateSimulatorAsync(Models.Simulator simulator);
         Task DeleteSimulatorAsync(string id);

@@ -32,13 +32,17 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public bool IsPublic { get; set; }
 
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeploymentConfiguration { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Device_Config, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Device_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeviceConfiguration { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_PipelineModule_Config, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DeviceType, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
+        public EntityHeader DeviceType { get; set; }
+
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_PipelineModule_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
         public EntityHeader PipelineModuleConfiguration { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
@@ -62,7 +66,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 Id = Id,
                 Name = Name,
                 Key = Key,
-                Description = Description
+                Description = Description,
+                DeviceConfiguration = DeviceConfiguration.Text,
+                DeviceType = DeviceType.Text                
             };
         }
     }
@@ -70,5 +76,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     public class SimulatorSummary : SummaryData
     {
 
+        public string DeviceConfiguration { get; set; }
+
+        public string DeviceType { get; set; }
     }
 }

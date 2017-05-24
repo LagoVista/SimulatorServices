@@ -16,6 +16,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
         Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, EntityHeader org, EntityHeader user);
         Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId, EntityHeader org, EntityHeader user);
         Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string pipelineConfigId, EntityHeader org, EntityHeader user);
+        Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string pipelineConfigId, EntityHeader org, EntityHeader user);
         Task<InvokeResult> UpdateSimulatorAsync(Models.Simulator simulator, EntityHeader org, EntityHeader user);
         Task<InvokeResult> DeleteSimulatorAsync(string id, EntityHeader org, EntityHeader user);
 

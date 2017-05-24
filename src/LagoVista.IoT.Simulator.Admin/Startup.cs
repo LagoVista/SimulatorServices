@@ -1,4 +1,5 @@
-﻿using LagoVista.IoT.Simulator.Admin.Managers;
+﻿using LagoVista.Core.IOC;
+using LagoVista.IoT.Simulator.Admin.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,11 @@ namespace LagoVista.IoT.Simulator.Admin
         {
             services.AddTransient<ISimulatorManager, SimulatorManager>();
         }
+
+        public static void ConfigureSLWIOC()
+        {
+            SLWIOC.Register<ISimulatorManager, SimulatorManager>();
+        }
+
     }
 }

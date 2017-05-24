@@ -176,6 +176,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_Device_Config
 
 		public static string Simulator_Device_Config { get { return GetResourceString("Simulator_Device_Config"); } }
+//Resources:SimulatorResources:Simulator_DeviceType
+
+		public static string Simulator_DeviceType { get { return GetResourceString("Simulator_DeviceType"); } }
 //Resources:SimulatorResources:Simulator_Help
 
 		public static string Simulator_Help { get { return GetResourceString("Simulator_Help"); } }
@@ -232,6 +235,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_Deployment_Config = "Simulator_Deployment_Config";
 			public const string Simulator_Description = "Simulator_Description";
 			public const string Simulator_Device_Config = "Simulator_Device_Config";
+			public const string Simulator_DeviceType = "Simulator_DeviceType";
 			public const string Simulator_Help = "Simulator_Help";
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";

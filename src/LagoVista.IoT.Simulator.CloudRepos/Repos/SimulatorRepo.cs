@@ -86,5 +86,13 @@ namespace LagoVista.IoT.Simulator.CloudRepos.Repos
         {
             return UpdateSimulatorAsync(simulator);
         }
+
+        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string deviceTypeId)
+        {
+            var items = await base.QueryAsync(qry => qry.DeviceType.Id == deviceTypeId);
+
+            return from item in items
+                   select item.CreateSummary();
+        }
     }
 }

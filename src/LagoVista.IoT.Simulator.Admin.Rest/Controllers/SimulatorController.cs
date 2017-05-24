@@ -109,6 +109,18 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             return ListResponse<Models.SimulatorSummary>.Create(simulators);
         }
 
+        /// <summary>
+        /// Simulators - Get For Device Types
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/api/devicetype/{id}/simulators")]
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceTypeAsync(String id)
+        {
+            var simulators = await simulatorManager.GetSimulatorsForPipelineModuleAsync(id, OrgEntityHeader, UserEntityHeader);
+            return ListResponse<Models.SimulatorSummary>.Create(simulators);
+        }
+
 
         /// <summary>
         /// Simulators - Delete
