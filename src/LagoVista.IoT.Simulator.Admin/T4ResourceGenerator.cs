@@ -176,6 +176,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_Description
 
 		public static string MessageTemplate_Description { get { return GetResourceString("MessageTemplate_Description"); } }
+//Resources:SimulatorResources:MessageTemplate_DynamicAttributes
+
+		public static string MessageTemplate_DynamicAttributes { get { return GetResourceString("MessageTemplate_DynamicAttributes"); } }
 //Resources:SimulatorResources:MessageTemplate_EndPoint
 
 		public static string MessageTemplate_EndPoint { get { return GetResourceString("MessageTemplate_EndPoint"); } }
@@ -292,6 +295,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageHeader_Value_Help = "MessageHeader_Value_Help";
 			public const string MessageTemplate_BinaryPayload = "MessageTemplate_BinaryPayload";
 			public const string MessageTemplate_Description = "MessageTemplate_Description";
+			public const string MessageTemplate_DynamicAttributes = "MessageTemplate_DynamicAttributes";
 			public const string MessageTemplate_EndPoint = "MessageTemplate_EndPoint";
 			public const string MessageTemplate_Help = "MessageTemplate_Help";
 			public const string MessageTemplate_Port = "MessageTemplate_Port";

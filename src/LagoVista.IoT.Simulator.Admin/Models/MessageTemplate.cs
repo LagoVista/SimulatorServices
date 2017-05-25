@@ -23,12 +23,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     {
         public const string PayloadTypes_Text = "text";
         public const string PayloadTypes_Binary = "binary";
-    
 
         public MessageTemplate()
         {
             MessageHeaders = new List<MessageHeader>();
-            Tokens = new List<string>();
             Id = Guid.NewGuid().ToId();
         }
 
@@ -49,31 +47,25 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageHeader> MessageHeaders { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageDynamicAttribute> DynamicAttributes { get; set; }
-
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PathAndQueryString, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public String PathAndQueryString { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageTokens, HelpResource: Resources.SimulatorResources.Names.Message_MessageToken_Help, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
-        public List<String> Tokens { get; set; }
-
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType_Text, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string TextPayload { get; set; }
-
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType_Binary, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public byte[] BinaryPayload { get; set; }
 
-
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Transport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Transport_SelectTransportType, IsRequired: true)]
         public EntityHeader<TransportTypes> Transport { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_EndPoint, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_EndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string EndPoint { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int Port { get; set; }
     }
 }

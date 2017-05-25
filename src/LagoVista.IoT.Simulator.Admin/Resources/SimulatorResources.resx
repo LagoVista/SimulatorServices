@@ -312,4 +312,7 @@
   <data name="Transport_UDP" xml:space="preserve">
     <value>UDP</value>
   </data>
+  <data name="MessageTemplate_DynamicAttributes" xml:space="preserve">
+    <value>Dynamic Attributes</value>
+  </data>
 </root>
