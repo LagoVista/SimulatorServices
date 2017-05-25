@@ -116,6 +116,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Message_MessageTokens
 
 		public static string Message_MessageTokens { get { return GetResourceString("Message_MessageTokens"); } }
+//Resources:SimulatorResources:Message_PathAndQueryString
+
+		public static string Message_PathAndQueryString { get { return GetResourceString("Message_PathAndQueryString"); } }
 //Resources:SimulatorResources:Message_PayloadType
 
 		public static string Message_PayloadType { get { return GetResourceString("Message_PayloadType"); } }
@@ -131,6 +134,21 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Message_SelectPayloadType
 
 		public static string Message_SelectPayloadType { get { return GetResourceString("Message_SelectPayloadType"); } }
+//Resources:SimulatorResources:MessageDynamicAttribute_DefaultValue
+
+		public static string MessageDynamicAttribute_DefaultValue { get { return GetResourceString("MessageDynamicAttribute_DefaultValue"); } }
+//Resources:SimulatorResources:MessageDynamicAttribute_Description
+
+		public static string MessageDynamicAttribute_Description { get { return GetResourceString("MessageDynamicAttribute_Description"); } }
+//Resources:SimulatorResources:MessageDynamicAttribute_Help
+
+		public static string MessageDynamicAttribute_Help { get { return GetResourceString("MessageDynamicAttribute_Help"); } }
+//Resources:SimulatorResources:MessageDynamicAttribute_ParameterType
+
+		public static string MessageDynamicAttribute_ParameterType { get { return GetResourceString("MessageDynamicAttribute_ParameterType"); } }
+//Resources:SimulatorResources:MessageDynamicAttribute_Title
+
+		public static string MessageDynamicAttribute_Title { get { return GetResourceString("MessageDynamicAttribute_Title"); } }
 //Resources:SimulatorResources:MessageHeader_Description
 
 		public static string MessageHeader_Description { get { return GetResourceString("MessageHeader_Description"); } }
@@ -158,15 +176,33 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_Description
 
 		public static string MessageTemplate_Description { get { return GetResourceString("MessageTemplate_Description"); } }
+//Resources:SimulatorResources:MessageTemplate_EndPoint
+
+		public static string MessageTemplate_EndPoint { get { return GetResourceString("MessageTemplate_EndPoint"); } }
 //Resources:SimulatorResources:MessageTemplate_Help
 
 		public static string MessageTemplate_Help { get { return GetResourceString("MessageTemplate_Help"); } }
+//Resources:SimulatorResources:MessageTemplate_Port
+
+		public static string MessageTemplate_Port { get { return GetResourceString("MessageTemplate_Port"); } }
 //Resources:SimulatorResources:MessageTemplate_TextPayload
 
 		public static string MessageTemplate_TextPayload { get { return GetResourceString("MessageTemplate_TextPayload"); } }
 //Resources:SimulatorResources:MessageTemplate_Title
 
 		public static string MessageTemplate_Title { get { return GetResourceString("MessageTemplate_Title"); } }
+//Resources:SimulatorResources:MessageTemplate_Transport
+
+		public static string MessageTemplate_Transport { get { return GetResourceString("MessageTemplate_Transport"); } }
+//Resources:SimulatorResources:Simulator_DefaultEndPoint
+
+		public static string Simulator_DefaultEndPoint { get { return GetResourceString("Simulator_DefaultEndPoint"); } }
+//Resources:SimulatorResources:Simulator_DefaultPort
+
+		public static string Simulator_DefaultPort { get { return GetResourceString("Simulator_DefaultPort"); } }
+//Resources:SimulatorResources:Simulator_DefaultTransport
+
+		public static string Simulator_DefaultTransport { get { return GetResourceString("Simulator_DefaultTransport"); } }
 //Resources:SimulatorResources:Simulator_Deployment_Config
 
 		public static string Simulator_Deployment_Config { get { return GetResourceString("Simulator_Deployment_Config"); } }
@@ -191,6 +227,27 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_Title
 
 		public static string Simulator_Title { get { return GetResourceString("Simulator_Title"); } }
+//Resources:SimulatorResources:Transport_AMQP
+
+		public static string Transport_AMQP { get { return GetResourceString("Transport_AMQP"); } }
+//Resources:SimulatorResources:Transport_MQTT
+
+		public static string Transport_MQTT { get { return GetResourceString("Transport_MQTT"); } }
+//Resources:SimulatorResources:Transport_REST_Http
+
+		public static string Transport_REST_Http { get { return GetResourceString("Transport_REST_Http"); } }
+//Resources:SimulatorResources:Transport_REST_Https
+
+		public static string Transport_REST_Https { get { return GetResourceString("Transport_REST_Https"); } }
+//Resources:SimulatorResources:Transport_SelectTransportType
+
+		public static string Transport_SelectTransportType { get { return GetResourceString("Transport_SelectTransportType"); } }
+//Resources:SimulatorResources:Transport_TCP
+
+		public static string Transport_TCP { get { return GetResourceString("Transport_TCP"); } }
+//Resources:SimulatorResources:Transport_UDP
+
+		public static string Transport_UDP { get { return GetResourceString("Transport_UDP"); } }
 
 		public static class Names
 		{
@@ -215,11 +272,17 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Message_MessageHeaders = "Message_MessageHeaders";
 			public const string Message_MessageToken_Help = "Message_MessageToken_Help";
 			public const string Message_MessageTokens = "Message_MessageTokens";
+			public const string Message_PathAndQueryString = "Message_PathAndQueryString";
 			public const string Message_PayloadType = "Message_PayloadType";
 			public const string Message_PayloadType_Binary = "Message_PayloadType_Binary";
 			public const string Message_PayloadType_Help = "Message_PayloadType_Help";
 			public const string Message_PayloadType_Text = "Message_PayloadType_Text";
 			public const string Message_SelectPayloadType = "Message_SelectPayloadType";
+			public const string MessageDynamicAttribute_DefaultValue = "MessageDynamicAttribute_DefaultValue";
+			public const string MessageDynamicAttribute_Description = "MessageDynamicAttribute_Description";
+			public const string MessageDynamicAttribute_Help = "MessageDynamicAttribute_Help";
+			public const string MessageDynamicAttribute_ParameterType = "MessageDynamicAttribute_ParameterType";
+			public const string MessageDynamicAttribute_Title = "MessageDynamicAttribute_Title";
 			public const string MessageHeader_Description = "MessageHeader_Description";
 			public const string MessageHeader_Help = "MessageHeader_Help";
 			public const string MessageHeader_Key = "MessageHeader_Key";
@@ -229,9 +292,15 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageHeader_Value_Help = "MessageHeader_Value_Help";
 			public const string MessageTemplate_BinaryPayload = "MessageTemplate_BinaryPayload";
 			public const string MessageTemplate_Description = "MessageTemplate_Description";
+			public const string MessageTemplate_EndPoint = "MessageTemplate_EndPoint";
 			public const string MessageTemplate_Help = "MessageTemplate_Help";
+			public const string MessageTemplate_Port = "MessageTemplate_Port";
 			public const string MessageTemplate_TextPayload = "MessageTemplate_TextPayload";
 			public const string MessageTemplate_Title = "MessageTemplate_Title";
+			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
+			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
+			public const string Simulator_DefaultPort = "Simulator_DefaultPort";
+			public const string Simulator_DefaultTransport = "Simulator_DefaultTransport";
 			public const string Simulator_Deployment_Config = "Simulator_Deployment_Config";
 			public const string Simulator_Description = "Simulator_Description";
 			public const string Simulator_Device_Config = "Simulator_Device_Config";
@@ -240,6 +309,13 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
 			public const string Simulator_Title = "Simulator_Title";
+			public const string Transport_AMQP = "Transport_AMQP";
+			public const string Transport_MQTT = "Transport_MQTT";
+			public const string Transport_REST_Http = "Transport_REST_Http";
+			public const string Transport_REST_Https = "Transport_REST_Https";
+			public const string Transport_SelectTransportType = "Transport_SelectTransportType";
+			public const string Transport_TCP = "Transport_TCP";
+			public const string Transport_UDP = "Transport_UDP";
 		}
 	}
 }

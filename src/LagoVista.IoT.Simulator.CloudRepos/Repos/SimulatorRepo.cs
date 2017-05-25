@@ -12,25 +12,17 @@ namespace LagoVista.IoT.Simulator.CloudRepos.Repos
 {
     public class SimulatorRepo : DocumentDBRepoBase<Admin.Models.Simulator>, ISimulatorRepo
     {
-
         private bool _shouldConsolidateCollections;
         public SimulatorRepo(ISimulatorConnectionSettings repoSettings, ILogger logger) : base(repoSettings.SimulatorDocDbStorage.Uri, repoSettings.SimulatorDocDbStorage.AccessKey, repoSettings.SimulatorDocDbStorage.ResourceName, logger)
         {
             _shouldConsolidateCollections = repoSettings.ShouldConsolidateCollections;
         }
 
-        protected override bool ShouldConsolidateCollections
-        {
-            get
-            {
-                return _shouldConsolidateCollections;
-            }
-        }
-
+        protected override bool ShouldConsolidateCollections => _shouldConsolidateCollections;
 
         public Task AddSimulatorAsync(Admin.Models.Simulator simulator)
         {
-            return AddSimulatorAsync(simulator);
+            return CreateDocumentAsync(simulator);
         }
 
         public Task DeleteSimulatorAsync(string id)
@@ -84,7 +76,7 @@ namespace LagoVista.IoT.Simulator.CloudRepos.Repos
 
         public Task UpdateSimulatorAsync(Admin.Models.Simulator simulator)
         {
-            return UpdateSimulatorAsync(simulator);
+            return base.UpsertDocumentAsync(simulator);
         }
 
         public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string deviceTypeId)

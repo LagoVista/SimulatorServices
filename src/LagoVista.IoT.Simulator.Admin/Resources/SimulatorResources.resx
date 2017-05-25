@@ -252,7 +252,64 @@
   <data name="Simulator_Title" xml:space="preserve">
     <value>Simulator</value>
   </data>
+  <data name="MessageDynamicAttribute_DefaultValue" xml:space="preserve">
+    <value>Default Value</value>
+  </data>
+  <data name="MessageDynamicAttribute_Description" xml:space="preserve">
+    <value>When you create your message templates to send to the server you can specify values that can be modified for each message that is sent.</value>
+  </data>
+  <data name="MessageDynamicAttribute_Help" xml:space="preserve">
+    <value>When you create your message templates to send to the server you can specify values that can be modified for each message that is sent.</value>
+  </data>
+  <data name="MessageDynamicAttribute_ParameterType" xml:space="preserve">
+    <value>Parameter Type</value>
+  </data>
+  <data name="MessageDynamicAttribute_Title" xml:space="preserve">
+    <value>Dynamic Attribute</value>
+  </data>
+  <data name="Message_PathAndQueryString" xml:space="preserve">
+    <value>Path and Query String</value>
+  </data>
   <data name="Simulator_DeviceType" xml:space="preserve">
     <value>Device Type</value>
+  </data>
+  <data name="MessageTemplate_EndPoint" xml:space="preserve">
+    <value>End Point</value>
+  </data>
+  <data name="MessageTemplate_Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="MessageTemplate_Transport" xml:space="preserve">
+    <value>Transport</value>
+  </data>
+  <data name="Simulator_DefaultEndPoint" xml:space="preserve">
+    <value>Default End Point</value>
+  </data>
+  <data name="Simulator_DefaultPort" xml:space="preserve">
+    <value>Default Port</value>
+  </data>
+  <data name="Simulator_DefaultTransport" xml:space="preserve">
+    <value>Transport</value>
+  </data>
+  <data name="Transport_AMQP" xml:space="preserve">
+    <value>AMQP</value>
+  </data>
+  <data name="Transport_MQTT" xml:space="preserve">
+    <value>MQTT</value>
+  </data>
+  <data name="Transport_REST_Http" xml:space="preserve">
+    <value>REST (http)</value>
+  </data>
+  <data name="Transport_REST_Https" xml:space="preserve">
+    <value>REST (https)</value>
+  </data>
+  <data name="Transport_SelectTransportType" xml:space="preserve">
+    <value>-select transport type-</value>
+  </data>
+  <data name="Transport_TCP" xml:space="preserve">
+    <value>TCP</value>
+  </data>
+  <data name="Transport_UDP" xml:space="preserve">
+    <value>UDP</value>
   </data>
 </root>

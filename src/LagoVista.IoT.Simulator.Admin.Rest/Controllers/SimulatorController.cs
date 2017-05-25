@@ -169,11 +169,21 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         }
 
         /// <summary>
+        /// Simulators Message Header - Create New
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/messageheader/factory")]
+        public DetailResponse<Admin.Models.MessageHeader> CreatemessageHeader()
+        {
+            return DetailResponse<Admin.Models.MessageHeader>.Create();
+        }
+
+        /// <summary>
         /// Simulators Message Template - Create New
         /// </summary>
         /// <returns></returns>
         [HttpGet("/api/simulator/messagetemplate/factory")]
-        public DetailResponse<Admin.Models.MessageTemplate> CreateMessageTempate()
+        public DetailResponse<Admin.Models.MessageTemplate> CreateMessageTemplate()
         {
             return DetailResponse<Admin.Models.MessageTemplate>.Create();
         }
@@ -182,10 +192,10 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// Simulators Message Header - Create New
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/api/simulator/messageheader/factory")]
-        public DetailResponse<Admin.Models.MessageHeader> CreateListener()
+        [HttpGet("/api/simulator/dyanimaicAttribute/factory")]
+        public DetailResponse<Admin.Models.MessageDynamicAttribute> CreateDynamicAttributes()
         {
-            return DetailResponse<Admin.Models.MessageHeader>.Create();
+            return DetailResponse<Admin.Models.MessageDynamicAttribute>.Create();
         }
     }
 }
