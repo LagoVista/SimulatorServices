@@ -11,7 +11,7 @@ using LagoVista.IoT.DeviceAdmin.Models;
 namespace LagoVista.IoT.Simulator.Admin.Models
 {    
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageDynamicAttribute_Title, SimulatorResources.Names.MessageDynamicAttribute_Help, SimulatorResources.Names.MessageDynamicAttribute_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class MessageDynamicAttribute : IIDEntity, INamedEntity, IKeyedEntity
+    public class MessageDynamicAttribute : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity
     {
         public MessageDynamicAttribute()
         {
@@ -34,5 +34,15 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
+
+        public IEntityHeader ToEntityHeader()
+        {
+            return new EntityHeader()
+            {
+                Id = Id,
+                Text = Name
+            };
+        }
+
     }
 }

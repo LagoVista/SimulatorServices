@@ -29,7 +29,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
 
-    public class Simulator : ModelBase,  IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity
+    public class Simulator : ModelBase,  IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity
     {
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
@@ -90,6 +90,18 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultPort, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int DefaultPort { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public String Password { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_UserName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public String UserName { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AuthToken, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public String AuthToken { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public String DeviceId { get; set; }
+
 
         public string CreationDate { get; set; }
         public string LastUpdatedDate { get; set; }
@@ -108,6 +120,15 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 Description = Description,
                 //DeviceConfiguration = DeviceConfiguration.Text,
         //        DeviceType = DeviceType.Text                
+            };
+        }
+
+        public IEntityHeader ToEntityHeader()
+        {
+            return new EntityHeader()
+            {
+                Id = Id,
+                Text = Name
             };
         }
     }

@@ -5,12 +5,13 @@ using LagoVista.Core;
 using System.Collections.Generic;
 using System.Text;
 using LagoVista.Core.Interfaces;
+using LagoVista.Core.Models;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageHeader_Title, SimulatorResources.Names.MessageHeader_Help,SimulatorResources.Names.MessageHeader_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class MessageHeader : IIDEntity, INamedEntity, IKeyedEntity
+    public class MessageHeader : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity
     {
         public MessageHeader()
         {
@@ -31,5 +32,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
+
+        public IEntityHeader ToEntityHeader()
+        {
+            return new EntityHeader()
+            {
+                Id = Id,
+                Text = Name,
+            };
+        }
     }
 }

@@ -315,4 +315,16 @@
   <data name="MessageTemplate_DynamicAttributes" xml:space="preserve">
     <value>Dynamic Attributes</value>
   </data>
+  <data name="Simulator_AuthToken" xml:space="preserve">
+    <value>Authorization Token</value>
+  </data>
+  <data name="Simulator_DeviceId" xml:space="preserve">
+    <value>Device Id</value>
+  </data>
+  <data name="Simulator_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Simulator_UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
 </root>

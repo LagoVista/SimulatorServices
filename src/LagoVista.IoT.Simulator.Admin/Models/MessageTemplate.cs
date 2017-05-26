@@ -19,7 +19,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageTemplate_Title, SimulatorResources.Names.MessageTemplate_Help, SimulatorResources.Names.MessageTemplate_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
 
-    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity
+    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity
     {
         public const string PayloadTypes_Text = "text";
         public const string PayloadTypes_Binary = "binary";
@@ -27,6 +27,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public MessageTemplate()
         {
             MessageHeaders = new List<MessageHeader>();
+            DynamicAttributes = new List<MessageDynamicAttribute>();
             Id = Guid.NewGuid().ToId();
         }
 
@@ -67,5 +68,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int Port { get; set; }
+
+        public IEntityHeader ToEntityHeader()
+        {
+            return new EntityHeader()
+            {
+                Id = Id,
+                Text = Name
+            };
+        }
     }
 }

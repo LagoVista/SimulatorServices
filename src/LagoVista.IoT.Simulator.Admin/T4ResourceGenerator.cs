@@ -197,6 +197,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_Transport
 
 		public static string MessageTemplate_Transport { get { return GetResourceString("MessageTemplate_Transport"); } }
+//Resources:SimulatorResources:Simulator_AuthToken
+
+		public static string Simulator_AuthToken { get { return GetResourceString("Simulator_AuthToken"); } }
 //Resources:SimulatorResources:Simulator_DefaultEndPoint
 
 		public static string Simulator_DefaultEndPoint { get { return GetResourceString("Simulator_DefaultEndPoint"); } }
@@ -215,6 +218,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_Device_Config
 
 		public static string Simulator_Device_Config { get { return GetResourceString("Simulator_Device_Config"); } }
+//Resources:SimulatorResources:Simulator_DeviceId
+
+		public static string Simulator_DeviceId { get { return GetResourceString("Simulator_DeviceId"); } }
 //Resources:SimulatorResources:Simulator_DeviceType
 
 		public static string Simulator_DeviceType { get { return GetResourceString("Simulator_DeviceType"); } }
@@ -224,12 +230,18 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_MessageTemplates
 
 		public static string Simulator_MessageTemplates { get { return GetResourceString("Simulator_MessageTemplates"); } }
+//Resources:SimulatorResources:Simulator_Password
+
+		public static string Simulator_Password { get { return GetResourceString("Simulator_Password"); } }
 //Resources:SimulatorResources:Simulator_PipelineModule_Config
 
 		public static string Simulator_PipelineModule_Config { get { return GetResourceString("Simulator_PipelineModule_Config"); } }
 //Resources:SimulatorResources:Simulator_Title
 
 		public static string Simulator_Title { get { return GetResourceString("Simulator_Title"); } }
+//Resources:SimulatorResources:Simulator_UserName
+
+		public static string Simulator_UserName { get { return GetResourceString("Simulator_UserName"); } }
 //Resources:SimulatorResources:Transport_AMQP
 
 		public static string Transport_AMQP { get { return GetResourceString("Transport_AMQP"); } }
@@ -302,17 +314,21 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_TextPayload = "MessageTemplate_TextPayload";
 			public const string MessageTemplate_Title = "MessageTemplate_Title";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
+			public const string Simulator_AuthToken = "Simulator_AuthToken";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
 			public const string Simulator_DefaultPort = "Simulator_DefaultPort";
 			public const string Simulator_DefaultTransport = "Simulator_DefaultTransport";
 			public const string Simulator_Deployment_Config = "Simulator_Deployment_Config";
 			public const string Simulator_Description = "Simulator_Description";
 			public const string Simulator_Device_Config = "Simulator_Device_Config";
+			public const string Simulator_DeviceId = "Simulator_DeviceId";
 			public const string Simulator_DeviceType = "Simulator_DeviceType";
 			public const string Simulator_Help = "Simulator_Help";
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
+			public const string Simulator_Password = "Simulator_Password";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
 			public const string Simulator_Title = "Simulator_Title";
+			public const string Simulator_UserName = "Simulator_UserName";
 			public const string Transport_AMQP = "Transport_AMQP";
 			public const string Transport_MQTT = "Transport_MQTT";
 			public const string Transport_REST_Http = "Transport_REST_Http";
