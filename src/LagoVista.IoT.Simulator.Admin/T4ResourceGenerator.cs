@@ -71,6 +71,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Common_Name
 
 		public static string Common_Name { get { return GetResourceString("Common_Name"); } }
+//Resources:SimulatorResources:Common_None
+
+		public static string Common_None { get { return GetResourceString("Common_None"); } }
 //Resources:SimulatorResources:Common_Script
 
 		public static string Common_Script { get { return GetResourceString("Common_Script"); } }
@@ -272,6 +275,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Common_Key_Help = "Common_Key_Help";
 			public const string Common_Key_Validation = "Common_Key_Validation";
 			public const string Common_Name = "Common_Name";
+			public const string Common_None = "Common_None";
 			public const string Common_Script = "Common_Script";
 			public const string Connection_Select_Type = "Connection_Select_Type";
 			public const string Connection_Type_AMQP = "Connection_Type_AMQP";

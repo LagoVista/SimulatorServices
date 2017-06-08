@@ -327,4 +327,7 @@
   <data name="Simulator_UserName" xml:space="preserve">
     <value>User Name</value>
   </data>
+  <data name="Common_None" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>

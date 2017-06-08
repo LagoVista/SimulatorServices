@@ -118,8 +118,11 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 Name = Name,
                 Key = Key,
                 Description = Description,
-                //DeviceConfiguration = DeviceConfiguration.Text,
-        //        DeviceType = DeviceType.Text                
+                EndPoint = DefaultEndPoint,
+                Port = DefaultPort,
+                TransportType = DefaultTransport.Text,
+                DeviceConfiguration = DeviceConfiguration == null ? SimulatorResources.Common_None : DeviceConfiguration.Text,
+                DeviceType = DeviceType == null ? SimulatorResources.Common_None : DeviceType.Text
             };
         }
 
@@ -135,6 +138,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     public class SimulatorSummary : SummaryData
     {
+        public String EndPoint { get; set; }
+        public int Port { get; set; }
+        public String TransportType { get; set; }
 
         public string DeviceConfiguration { get; set; }
 
