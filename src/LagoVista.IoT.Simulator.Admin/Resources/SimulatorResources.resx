@@ -330,4 +330,22 @@
   <data name="Common_None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="HttpVerb_DELETE" xml:space="preserve">
+    <value>DELETE</value>
+  </data>
+  <data name="HttpVerb_GET" xml:space="preserve">
+    <value>GET</value>
+  </data>
+  <data name="HttpVerb_POST" xml:space="preserve">
+    <value>POST</value>
+  </data>
+  <data name="HttpVerb_PUT" xml:space="preserve">
+    <value>PUT</value>
+  </data>
+  <data name="MessageTemplate_HttpVerb" xml:space="preserve">
+    <value>HTTP Verb</value>
+  </data>
+  <data name="MessageTemplate_HttpVerb_Select" xml:space="preserve">
+    <value>-select http verb-</value>
+  </data>
 </root>

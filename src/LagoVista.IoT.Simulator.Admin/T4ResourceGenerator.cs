@@ -110,6 +110,18 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Connection_Type_UDP
 
 		public static string Connection_Type_UDP { get { return GetResourceString("Connection_Type_UDP"); } }
+//Resources:SimulatorResources:HttpVerb_DELETE
+
+		public static string HttpVerb_DELETE { get { return GetResourceString("HttpVerb_DELETE"); } }
+//Resources:SimulatorResources:HttpVerb_GET
+
+		public static string HttpVerb_GET { get { return GetResourceString("HttpVerb_GET"); } }
+//Resources:SimulatorResources:HttpVerb_POST
+
+		public static string HttpVerb_POST { get { return GetResourceString("HttpVerb_POST"); } }
+//Resources:SimulatorResources:HttpVerb_PUT
+
+		public static string HttpVerb_PUT { get { return GetResourceString("HttpVerb_PUT"); } }
 //Resources:SimulatorResources:Message_MessageHeaders
 
 		public static string Message_MessageHeaders { get { return GetResourceString("Message_MessageHeaders"); } }
@@ -188,6 +200,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_Help
 
 		public static string MessageTemplate_Help { get { return GetResourceString("MessageTemplate_Help"); } }
+//Resources:SimulatorResources:MessageTemplate_HttpVerb
+
+		public static string MessageTemplate_HttpVerb { get { return GetResourceString("MessageTemplate_HttpVerb"); } }
+//Resources:SimulatorResources:MessageTemplate_HttpVerb_Select
+
+		public static string MessageTemplate_HttpVerb_Select { get { return GetResourceString("MessageTemplate_HttpVerb_Select"); } }
 //Resources:SimulatorResources:MessageTemplate_Port
 
 		public static string MessageTemplate_Port { get { return GetResourceString("MessageTemplate_Port"); } }
@@ -288,6 +306,10 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Connection_Type_Soap = "Connection_Type_Soap";
 			public const string Connection_Type_TCP = "Connection_Type_TCP";
 			public const string Connection_Type_UDP = "Connection_Type_UDP";
+			public const string HttpVerb_DELETE = "HttpVerb_DELETE";
+			public const string HttpVerb_GET = "HttpVerb_GET";
+			public const string HttpVerb_POST = "HttpVerb_POST";
+			public const string HttpVerb_PUT = "HttpVerb_PUT";
 			public const string Message_MessageHeaders = "Message_MessageHeaders";
 			public const string Message_MessageToken_Help = "Message_MessageToken_Help";
 			public const string Message_MessageTokens = "Message_MessageTokens";
@@ -314,6 +336,8 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_DynamicAttributes = "MessageTemplate_DynamicAttributes";
 			public const string MessageTemplate_EndPoint = "MessageTemplate_EndPoint";
 			public const string MessageTemplate_Help = "MessageTemplate_Help";
+			public const string MessageTemplate_HttpVerb = "MessageTemplate_HttpVerb";
+			public const string MessageTemplate_HttpVerb_Select = "MessageTemplate_HttpVerb_Select";
 			public const string MessageTemplate_Port = "MessageTemplate_Port";
 			public const string MessageTemplate_TextPayload = "MessageTemplate_TextPayload";
 			public const string MessageTemplate_Title = "MessageTemplate_Title";
