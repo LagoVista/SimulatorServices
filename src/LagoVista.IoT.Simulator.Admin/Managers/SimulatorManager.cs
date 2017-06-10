@@ -10,6 +10,7 @@ using LagoVista.Core.Managers;
 using static LagoVista.Core.Models.AuthorizeResult;
 using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.Interfaces;
+using LagoVista.IoT.Logging.Loggers;
 
 namespace LagoVista.IoT.Simulator.Admin.Managers
 {
@@ -17,7 +18,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
     {
         ISimulatorRepo _simulatorRepo;
 
-        public SimulatorManager(ISimulatorRepo simulatorRepo, ILogger logger, IAppConfig appConfig, IDependencyManager depmanager, ISecurity security) :
+        public SimulatorManager(ISimulatorRepo simulatorRepo, IAdminLogger logger, IAppConfig appConfig, IDependencyManager depmanager, ISecurity security) :
             base(logger, appConfig, depmanager, security)
         {
             _simulatorRepo = simulatorRepo;

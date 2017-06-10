@@ -7,13 +7,14 @@ using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 using LagoVista.CloudStorage.DocumentDB;
 using LagoVista.Core.PlatformSupport;
+using LagoVista.IoT.Logging.Loggers;
 
 namespace LagoVista.IoT.Simulator.CloudRepos.Repos
 {
     public class SimulatorRepo : DocumentDBRepoBase<Admin.Models.Simulator>, ISimulatorRepo
     {
         private bool _shouldConsolidateCollections;
-        public SimulatorRepo(ISimulatorConnectionSettings repoSettings, ILogger logger) : base(repoSettings.SimulatorDocDbStorage.Uri, repoSettings.SimulatorDocDbStorage.AccessKey, repoSettings.SimulatorDocDbStorage.ResourceName, logger)
+        public SimulatorRepo(ISimulatorConnectionSettings repoSettings, IAdminLogger logger) : base(repoSettings.SimulatorDocDbStorage.Uri, repoSettings.SimulatorDocDbStorage.AccessKey, repoSettings.SimulatorDocDbStorage.ResourceName, logger)
         {
             _shouldConsolidateCollections = repoSettings.ShouldConsolidateCollections;
         }

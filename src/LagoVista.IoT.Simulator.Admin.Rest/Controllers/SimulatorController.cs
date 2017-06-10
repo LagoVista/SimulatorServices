@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.UserAdmin.Models.Account;
 using LagoVista.Core.Models;
+using LagoVista.IoT.Logging.Loggers;
 
 namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 {
@@ -22,7 +23,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
     public class SimulatorController : LagoVistaBaseController
     {
         ISimulatorManager simulatorManager;
-        public SimulatorController(ISimulatorManager simulatorManager, UserManager<AppUser> userManager, ILogger logger) : base(userManager, logger)
+        public SimulatorController(ISimulatorManager simulatorManager, UserManager<AppUser> userManager, IAdminLogger logger) : base(userManager, logger)
         {
             this.simulatorManager = simulatorManager;
         }
