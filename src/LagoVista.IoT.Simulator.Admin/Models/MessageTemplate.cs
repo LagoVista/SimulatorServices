@@ -79,7 +79,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType_Binary, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string BinaryPayload { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_HttpVerb, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), WaterMark: SimulatorResources.Names.MessageTemplate_HttpVerb_Select, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_HttpVerb, FieldType: FieldTypes.Picker, EnumType: typeof(VerbTypes), WaterMark: SimulatorResources.Names.MessageTemplate_HttpVerb_Select, ResourceType: typeof(SimulatorResources))]
         public String HttpVerb { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Transport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Transport_SelectTransportType, IsRequired: true)]
