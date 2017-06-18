@@ -167,6 +167,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageHeader_Description
 
 		public static string MessageHeader_Description { get { return GetResourceString("MessageHeader_Description"); } }
+//Resources:SimulatorResources:MessageHeader_HeaderName
+
+		public static string MessageHeader_HeaderName { get { return GetResourceString("MessageHeader_HeaderName"); } }
+//Resources:SimulatorResources:MessageHeader_HeaderName_Help
+
+		public static string MessageHeader_HeaderName_Help { get { return GetResourceString("MessageHeader_HeaderName_Help"); } }
 //Resources:SimulatorResources:MessageHeader_Help
 
 		public static string MessageHeader_Help { get { return GetResourceString("MessageHeader_Help"); } }
@@ -325,6 +331,8 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageDynamicAttribute_ParameterType = "MessageDynamicAttribute_ParameterType";
 			public const string MessageDynamicAttribute_Title = "MessageDynamicAttribute_Title";
 			public const string MessageHeader_Description = "MessageHeader_Description";
+			public const string MessageHeader_HeaderName = "MessageHeader_HeaderName";
+			public const string MessageHeader_HeaderName_Help = "MessageHeader_HeaderName_Help";
 			public const string MessageHeader_Help = "MessageHeader_Help";
 			public const string MessageHeader_Key = "MessageHeader_Key";
 			public const string MessageHeader_Key_Help = "MessageHeader_Key_Help";

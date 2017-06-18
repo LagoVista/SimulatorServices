@@ -27,6 +27,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_Key, HelpResource:Resources.SimulatorResources.Names.MessageHeader_Key_Help,  FieldType: FieldTypes.Key, RegExValidationMessageResource: Resources.SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired:true)]
         public string Key { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_HeaderName, HelpResource: Resources.SimulatorResources.Names.MessageHeader_HeaderName_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        public string HeaderName { get; set; }
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_Value, HelpResource:Resources.SimulatorResources.Names.MessageHeader_Value_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired:true)]
         public string Value { get; set; }
 

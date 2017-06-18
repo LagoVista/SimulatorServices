@@ -348,4 +348,10 @@
   <data name="MessageTemplate_HttpVerb_Select" xml:space="preserve">
     <value>-select http verb-</value>
   </data>
+  <data name="MessageHeader_HeaderName" xml:space="preserve">
+    <value>Header Name</value>
+  </data>
+  <data name="MessageHeader_HeaderName_Help" xml:space="preserve">
+    <value>Enter the name of the header that will be put into the messages header collection.  An example of this would be Content-type</value>
+  </data>
 </root>
