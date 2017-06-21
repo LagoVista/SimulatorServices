@@ -221,6 +221,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_Title
 
 		public static string MessageTemplate_Title { get { return GetResourceString("MessageTemplate_Title"); } }
+//Resources:SimulatorResources:MessageTemplate_Topic
+
+		public static string MessageTemplate_Topic { get { return GetResourceString("MessageTemplate_Topic"); } }
 //Resources:SimulatorResources:MessageTemplate_Transport
 
 		public static string MessageTemplate_Transport { get { return GetResourceString("MessageTemplate_Transport"); } }
@@ -349,6 +352,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_Port = "MessageTemplate_Port";
 			public const string MessageTemplate_TextPayload = "MessageTemplate_TextPayload";
 			public const string MessageTemplate_Title = "MessageTemplate_Title";
+			public const string MessageTemplate_Topic = "MessageTemplate_Topic";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string Simulator_AuthToken = "Simulator_AuthToken";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";

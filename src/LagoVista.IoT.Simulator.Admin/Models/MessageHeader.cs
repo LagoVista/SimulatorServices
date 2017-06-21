@@ -30,7 +30,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_HeaderName, HelpResource: Resources.SimulatorResources.Names.MessageHeader_HeaderName_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string HeaderName { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_Value, HelpResource:Resources.SimulatorResources.Names.MessageHeader_Value_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired:true)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_Value, HelpResource:Resources.SimulatorResources.Names.MessageHeader_Value_Help, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources), IsRequired:true)]
         public string Value { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]

@@ -354,4 +354,7 @@
   <data name="MessageHeader_HeaderName_Help" xml:space="preserve">
     <value>Enter the name of the header that will be put into the messages header collection.  An example of this would be Content-type</value>
   </data>
+  <data name="MessageTemplate_Topic" xml:space="preserve">
+    <value>Topic</value>
+  </data>
 </root>
