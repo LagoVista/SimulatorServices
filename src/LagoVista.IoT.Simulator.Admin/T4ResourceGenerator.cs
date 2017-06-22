@@ -233,6 +233,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_DefaultEndPoint
 
 		public static string Simulator_DefaultEndPoint { get { return GetResourceString("Simulator_DefaultEndPoint"); } }
+//Resources:SimulatorResources:Simulator_DefaultPayloadType
+
+		public static string Simulator_DefaultPayloadType { get { return GetResourceString("Simulator_DefaultPayloadType"); } }
 //Resources:SimulatorResources:Simulator_DefaultPort
 
 		public static string Simulator_DefaultPort { get { return GetResourceString("Simulator_DefaultPort"); } }
@@ -275,6 +278,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Transport_AMQP
 
 		public static string Transport_AMQP { get { return GetResourceString("Transport_AMQP"); } }
+//Resources:SimulatorResources:Transport_AzureIoTHub
+
+		public static string Transport_AzureIoTHub { get { return GetResourceString("Transport_AzureIoTHub"); } }
 //Resources:SimulatorResources:Transport_MQTT
 
 		public static string Transport_MQTT { get { return GetResourceString("Transport_MQTT"); } }
@@ -356,6 +362,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string Simulator_AuthToken = "Simulator_AuthToken";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
+			public const string Simulator_DefaultPayloadType = "Simulator_DefaultPayloadType";
 			public const string Simulator_DefaultPort = "Simulator_DefaultPort";
 			public const string Simulator_DefaultTransport = "Simulator_DefaultTransport";
 			public const string Simulator_Deployment_Config = "Simulator_Deployment_Config";
@@ -370,6 +377,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_Title = "Simulator_Title";
 			public const string Simulator_UserName = "Simulator_UserName";
 			public const string Transport_AMQP = "Transport_AMQP";
+			public const string Transport_AzureIoTHub = "Transport_AzureIoTHub";
 			public const string Transport_MQTT = "Transport_MQTT";
 			public const string Transport_REST_Http = "Transport_REST_Http";
 			public const string Transport_REST_Https = "Transport_REST_Https";

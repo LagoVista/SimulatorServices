@@ -357,4 +357,10 @@
   <data name="MessageTemplate_Topic" xml:space="preserve">
     <value>Topic</value>
   </data>
+  <data name="Simulator_DefaultPayloadType" xml:space="preserve">
+    <value>Default Payload Type</value>
+  </data>
+  <data name="Transport_AzureIoTHub" xml:space="preserve">
+    <value>Azure IoT Hub</value>
+  </data>
 </root>

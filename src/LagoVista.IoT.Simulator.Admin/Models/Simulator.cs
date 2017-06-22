@@ -21,6 +21,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         MQTT,
         [EnumLabel(Simulator.Transport_AMQP, SimulatorResources.Names.Transport_AMQP, typeof(SimulatorResources))]
         AMQP,
+        [EnumLabel(Simulator.Transport_IOT_HUB, SimulatorResources.Names.Transport_AzureIoTHub, typeof(SimulatorResources))]
+        AzureIoTHub,
         [EnumLabel(Simulator.Transport_UDP, SimulatorResources.Names.Transport_UDP, typeof(SimulatorResources))]
         UDP,
         [EnumLabel(Simulator.Transport_TCP, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
@@ -34,6 +36,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
         public const string Transport_MQTT = "mqtt";
+        public const string Transport_IOT_HUB = "azureiothub";
         public const string Transport_AMQP = "amqp";
         public const string Transport_UDP = "udp";
         public const string Transport_TCP = "tcp";
@@ -89,6 +92,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultPort, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int DefaultPort { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultPayloadType, HelpResource: Resources.SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType: typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
+        public EntityHeader<PaylodTypes> DefaultPayloadType { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String Password { get; set; }
