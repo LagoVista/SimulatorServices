@@ -85,10 +85,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String Topic { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendCR, FieldType: FieldTypes.Bool, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendCR, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool AppendCR { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendLF, FieldType: FieldTypes.Bool, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendLF, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool AppendLF { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Transport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Transport_SelectTransportType, IsRequired: true)]
