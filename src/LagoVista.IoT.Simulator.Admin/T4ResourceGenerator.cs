@@ -191,6 +191,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageHeader_Value_Help
 
 		public static string MessageHeader_Value_Help( string epoch, string deviceid, string jsonutcdate) { return GetResourceString("MessageHeader_Value_Help", "{epoch}", epoch, "{deviceid}", deviceid, "{jsonutcdate}", jsonutcdate); }
+//Resources:SimulatorResources:MessageTemplate_AppendCR
+
+		public static string MessageTemplate_AppendCR { get { return GetResourceString("MessageTemplate_AppendCR"); } }
+//Resources:SimulatorResources:MessageTemplate_AppendLF
+
+		public static string MessageTemplate_AppendLF { get { return GetResourceString("MessageTemplate_AppendLF"); } }
 //Resources:SimulatorResources:MessageTemplate_BinaryPayload
 
 		public static string MessageTemplate_BinaryPayload { get { return GetResourceString("MessageTemplate_BinaryPayload"); } }
@@ -348,6 +354,8 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageHeader_Title = "MessageHeader_Title";
 			public const string MessageHeader_Value = "MessageHeader_Value";
 			public const string MessageHeader_Value_Help = "MessageHeader_Value_Help";
+			public const string MessageTemplate_AppendCR = "MessageTemplate_AppendCR";
+			public const string MessageTemplate_AppendLF = "MessageTemplate_AppendLF";
 			public const string MessageTemplate_BinaryPayload = "MessageTemplate_BinaryPayload";
 			public const string MessageTemplate_Description = "MessageTemplate_Description";
 			public const string MessageTemplate_DynamicAttributes = "MessageTemplate_DynamicAttributes";

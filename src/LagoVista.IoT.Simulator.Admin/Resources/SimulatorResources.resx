@@ -363,4 +363,10 @@
   <data name="Transport_AzureIoTHub" xml:space="preserve">
     <value>Azure IoT Hub</value>
   </data>
+  <data name="MessageTemplate_AppendCR" xml:space="preserve">
+    <value>Append CR (0x0D)</value>
+  </data>
+  <data name="MessageTemplate_AppendLF" xml:space="preserve">
+    <value>Append LF (0x0A)</value>
+  </data>
 </root>
