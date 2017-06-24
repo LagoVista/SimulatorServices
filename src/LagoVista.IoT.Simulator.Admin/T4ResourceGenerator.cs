@@ -284,9 +284,15 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Transport_AMQP
 
 		public static string Transport_AMQP { get { return GetResourceString("Transport_AMQP"); } }
+//Resources:SimulatorResources:Transport_AzureEventHub
+
+		public static string Transport_AzureEventHub { get { return GetResourceString("Transport_AzureEventHub"); } }
 //Resources:SimulatorResources:Transport_AzureIoTHub
 
 		public static string Transport_AzureIoTHub { get { return GetResourceString("Transport_AzureIoTHub"); } }
+//Resources:SimulatorResources:Transport_AzureServiceBus
+
+		public static string Transport_AzureServiceBus { get { return GetResourceString("Transport_AzureServiceBus"); } }
 //Resources:SimulatorResources:Transport_MQTT
 
 		public static string Transport_MQTT { get { return GetResourceString("Transport_MQTT"); } }
@@ -385,7 +391,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_Title = "Simulator_Title";
 			public const string Simulator_UserName = "Simulator_UserName";
 			public const string Transport_AMQP = "Transport_AMQP";
+			public const string Transport_AzureEventHub = "Transport_AzureEventHub";
 			public const string Transport_AzureIoTHub = "Transport_AzureIoTHub";
+			public const string Transport_AzureServiceBus = "Transport_AzureServiceBus";
 			public const string Transport_MQTT = "Transport_MQTT";
 			public const string Transport_REST_Http = "Transport_REST_Http";
 			public const string Transport_REST_Https = "Transport_REST_Https";

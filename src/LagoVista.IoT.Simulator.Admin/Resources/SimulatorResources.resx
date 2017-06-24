@@ -369,4 +369,10 @@
   <data name="MessageTemplate_AppendLF" xml:space="preserve">
     <value>Append LF (0x0A)</value>
   </data>
+  <data name="Transport_AzureEventHub" xml:space="preserve">
+    <value>Azure Event Hub</value>
+  </data>
+  <data name="Transport_AzureServiceBus" xml:space="preserve">
+    <value>Azure Service Bus</value>
+  </data>
 </root>
