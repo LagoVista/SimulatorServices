@@ -375,4 +375,10 @@
   <data name="Transport_AzureServiceBus" xml:space="preserve">
     <value>Azure Service Bus</value>
   </data>
+  <data name="Simulator_ConnectionString" xml:space="preserve">
+    <value>Connection String</value>
+  </data>
+  <data name="Simulator_HubName" xml:space="preserve">
+    <value>Hub Name</value>
+  </data>
 </root>

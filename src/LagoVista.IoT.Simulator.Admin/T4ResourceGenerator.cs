@@ -236,6 +236,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_AuthToken
 
 		public static string Simulator_AuthToken { get { return GetResourceString("Simulator_AuthToken"); } }
+//Resources:SimulatorResources:Simulator_ConnectionString
+
+		public static string Simulator_ConnectionString { get { return GetResourceString("Simulator_ConnectionString"); } }
 //Resources:SimulatorResources:Simulator_DefaultEndPoint
 
 		public static string Simulator_DefaultEndPoint { get { return GetResourceString("Simulator_DefaultEndPoint"); } }
@@ -266,6 +269,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_Help
 
 		public static string Simulator_Help { get { return GetResourceString("Simulator_Help"); } }
+//Resources:SimulatorResources:Simulator_HubName
+
+		public static string Simulator_HubName { get { return GetResourceString("Simulator_HubName"); } }
 //Resources:SimulatorResources:Simulator_MessageTemplates
 
 		public static string Simulator_MessageTemplates { get { return GetResourceString("Simulator_MessageTemplates"); } }
@@ -375,6 +381,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_Topic = "MessageTemplate_Topic";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string Simulator_AuthToken = "Simulator_AuthToken";
+			public const string Simulator_ConnectionString = "Simulator_ConnectionString";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
 			public const string Simulator_DefaultPayloadType = "Simulator_DefaultPayloadType";
 			public const string Simulator_DefaultPort = "Simulator_DefaultPort";
@@ -385,6 +392,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_DeviceId = "Simulator_DeviceId";
 			public const string Simulator_DeviceType = "Simulator_DeviceType";
 			public const string Simulator_Help = "Simulator_Help";
+			public const string Simulator_HubName = "Simulator_HubName";
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
 			public const string Simulator_Password = "Simulator_Password";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
