@@ -50,31 +50,31 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
 
         public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForOrgsAsync(string orgId, EntityHeader user)
         {
-            await AuthorizeOrgAccess(user, orgId, typeof(Models.Simulator));
+            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
             return await _simulatorRepo.GetSimulatorsForOrgAsync(orgId);
         }
 
         public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccess(user, orgId, typeof(Models.Simulator));
+            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
             return await _simulatorRepo.GetSimulatorsForDeploymentConfigAsync(orgId);
         }
 
         public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccess(user, orgId, typeof(Models.Simulator));
+            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
             return await _simulatorRepo.GetSimulatorsForDeviceConfigAsync(orgId);
         }
 
         public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccess(user, orgId, typeof(Models.Simulator));
+            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
             return await _simulatorRepo.GetSimulatorsForDeviceTypesAsync(orgId);
         }
 
         public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string orgId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccess(user, orgId, typeof(Models.Simulator));
+            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
             return await _simulatorRepo.GetSimulatorsForPipelineModuleConfigAsync(orgId);
         }
 
