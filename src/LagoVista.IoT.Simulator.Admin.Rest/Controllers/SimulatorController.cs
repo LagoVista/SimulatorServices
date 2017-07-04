@@ -12,7 +12,7 @@ using LagoVista.Core;
 using LagoVista.Core.Validation;
 using System.Threading.Tasks;
 using LagoVista.Core.Models.UIMetaData;
-using LagoVista.UserAdmin.Models.Account;
+using LagoVista.UserAdmin.Models.Users;
 using LagoVista.Core.Models;
 using LagoVista.IoT.Logging.Loggers;
 
