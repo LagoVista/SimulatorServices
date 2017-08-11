@@ -1,14 +1,9 @@
-﻿using LagoVista.Core.Interfaces;
-using LagoVista.Core.PlatformSupport;
-using LagoVista.IoT.Simulator.Admin.Managers;
+﻿using LagoVista.IoT.Simulator.Admin.Managers;
 using LagoVista.IoT.Web.Common.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using LagoVista.Core;
 using LagoVista.Core.Validation;
 using System.Threading.Tasks;
 using LagoVista.Core.Models.UIMetaData;
@@ -19,7 +14,6 @@ using LagoVista.IoT.Logging.Loggers;
 namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 {
     [Authorize]
-    [Route("api/simulator/admin")]
     public class SimulatorController : LagoVistaBaseController
     {
         ISimulatorManager simulatorManager;
