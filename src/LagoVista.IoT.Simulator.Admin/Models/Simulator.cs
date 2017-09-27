@@ -21,7 +21,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         MQTT,
         [EnumLabel(Simulator.Transport_AMQP, SimulatorResources.Names.Transport_AMQP, typeof(SimulatorResources))]
         AMQP,
-        [EnumLabel(Simulator.Transport_Azure_EventHub, SimulatorResources.Names.Transport_AzureIoTHub, typeof(SimulatorResources))]
+        [EnumLabel(Simulator.Transport_Azure_EventHub, SimulatorResources.Names.Transport_AzureEventHub, typeof(SimulatorResources))]
         AzureEventHub,
         [EnumLabel(Simulator.Transport_AzureServiceBus, SimulatorResources.Names.Transport_AzureServiceBus, typeof(SimulatorResources))]
         AzureServiceBus,
