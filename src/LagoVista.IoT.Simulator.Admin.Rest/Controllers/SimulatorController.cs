@@ -59,12 +59,11 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// <summary>
         /// Simulators - Get For Org
         /// </summary>
-        /// <param name="orgid"></param>
         /// <returns></returns>
-        [HttpGet("/api/org/{orgid}/simulators")]
-        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForOrgAsync(String orgid)
+        [HttpGet("/api/org/simulators")]
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForOrgAsync()
         {
-            var simulators = await simulatorManager.GetSimulatorsForOrgsAsync(orgid, UserEntityHeader);
+            var simulators = await simulatorManager.GetSimulatorsForOrgsAsync(OrgEntityHeader.Id, UserEntityHeader);
             return ListResponse<Models.SimulatorSummary>.Create(simulators);
         }
 
