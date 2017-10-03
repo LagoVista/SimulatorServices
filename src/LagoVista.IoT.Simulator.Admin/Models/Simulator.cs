@@ -115,8 +115,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_UserName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String UserName { get; set; }
 
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AuthToken, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
-        public String AuthToken { get; set; }
+        public String AccessKeyName { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AuthToken, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public String AccessKey { get; set; }
+
+
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String DeviceId { get; set; }

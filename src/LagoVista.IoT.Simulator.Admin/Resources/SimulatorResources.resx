@@ -315,8 +315,8 @@
   <data name="MessageTemplate_DynamicAttributes" xml:space="preserve">
     <value>Dynamic Attributes</value>
   </data>
-  <data name="Simulator_AuthToken" xml:space="preserve">
-    <value>Authorization Token</value>
+  <data name="Simulator_AccessKey" xml:space="preserve">
+    <value>Access Key</value>
   </data>
   <data name="Simulator_DeviceId" xml:space="preserve">
     <value>Device Id</value>
@@ -380,5 +380,8 @@
   </data>
   <data name="Simulator_HubName" xml:space="preserve">
     <value>Hub Name</value>
+  </data>
+  <data name="Simulator_AccessKeyName" xml:space="preserve">
+    <value>Access Key Name</value>
   </data>
 </root>
