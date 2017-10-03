@@ -233,9 +233,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_Transport
 
 		public static string MessageTemplate_Transport { get { return GetResourceString("MessageTemplate_Transport"); } }
-//Resources:SimulatorResources:Simulator_AuthToken
+//Resources:SimulatorResources:Simulator_AccessKey
 
-		public static string Simulator_AuthToken { get { return GetResourceString("Simulator_AuthToken"); } }
+		public static string Simulator_AccessKey { get { return GetResourceString("Simulator_AccessKey"); } }
+//Resources:SimulatorResources:Simulator_AccessKeyName
+
+		public static string Simulator_AccessKeyName { get { return GetResourceString("Simulator_AccessKeyName"); } }
 //Resources:SimulatorResources:Simulator_ConnectionString
 
 		public static string Simulator_ConnectionString { get { return GetResourceString("Simulator_ConnectionString"); } }
@@ -380,7 +383,8 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_Title = "MessageTemplate_Title";
 			public const string MessageTemplate_Topic = "MessageTemplate_Topic";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
-			public const string Simulator_AuthToken = "Simulator_AuthToken";
+			public const string Simulator_AccessKey = "Simulator_AccessKey";
+			public const string Simulator_AccessKeyName = "Simulator_AccessKeyName";
 			public const string Simulator_ConnectionString = "Simulator_ConnectionString";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
 			public const string Simulator_DefaultPayloadType = "Simulator_DefaultPayloadType";
