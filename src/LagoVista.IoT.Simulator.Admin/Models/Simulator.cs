@@ -123,7 +123,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public String AccessKey { get; set; }
 
 
-
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String DeviceId { get; set; }
 
