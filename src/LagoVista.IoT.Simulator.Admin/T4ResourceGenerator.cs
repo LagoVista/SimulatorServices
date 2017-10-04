@@ -284,6 +284,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_PipelineModule_Config
 
 		public static string Simulator_PipelineModule_Config { get { return GetResourceString("Simulator_PipelineModule_Config"); } }
+//Resources:SimulatorResources:Simulator_Subscription
+
+		public static string Simulator_Subscription { get { return GetResourceString("Simulator_Subscription"); } }
+//Resources:SimulatorResources:Simulator_Subscription_Help
+
+		public static string Simulator_Subscription_Help( string deviceid) { return GetResourceString("Simulator_Subscription_Help", "{deviceid}", deviceid); }
 //Resources:SimulatorResources:Simulator_Title
 
 		public static string Simulator_Title { get { return GetResourceString("Simulator_Title"); } }
@@ -400,6 +406,8 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
 			public const string Simulator_Password = "Simulator_Password";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
+			public const string Simulator_Subscription = "Simulator_Subscription";
+			public const string Simulator_Subscription_Help = "Simulator_Subscription_Help";
 			public const string Simulator_Title = "Simulator_Title";
 			public const string Simulator_UserName = "Simulator_UserName";
 			public const string Transport_AMQP = "Transport_AMQP";

@@ -102,6 +102,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_HubName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string HubName { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Subscription, HelpResource:Resources.SimulatorResources.Names.Simulator_Subscription_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public string Subscription { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultPort, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public int DefaultPort { get; set; }

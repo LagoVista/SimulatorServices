@@ -384,4 +384,10 @@
   <data name="Simulator_AccessKeyName" xml:space="preserve">
     <value>Access Key Name</value>
   </data>
+  <data name="Simulator_Subscription" xml:space="preserve">
+    <value>Subscription</value>
+  </data>
+  <data name="Simulator_Subscription_Help" xml:space="preserve">
+    <value>If your messaging protocol allows for receving messages based on a subscription, you can add a subscription to receive cloud to devices messages.  If necessary you can use the device id in the topic such as /device/messages/{deviceid}.</value>
+  </data>
 </root>
