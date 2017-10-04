@@ -284,6 +284,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_PipelineModule_Config
 
 		public static string Simulator_PipelineModule_Config { get { return GetResourceString("Simulator_PipelineModule_Config"); } }
+//Resources:SimulatorResources:Simulator_QueueName
+
+		public static string Simulator_QueueName { get { return GetResourceString("Simulator_QueueName"); } }
 //Resources:SimulatorResources:Simulator_Subscription
 
 		public static string Simulator_Subscription { get { return GetResourceString("Simulator_Subscription"); } }
@@ -293,6 +296,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_Title
 
 		public static string Simulator_Title { get { return GetResourceString("Simulator_Title"); } }
+//Resources:SimulatorResources:Simulator_TLSSSL
+
+		public static string Simulator_TLSSSL { get { return GetResourceString("Simulator_TLSSSL"); } }
+//Resources:SimulatorResources:Simulator_Topic
+
+		public static string Simulator_Topic { get { return GetResourceString("Simulator_Topic"); } }
 //Resources:SimulatorResources:Simulator_UserName
 
 		public static string Simulator_UserName { get { return GetResourceString("Simulator_UserName"); } }
@@ -311,6 +320,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Transport_MQTT
 
 		public static string Transport_MQTT { get { return GetResourceString("Transport_MQTT"); } }
+//Resources:SimulatorResources:Transport_RabbitMQ
+
+		public static string Transport_RabbitMQ { get { return GetResourceString("Transport_RabbitMQ"); } }
 //Resources:SimulatorResources:Transport_REST_Http
 
 		public static string Transport_REST_Http { get { return GetResourceString("Transport_REST_Http"); } }
@@ -406,15 +418,19 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
 			public const string Simulator_Password = "Simulator_Password";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
+			public const string Simulator_QueueName = "Simulator_QueueName";
 			public const string Simulator_Subscription = "Simulator_Subscription";
 			public const string Simulator_Subscription_Help = "Simulator_Subscription_Help";
 			public const string Simulator_Title = "Simulator_Title";
+			public const string Simulator_TLSSSL = "Simulator_TLSSSL";
+			public const string Simulator_Topic = "Simulator_Topic";
 			public const string Simulator_UserName = "Simulator_UserName";
 			public const string Transport_AMQP = "Transport_AMQP";
 			public const string Transport_AzureEventHub = "Transport_AzureEventHub";
 			public const string Transport_AzureIoTHub = "Transport_AzureIoTHub";
 			public const string Transport_AzureServiceBus = "Transport_AzureServiceBus";
 			public const string Transport_MQTT = "Transport_MQTT";
+			public const string Transport_RabbitMQ = "Transport_RabbitMQ";
 			public const string Transport_REST_Http = "Transport_REST_Http";
 			public const string Transport_REST_Https = "Transport_REST_Https";
 			public const string Transport_SelectTransportType = "Transport_SelectTransportType";

@@ -13,20 +13,22 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 {
     public enum TransportTypes
     {
-        [EnumLabel(Simulator.Transport_RestHttp, SimulatorResources.Names.Transport_REST_Http, typeof(SimulatorResources))]
-        RestHttp,
-        [EnumLabel(Simulator.Transport_RestHttps, SimulatorResources.Names.Transport_REST_Https, typeof(SimulatorResources))]
-        RestHttps,
-        [EnumLabel(Simulator.Transport_MQTT, SimulatorResources.Names.Transport_MQTT, typeof(SimulatorResources))]
-        MQTT,
         [EnumLabel(Simulator.Transport_AMQP, SimulatorResources.Names.Transport_AMQP, typeof(SimulatorResources))]
         AMQP,
         [EnumLabel(Simulator.Transport_Azure_EventHub, SimulatorResources.Names.Transport_AzureEventHub, typeof(SimulatorResources))]
         AzureEventHub,
-        [EnumLabel(Simulator.Transport_AzureServiceBus, SimulatorResources.Names.Transport_AzureServiceBus, typeof(SimulatorResources))]
-        AzureServiceBus,
         [EnumLabel(Simulator.Transport_IOT_HUB, SimulatorResources.Names.Transport_AzureIoTHub, typeof(SimulatorResources))]
         AzureIoTHub,
+        [EnumLabel(Simulator.Transport_AzureServiceBus, SimulatorResources.Names.Transport_AzureServiceBus, typeof(SimulatorResources))]
+        AzureServiceBus,
+        [EnumLabel(Simulator.Transport_MQTT, SimulatorResources.Names.Transport_MQTT, typeof(SimulatorResources))]
+        MQTT,
+        [EnumLabel(Simulator.Transport_RabbitMQ, SimulatorResources.Names.Transport_RabbitMQ, typeof(SimulatorResources))]
+        RabbitMQ,
+        [EnumLabel(Simulator.Transport_RestHttp, SimulatorResources.Names.Transport_REST_Http, typeof(SimulatorResources))]
+        RestHttp,
+        [EnumLabel(Simulator.Transport_RestHttps, SimulatorResources.Names.Transport_REST_Https, typeof(SimulatorResources))]
+        RestHttps,
         [EnumLabel(Simulator.Transport_UDP, SimulatorResources.Names.Transport_UDP, typeof(SimulatorResources))]
         UDP,
         [EnumLabel(Simulator.Transport_TCP, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
@@ -39,6 +41,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     {
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
+        public const string Transport_RabbitMQ = "rabbitmq";
         public const string Transport_MQTT = "mqtt";
         public const string Transport_IOT_HUB = "azureiothub";
         public const string Transport_AzureServiceBus = "azureservicebus";
@@ -102,6 +105,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_HubName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string HubName { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_QueueName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public string QUeueName { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public string Topic { get; set; }
+
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Subscription, HelpResource:Resources.SimulatorResources.Names.Simulator_Subscription_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string Subscription { get; set; }
 
@@ -117,6 +127,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_UserName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String UserName { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_TLSSSL, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public bool TLSSSL { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AccessKeyName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AccessKeyName { get; set; }

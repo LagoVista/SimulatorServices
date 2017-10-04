@@ -390,4 +390,16 @@
   <data name="Simulator_Subscription_Help" xml:space="preserve">
     <value>If your messaging protocol allows for receving messages based on a subscription, you can add a subscription to receive cloud to devices messages.  If necessary you can use the device id in the topic such as /device/messages/{deviceid}.</value>
   </data>
+  <data name="Simulator_TLSSSL" xml:space="preserve">
+    <value>Use TLS/SSL</value>
+  </data>
+  <data name="Simulator_QueueName" xml:space="preserve">
+    <value>Queue Name</value>
+  </data>
+  <data name="Simulator_Topic" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="Transport_RabbitMQ" xml:space="preserve">
+    <value>Rabbit MQ</value>
+  </data>
 </root>
