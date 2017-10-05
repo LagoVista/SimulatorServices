@@ -106,7 +106,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public string HubName { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_QueueName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
-        public string QUeueName { get; set; }
+        public string QueueName { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string Topic { get; set; }

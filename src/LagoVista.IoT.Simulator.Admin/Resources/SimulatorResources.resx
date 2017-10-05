@@ -402,4 +402,34 @@
   <data name="Transport_RabbitMQ" xml:space="preserve">
     <value>Rabbit MQ</value>
   </data>
+  <data name="MessageTemplate_MessageId" xml:space="preserve">
+    <value>MessageId</value>
+  </data>
+  <data name="MessageTemplate_Properties" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="MessageTemplate_QOS0" xml:space="preserve">
+    <value>QOS0</value>
+  </data>
+  <data name="MessageTemplate_QOS1" xml:space="preserve">
+    <value>QOS1</value>
+  </data>
+  <data name="MessageTemplate_QOS2" xml:space="preserve">
+    <value>QOS2</value>
+  </data>
+  <data name="MessageTemplate_QOSLevel" xml:space="preserve">
+    <value>QOS Level</value>
+  </data>
+  <data name="MessageTemplate_QOS_Select" xml:space="preserve">
+    <value>-select qos level-</value>
+  </data>
+  <data name="MessageTemplate_RetainFlag" xml:space="preserve">
+    <value>Retain Flag</value>
+  </data>
+  <data name="MessageTemplate_To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="MessageTemplate_ContentType" xml:space="preserve">
+    <value>Content Type</value>
+  </data>
 </root>

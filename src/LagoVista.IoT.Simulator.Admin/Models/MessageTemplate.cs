@@ -29,9 +29,17 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         DELETE,
     }
 
+    public enum QualityOfServiceLevels
+    {
+        [EnumLabel(MessageTemplate.QOS0, SimulatorResources.Names.HttpVerb_DELETE, typeof(SimulatorResources))]
+        QOS0,
+        [EnumLabel(MessageTemplate.QOS1, SimulatorResources.Names.HttpVerb_DELETE, typeof(SimulatorResources))]
+        QOS1,
+        [EnumLabel(MessageTemplate.QOS1, SimulatorResources.Names.HttpVerb_DELETE, typeof(SimulatorResources))]
+        QOS2,
+    }
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageTemplate_Title, SimulatorResources.Names.MessageTemplate_Help, SimulatorResources.Names.MessageTemplate_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-
     public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity
     {
         public const string PayloadTypes_Text = "text";
@@ -42,9 +50,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public const string HttpVerb_PUT = "PUT";
         public const string HttpVerb_DELETE = "DELETE";
 
+        public const string QOS0 = "qos0";
+        public const string QOS1 = "qos1";
+        public const string QOS2 = "qos2";
+
         public MessageTemplate()
         {
             MessageHeaders = new List<MessageHeader>();
+            Properties = new List<KeyValuePair<string, string>>();
             DynamicAttributes = new List<MessageDynamicAttribute>();
             Id = Guid.NewGuid().ToId();
         }
@@ -67,6 +80,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageHeader> MessageHeaders { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        public List<KeyValuePair<string,string>> Properties { get; set; }
+
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageDynamicAttribute> DynamicAttributes { get; set; }
 
@@ -79,11 +96,30 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType_Binary, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string BinaryPayload { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_QueueName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public string QueueName { get; set; }
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_HttpVerb, FieldType: FieldTypes.Picker, EnumType: typeof(VerbTypes), WaterMark: SimulatorResources.Names.MessageTemplate_HttpVerb_Select, ResourceType: typeof(SimulatorResources))]
         public String HttpVerb { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_To, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        public String To { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_MessageId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        public String MessageId { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_ContentType, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        public String ContentType { get; set; }
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String Topic { get; set; }
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_QOSLevel, FieldType: FieldTypes.Picker, EnumType: typeof(QualityOfServiceLevels), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.MessageTemplate_QOS_Select)]
+        public EntityHeader<TransportTypes> QualityOfServiceLevel { get; set; }
+
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_RetainFlag, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
+        public bool RetainFlag { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendCR, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool AppendCR { get; set; }

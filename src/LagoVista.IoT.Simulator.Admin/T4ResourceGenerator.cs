@@ -200,6 +200,9 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_BinaryPayload
 
 		public static string MessageTemplate_BinaryPayload { get { return GetResourceString("MessageTemplate_BinaryPayload"); } }
+//Resources:SimulatorResources:MessageTemplate_ContentType
+
+		public static string MessageTemplate_ContentType { get { return GetResourceString("MessageTemplate_ContentType"); } }
 //Resources:SimulatorResources:MessageTemplate_Description
 
 		public static string MessageTemplate_Description { get { return GetResourceString("MessageTemplate_Description"); } }
@@ -218,15 +221,42 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:MessageTemplate_HttpVerb_Select
 
 		public static string MessageTemplate_HttpVerb_Select { get { return GetResourceString("MessageTemplate_HttpVerb_Select"); } }
+//Resources:SimulatorResources:MessageTemplate_MessageId
+
+		public static string MessageTemplate_MessageId { get { return GetResourceString("MessageTemplate_MessageId"); } }
 //Resources:SimulatorResources:MessageTemplate_Port
 
 		public static string MessageTemplate_Port { get { return GetResourceString("MessageTemplate_Port"); } }
+//Resources:SimulatorResources:MessageTemplate_Properties
+
+		public static string MessageTemplate_Properties { get { return GetResourceString("MessageTemplate_Properties"); } }
+//Resources:SimulatorResources:MessageTemplate_QOS_Select
+
+		public static string MessageTemplate_QOS_Select { get { return GetResourceString("MessageTemplate_QOS_Select"); } }
+//Resources:SimulatorResources:MessageTemplate_QOS0
+
+		public static string MessageTemplate_QOS0 { get { return GetResourceString("MessageTemplate_QOS0"); } }
+//Resources:SimulatorResources:MessageTemplate_QOS1
+
+		public static string MessageTemplate_QOS1 { get { return GetResourceString("MessageTemplate_QOS1"); } }
+//Resources:SimulatorResources:MessageTemplate_QOS2
+
+		public static string MessageTemplate_QOS2 { get { return GetResourceString("MessageTemplate_QOS2"); } }
+//Resources:SimulatorResources:MessageTemplate_QOSLevel
+
+		public static string MessageTemplate_QOSLevel { get { return GetResourceString("MessageTemplate_QOSLevel"); } }
+//Resources:SimulatorResources:MessageTemplate_RetainFlag
+
+		public static string MessageTemplate_RetainFlag { get { return GetResourceString("MessageTemplate_RetainFlag"); } }
 //Resources:SimulatorResources:MessageTemplate_TextPayload
 
 		public static string MessageTemplate_TextPayload { get { return GetResourceString("MessageTemplate_TextPayload"); } }
 //Resources:SimulatorResources:MessageTemplate_Title
 
 		public static string MessageTemplate_Title { get { return GetResourceString("MessageTemplate_Title"); } }
+//Resources:SimulatorResources:MessageTemplate_To
+
+		public static string MessageTemplate_To { get { return GetResourceString("MessageTemplate_To"); } }
 //Resources:SimulatorResources:MessageTemplate_Topic
 
 		public static string MessageTemplate_Topic { get { return GetResourceString("MessageTemplate_Topic"); } }
@@ -390,15 +420,25 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_AppendCR = "MessageTemplate_AppendCR";
 			public const string MessageTemplate_AppendLF = "MessageTemplate_AppendLF";
 			public const string MessageTemplate_BinaryPayload = "MessageTemplate_BinaryPayload";
+			public const string MessageTemplate_ContentType = "MessageTemplate_ContentType";
 			public const string MessageTemplate_Description = "MessageTemplate_Description";
 			public const string MessageTemplate_DynamicAttributes = "MessageTemplate_DynamicAttributes";
 			public const string MessageTemplate_EndPoint = "MessageTemplate_EndPoint";
 			public const string MessageTemplate_Help = "MessageTemplate_Help";
 			public const string MessageTemplate_HttpVerb = "MessageTemplate_HttpVerb";
 			public const string MessageTemplate_HttpVerb_Select = "MessageTemplate_HttpVerb_Select";
+			public const string MessageTemplate_MessageId = "MessageTemplate_MessageId";
 			public const string MessageTemplate_Port = "MessageTemplate_Port";
+			public const string MessageTemplate_Properties = "MessageTemplate_Properties";
+			public const string MessageTemplate_QOS_Select = "MessageTemplate_QOS_Select";
+			public const string MessageTemplate_QOS0 = "MessageTemplate_QOS0";
+			public const string MessageTemplate_QOS1 = "MessageTemplate_QOS1";
+			public const string MessageTemplate_QOS2 = "MessageTemplate_QOS2";
+			public const string MessageTemplate_QOSLevel = "MessageTemplate_QOSLevel";
+			public const string MessageTemplate_RetainFlag = "MessageTemplate_RetainFlag";
 			public const string MessageTemplate_TextPayload = "MessageTemplate_TextPayload";
 			public const string MessageTemplate_Title = "MessageTemplate_Title";
+			public const string MessageTemplate_To = "MessageTemplate_To";
 			public const string MessageTemplate_Topic = "MessageTemplate_Topic";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string Simulator_AccessKey = "Simulator_AccessKey";
