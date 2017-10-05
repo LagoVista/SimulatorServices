@@ -31,11 +31,11 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     public enum QualityOfServiceLevels
     {
-        [EnumLabel(MessageTemplate.QOS0, SimulatorResources.Names.HttpVerb_DELETE, typeof(SimulatorResources))]
+        [EnumLabel(MessageTemplate.QOS0, SimulatorResources.Names.MessageTemplate_QOS0, typeof(SimulatorResources))]
         QOS0,
-        [EnumLabel(MessageTemplate.QOS1, SimulatorResources.Names.HttpVerb_DELETE, typeof(SimulatorResources))]
+        [EnumLabel(MessageTemplate.QOS1, SimulatorResources.Names.MessageTemplate_QOS1, typeof(SimulatorResources))]
         QOS1,
-        [EnumLabel(MessageTemplate.QOS1, SimulatorResources.Names.HttpVerb_DELETE, typeof(SimulatorResources))]
+        [EnumLabel(MessageTemplate.QOS1, SimulatorResources.Names.MessageTemplate_QOS2, typeof(SimulatorResources))]
         QOS2,
     }
 
