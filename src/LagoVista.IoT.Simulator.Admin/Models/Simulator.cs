@@ -127,7 +127,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_UserName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String UserName { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_TLSSSL, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_TLSSSL, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public bool TLSSSL { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AccessKeyName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]

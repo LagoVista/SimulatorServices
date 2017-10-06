@@ -115,7 +115,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public String Topic { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_QOSLevel, FieldType: FieldTypes.Picker, EnumType: typeof(QualityOfServiceLevels), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.MessageTemplate_QOS_Select)]
-        public EntityHeader<TransportTypes> QualityOfServiceLevel { get; set; }
+        public EntityHeader<QualityOfServiceLevels> QualityOfServiceLevel { get; set; }
 
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_RetainFlag, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
