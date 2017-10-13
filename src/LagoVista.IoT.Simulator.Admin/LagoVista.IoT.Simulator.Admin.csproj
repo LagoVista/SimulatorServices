@@ -5,11 +5,11 @@
     <FileVersion>1.4.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.147-alpha1141" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.147-alpha1141" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.147-alpha1141" />
-    <PackageReference Include="LagoVista.IoT.Logging" Version="1.2.147-alpha1141" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.147-alpha1141" />
+    <PackageReference Include="LagoVista.Core" Version="1.2.148-alpha1857" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.148-alpha1857" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.148-alpha1857" />
+    <PackageReference Include="LagoVista.IoT.Logging" Version="1.2.148-alpha1857" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.148-alpha1857" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
