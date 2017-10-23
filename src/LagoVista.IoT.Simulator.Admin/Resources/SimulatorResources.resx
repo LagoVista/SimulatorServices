@@ -432,4 +432,10 @@
   <data name="MessageTemplate_ContentType" xml:space="preserve">
     <value>Content Type</value>
   </data>
+  <data name="Simulator_AnonymousConnection" xml:space="preserve">
+    <value>Anonymous Connection</value>
+  </data>
+  <data name="Simulator_BasicAuth" xml:space="preserve">
+    <value>Use  Basic Auth</value>
+  </data>
 </root>

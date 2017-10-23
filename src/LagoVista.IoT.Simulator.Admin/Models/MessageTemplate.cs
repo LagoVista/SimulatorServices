@@ -6,6 +6,7 @@ using System;
 using LagoVista.Core;
 using System.Collections.Generic;
 using System.Text;
+using LagoVista.Core.Validation;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
@@ -40,7 +41,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     }
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageTemplate_Title, SimulatorResources.Names.MessageTemplate_Help, SimulatorResources.Names.MessageTemplate_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity
+    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable
     {
         public const string PayloadTypes_Text = "text";
         public const string PayloadTypes_Binary = "binary";
@@ -117,7 +118,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_QOSLevel, FieldType: FieldTypes.Picker, EnumType: typeof(QualityOfServiceLevels), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.MessageTemplate_QOS_Select)]
         public EntityHeader<QualityOfServiceLevels> QualityOfServiceLevel { get; set; }
 
-
         [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_RetainFlag, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool RetainFlag { get; set; }
 
@@ -143,6 +143,51 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 Id = Id,
                 Text = Name
             };
+        }
+
+        [CustomValidator]
+        public void Validate(ValidationResult result)
+        {
+            if(EntityHeader.IsNullOrEmpty(Transport))
+            {
+                result.AddUserError("Transport is a Required Field.");
+                return;
+            }
+
+            switch(Transport.Value)
+            {
+                case TransportTypes.MQTT:
+                    if (String.IsNullOrEmpty(Topic)) result.AddUserError("Topic is a Required Field.");
+                    break;
+                case TransportTypes.AzureServiceBus:
+                    if (String.IsNullOrEmpty(QueueName)) result.AddUserError("Queue Name a Required Field.");
+                    break;
+
+                case TransportTypes.RestHttp:
+                case TransportTypes.RestHttps:
+                    if (String.IsNullOrEmpty(HttpVerb))
+                    {
+                        result.AddUserError("HTTP Verb is a Required Field.");
+                    }
+                    else
+                    {
+                        HttpVerb = HttpVerb.ToUpper();
+                        if (HttpVerb != HttpVerb_GET &&
+                            HttpVerb != HttpVerb_PUT &&
+                            HttpVerb != HttpVerb_POST &&
+                            HttpVerb != HttpVerb_DELETE)
+                        {
+                            result.AddUserError("Currently only the HTTP Verbs GET, POST, PUT and DELETE are supported.");
+                        }
+                    }
+                    
+                    break;
+            }
+
+            foreach(var hdr in MessageHeaders)
+            {
+                hdr.Validate(result);
+            }
         }
     }
 }

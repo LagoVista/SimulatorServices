@@ -13,8 +13,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 {
     public enum TransportTypes
     {
-        [EnumLabel(Simulator.Transport_AMQP, SimulatorResources.Names.Transport_AMQP, typeof(SimulatorResources))]
-        AMQP,
+        /*[EnumLabel(Simulator.Transport_AMQP, SimulatorResources.Names.Transport_AMQP, typeof(SimulatorResources))]
+        AMQP,*/
         [EnumLabel(Simulator.Transport_Azure_EventHub, SimulatorResources.Names.Transport_AzureEventHub, typeof(SimulatorResources))]
         AzureEventHub,
         [EnumLabel(Simulator.Transport_IOT_HUB, SimulatorResources.Names.Transport_AzureIoTHub, typeof(SimulatorResources))]
@@ -23,8 +23,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         AzureServiceBus,
         [EnumLabel(Simulator.Transport_MQTT, SimulatorResources.Names.Transport_MQTT, typeof(SimulatorResources))]
         MQTT,
-        [EnumLabel(Simulator.Transport_RabbitMQ, SimulatorResources.Names.Transport_RabbitMQ, typeof(SimulatorResources))]
-        RabbitMQ,
+        /*[EnumLabel(Simulator.Transport_RabbitMQ, SimulatorResources.Names.Transport_RabbitMQ, typeof(SimulatorResources))]
+        RabbitMQ,*/
         [EnumLabel(Simulator.Transport_RestHttp, SimulatorResources.Names.Transport_REST_Http, typeof(SimulatorResources))]
         RestHttp,
         [EnumLabel(Simulator.Transport_RestHttps, SimulatorResources.Names.Transport_REST_Https, typeof(SimulatorResources))]
@@ -136,7 +136,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AccessKey, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AccessKey { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_AnonymousConnection, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public bool Anonymous { get; set; }
 
+
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_BasicAuth, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        public bool BasicAuth { get; set; }
+         
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String DeviceId { get; set; }
 
@@ -162,6 +168,81 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 DeviceConfiguration = DeviceConfiguration == null ? SimulatorResources.Common_None : DeviceConfiguration.Text,
                 DeviceType = DeviceType == null ? SimulatorResources.Common_None : DeviceType.Text
             };
+        }
+
+        [CustomValidator]
+        public void Validate(ValidationResult result)
+        {
+            if(EntityHeader.IsNullOrEmpty(DefaultTransport))
+            {
+                result.AddUserError("Transport Type is a Required Field.");
+                return;
+            }
+
+            switch(DefaultTransport.Value)
+            {
+                case TransportTypes.AzureEventHub:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
+                    if (String.IsNullOrEmpty(HubName)) result.AddUserError("Hub Name is a Required Field.");
+                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
+                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
+                    break;
+                case TransportTypes.AzureIoTHub:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
+                    if (String.IsNullOrEmpty(DeviceId)) result.AddUserError("Device Id is a Required Field");
+                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
+
+                    break;
+                case TransportTypes.AzureServiceBus:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
+                    if (String.IsNullOrEmpty(QueueName)) result.AddUserError("Queue Name is a Required Field");
+                    if (String.IsNullOrEmpty(AccessKeyName)) result.AddUserError("Access Key Name is a Required Field"); 
+                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field"); 
+                    break;
+                case TransportTypes.MQTT:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Access Key is a Required Field");
+                    if (DefaultPort == 0) result.AddUserError("Port should not be zero");
+                    if (Anonymous)
+                    {
+                        UserName = null;
+                        Password = null;
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(UserName)) result.AddUserError("User Name is required if your connection is not anonymous.");
+                        if (String.IsNullOrEmpty(Password)) result.AddUserError("User Name is required if your connection is not anonymous.");
+                    }
+
+                    break;
+                case TransportTypes.RestHttp:
+                case TransportTypes.RestHttps:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
+                    if (DefaultPort == 0) result.AddUserError("Port should not be zero");
+                    if (Anonymous)
+                    {
+                        UserName = null;
+                        Password = null;
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(UserName)) result.AddUserError("User Name is required if your connection is not anonymous.");
+                        if (String.IsNullOrEmpty(Password)) result.AddUserError("User Name is required if your connection is not anonymous.");
+                    }
+                    break;
+                case TransportTypes.TCP:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
+                    if (DefaultPort == 0) result.AddUserError("Port should not be zero");
+                    break;
+                case TransportTypes.UDP:
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
+                    if (DefaultPort == 0) result.AddUserError("Port should not be zero");
+                    break;
+            }
+
+            foreach(var msg in MessageTemplates)
+            {
+                msg.Validate(result);
+            }
         }
 
         public IEntityHeader ToEntityHeader()

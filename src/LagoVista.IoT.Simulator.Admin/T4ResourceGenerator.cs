@@ -269,6 +269,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_AccessKeyName
 
 		public static string Simulator_AccessKeyName { get { return GetResourceString("Simulator_AccessKeyName"); } }
+//Resources:SimulatorResources:Simulator_AnonymousConnection
+
+		public static string Simulator_AnonymousConnection { get { return GetResourceString("Simulator_AnonymousConnection"); } }
+//Resources:SimulatorResources:Simulator_BasicAuth
+
+		public static string Simulator_BasicAuth { get { return GetResourceString("Simulator_BasicAuth"); } }
 //Resources:SimulatorResources:Simulator_ConnectionString
 
 		public static string Simulator_ConnectionString { get { return GetResourceString("Simulator_ConnectionString"); } }
@@ -443,6 +449,8 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string Simulator_AccessKey = "Simulator_AccessKey";
 			public const string Simulator_AccessKeyName = "Simulator_AccessKeyName";
+			public const string Simulator_AnonymousConnection = "Simulator_AnonymousConnection";
+			public const string Simulator_BasicAuth = "Simulator_BasicAuth";
 			public const string Simulator_ConnectionString = "Simulator_ConnectionString";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
 			public const string Simulator_DefaultPayloadType = "Simulator_DefaultPayloadType";
