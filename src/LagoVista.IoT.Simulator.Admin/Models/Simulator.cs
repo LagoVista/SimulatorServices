@@ -200,7 +200,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field"); 
                     break;
                 case TransportTypes.MQTT:
-                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Access Key is a Required Field");
+                    if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
                     if (DefaultPort == 0) result.AddUserError("Port should not be zero");
                     if (Anonymous)
                     {
@@ -210,7 +210,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     else
                     {
                         if (String.IsNullOrEmpty(UserName)) result.AddUserError("User Name is required if your connection is not anonymous.");
-                        if (String.IsNullOrEmpty(Password)) result.AddUserError("User Name is required if your connection is not anonymous.");
+                        if (String.IsNullOrEmpty(Password)) result.AddUserError("Password is required if your connection is not anonymous.");
                     }
 
                     break;
@@ -226,7 +226,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     else
                     {
                         if (String.IsNullOrEmpty(UserName)) result.AddUserError("User Name is required if your connection is not anonymous.");
-                        if (String.IsNullOrEmpty(Password)) result.AddUserError("User Name is required if your connection is not anonymous.");
+                        if (String.IsNullOrEmpty(Password)) result.AddUserError("Password is required if your connection is not anonymous.");
                     }
                     break;
                 case TransportTypes.TCP:

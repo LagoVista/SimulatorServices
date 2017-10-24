@@ -158,6 +158,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             {
                 case TransportTypes.MQTT:
                     if (String.IsNullOrEmpty(Topic)) result.AddUserError("Topic is a Required Field.");
+                    if (EntityHeader.IsNullOrEmpty(QualityOfServiceLevel)) result.AddUserError("QOS Must Be Defined");
                     break;
                 case TransportTypes.AzureServiceBus:
                     if (String.IsNullOrEmpty(QueueName)) result.AddUserError("Queue Name a Required Field.");
