@@ -5,6 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using System.Resources;
+
+[assembly: NeutralResourcesLanguage("en")]
+
 namespace LagoVista.IoT.Simulator.Admin
 {
     public class Startup
