@@ -1,9 +1,6 @@
-﻿using LagoVista.Core.IOC;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.IOC;
 using LagoVista.IoT.Simulator.Admin.Managers;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 using System.Resources;
 

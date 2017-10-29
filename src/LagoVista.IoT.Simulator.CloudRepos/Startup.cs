@@ -1,9 +1,6 @@
-﻿using LagoVista.IoT.Simulator.Admin.Repos;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.IoT.Simulator.Admin.Repos;
 using LagoVista.IoT.Simulator.CloudRepos.Repos;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LagoVista.IoT.Simulator.CloudRepos
 {
