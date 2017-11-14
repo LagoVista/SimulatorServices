@@ -47,7 +47,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
 
-    public class Simulator : ModelBase,  IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity
+    public class Simulator : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity
     {
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
@@ -78,7 +78,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }
-  
+
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Key, HelpResource: Resources.SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: Resources.SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Key { get; set; }
@@ -106,13 +106,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource:Resources.SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), IsRequired: true, WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource: Resources.SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
         public EntityHeader<CredentialsStorage> CredentialStorage { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultTransport,FieldType:FieldTypes.Picker, EnumType:typeof(TransportTypes), ResourceType: typeof(SimulatorResources), IsRequired:true, WaterMark: SimulatorResources.Names.Transport_SelectTransportType)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultTransport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), IsRequired: true, WaterMark: SimulatorResources.Names.Transport_SelectTransportType)]
         public EntityHeader<TransportTypes> DefaultTransport { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultEndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired:false)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultEndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string DefaultEndPoint { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_ConnectionString, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
@@ -128,7 +128,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public string Topic { get; set; }
 
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Subscription, HelpResource:Resources.SimulatorResources.Names.Simulator_Subscription_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_Subscription, HelpResource: Resources.SimulatorResources.Names.Simulator_Subscription_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string Subscription { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultPort, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: false)]
@@ -158,7 +158,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_BasicAuth, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public bool BasicAuth { get; set; }
-         
+
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String DeviceId { get; set; }
 
@@ -189,33 +189,36 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [CustomValidator]
         public void Validate(ValidationResult result)
         {
-            if(EntityHeader.IsNullOrEmpty(DefaultTransport))
+            if (EntityHeader.IsNullOrEmpty(DefaultTransport))
             {
                 result.AddUserError("Transport Type is a Required Field.");
                 return;
             }
 
-            switch(DefaultTransport.Value)
+            switch (DefaultTransport.Value)
             {
                 case TransportTypes.AzureEventHub:
+                    if (EntityHeader.IsNullOrEmpty(CredentialStorage)) result.AddUserError("Please select where you would like your credentials stored.");
                     if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
                     if (String.IsNullOrEmpty(HubName)) result.AddUserError("Hub Name is a Required Field.");
-                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
-                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
+                    if (EntityHeader.IsNullOrEmpty(CredentialStorage) && this.CredentialStorage.Value == CredentialsStorage.InCloud && String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
                     break;
                 case TransportTypes.AzureIoTHub:
+                    if (EntityHeader.IsNullOrEmpty(CredentialStorage)) result.AddUserError("Please select where you would like your credentials stored.");
                     if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
                     if (String.IsNullOrEmpty(DeviceId)) result.AddUserError("Device Id is a Required Field");
-                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
+                    if (this.CredentialStorage.Value == CredentialsStorage.InCloud && String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
 
                     break;
                 case TransportTypes.AzureServiceBus:
+                    if (EntityHeader.IsNullOrEmpty(CredentialStorage)) result.AddUserError("Please select where you would like your credentials stored.");
                     if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
                     if (String.IsNullOrEmpty(QueueName)) result.AddUserError("Queue Name is a Required Field");
-                    if (String.IsNullOrEmpty(AccessKeyName)) result.AddUserError("Access Key Name is a Required Field"); 
-                    if (String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field"); 
+                    if (String.IsNullOrEmpty(AccessKeyName)) result.AddUserError("Access Key Name is a Required Field");
+                    if (EntityHeader.IsNullOrEmpty(CredentialStorage) && this.CredentialStorage.Value == CredentialsStorage.InCloud && String.IsNullOrEmpty(AccessKey)) result.AddUserError("Access Key is a Required Field");
                     break;
                 case TransportTypes.MQTT:
+
                     if (String.IsNullOrEmpty(DefaultEndPoint)) result.AddUserError("Default Endpoint is a Required Field");
                     if (DefaultPort == 0) result.AddUserError("Port should not be zero");
                     if (Anonymous)
@@ -225,8 +228,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     }
                     else
                     {
+                        if (EntityHeader.IsNullOrEmpty(CredentialStorage)) result.AddUserError("Please select where you would like your credentials stored.");
                         if (String.IsNullOrEmpty(UserName)) result.AddUserError("User Name is required if your connection is not anonymous.");
-                        if (String.IsNullOrEmpty(Password)) result.AddUserError("Password is required if your connection is not anonymous.");
+                        if (EntityHeader.IsNullOrEmpty(CredentialStorage) && this.CredentialStorage.Value == CredentialsStorage.InCloud && String.IsNullOrEmpty(Password)) result.AddUserError("Password is required if your connection is not anonymous.");
                     }
 
                     break;
@@ -241,8 +245,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     }
                     else
                     {
+                        if (EntityHeader.IsNullOrEmpty(CredentialStorage)) result.AddUserError("Please select where you would like your credentials stored.");
                         if (String.IsNullOrEmpty(UserName)) result.AddUserError("User Name is required if your connection is not anonymous.");
-                        if (String.IsNullOrEmpty(Password)) result.AddUserError("Password is required if your connection is not anonymous.");
+                        if (EntityHeader.IsNullOrEmpty(CredentialStorage) && this.CredentialStorage.Value == CredentialsStorage.InCloud && String.IsNullOrEmpty(Password)) result.AddUserError("Password is required if your connection is not anonymous.");
                     }
                     break;
                 case TransportTypes.TCP:
@@ -255,7 +260,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     break;
             }
 
-            foreach(var msg in MessageTemplates)
+            foreach (var msg in MessageTemplates)
             {
                 msg.Validate(result);
             }
