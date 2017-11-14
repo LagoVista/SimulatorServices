@@ -278,6 +278,24 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 //Resources:SimulatorResources:Simulator_ConnectionString
 
 		public static string Simulator_ConnectionString { get { return GetResourceString("Simulator_ConnectionString"); } }
+//Resources:SimulatorResources:Simulator_CredentialsStorage
+
+		public static string Simulator_CredentialsStorage { get { return GetResourceString("Simulator_CredentialsStorage"); } }
+//Resources:SimulatorResources:Simulator_CredentialsStorage_Help
+
+		public static string Simulator_CredentialsStorage_Help { get { return GetResourceString("Simulator_CredentialsStorage_Help"); } }
+//Resources:SimulatorResources:Simulator_CredentialsStorage_InCloud
+
+		public static string Simulator_CredentialsStorage_InCloud { get { return GetResourceString("Simulator_CredentialsStorage_InCloud"); } }
+//Resources:SimulatorResources:Simulator_CredentialsStorage_OnDevice
+
+		public static string Simulator_CredentialsStorage_OnDevice { get { return GetResourceString("Simulator_CredentialsStorage_OnDevice"); } }
+//Resources:SimulatorResources:Simulator_CredentialsStorage_Prompt
+
+		public static string Simulator_CredentialsStorage_Prompt { get { return GetResourceString("Simulator_CredentialsStorage_Prompt"); } }
+//Resources:SimulatorResources:Simulator_CredentialsStorage_Select
+
+		public static string Simulator_CredentialsStorage_Select { get { return GetResourceString("Simulator_CredentialsStorage_Select"); } }
 //Resources:SimulatorResources:Simulator_DefaultEndPoint
 
 		public static string Simulator_DefaultEndPoint { get { return GetResourceString("Simulator_DefaultEndPoint"); } }
@@ -452,6 +470,12 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			public const string Simulator_AnonymousConnection = "Simulator_AnonymousConnection";
 			public const string Simulator_BasicAuth = "Simulator_BasicAuth";
 			public const string Simulator_ConnectionString = "Simulator_ConnectionString";
+			public const string Simulator_CredentialsStorage = "Simulator_CredentialsStorage";
+			public const string Simulator_CredentialsStorage_Help = "Simulator_CredentialsStorage_Help";
+			public const string Simulator_CredentialsStorage_InCloud = "Simulator_CredentialsStorage_InCloud";
+			public const string Simulator_CredentialsStorage_OnDevice = "Simulator_CredentialsStorage_OnDevice";
+			public const string Simulator_CredentialsStorage_Prompt = "Simulator_CredentialsStorage_Prompt";
+			public const string Simulator_CredentialsStorage_Select = "Simulator_CredentialsStorage_Select";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
 			public const string Simulator_DefaultPayloadType = "Simulator_DefaultPayloadType";
 			public const string Simulator_DefaultPort = "Simulator_DefaultPort";

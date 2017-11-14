@@ -35,6 +35,16 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         TCP
     }
 
+    public enum CredentialsStorage
+    {
+        [EnumLabel(Simulator.CredentialsStorage_InCloud, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
+        InCloud,
+        [EnumLabel(Simulator.CredentialsStorage_OnDevice, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
+        OnDevice,
+        [EnumLabel(Simulator.CredentialsStorage_Prompt, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
+        Prompt
+    }
+
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
 
     public class Simulator : ModelBase,  IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity
@@ -49,7 +59,11 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public const string Transport_AMQP = "amqp";
         public const string Transport_UDP = "udp";
         public const string Transport_TCP = "tcp";
-       
+
+        public const string CredentialsStorage_InCloud = "incloud";
+        public const string CredentialsStorage_OnDevice = "incloud";
+        public const string CredentialsStorage_Prompt = "prompt";
+
         public Simulator()
         {
             MessageTemplates = new List<MessageTemplate>();
@@ -92,6 +106,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
 
+        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource:Resources.SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), IsRequired: true, WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
+        public EntityHeader<CredentialsStorage> CredentialStorage { get; set; }
 
         [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_DefaultTransport,FieldType:FieldTypes.Picker, EnumType:typeof(TransportTypes), ResourceType: typeof(SimulatorResources), IsRequired:true, WaterMark: SimulatorResources.Names.Transport_SelectTransportType)]
         public EntityHeader<TransportTypes> DefaultTransport { get; set; }

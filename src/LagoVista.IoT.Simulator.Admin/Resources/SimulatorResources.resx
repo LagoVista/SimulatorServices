@@ -438,4 +438,22 @@
   <data name="Simulator_BasicAuth" xml:space="preserve">
     <value>Use  Basic Auth</value>
   </data>
+  <data name="Simulator_CredentialsStorage" xml:space="preserve">
+    <value>Credentials Storage</value>
+  </data>
+  <data name="Simulator_CredentialsStorage_Help" xml:space="preserve">
+    <value>Select where you would like to store your credentials to connect to your server resource.   You can select to store them in the cloud, store them locally on your device or prompt for credentials each time you start the simulator.</value>
+  </data>
+  <data name="Simulator_CredentialsStorage_InCloud" xml:space="preserve">
+    <value>In Cloud</value>
+  </data>
+  <data name="Simulator_CredentialsStorage_OnDevice" xml:space="preserve">
+    <value>On Device</value>
+  </data>
+  <data name="Simulator_CredentialsStorage_Prompt" xml:space="preserve">
+    <value>Prompt</value>
+  </data>
+  <data name="Simulator_CredentialsStorage_Select" xml:space="preserve">
+    <value>-select credentials storage location-</value>
+  </data>
 </root>
