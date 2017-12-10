@@ -37,11 +37,11 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     public enum CredentialsStorage
     {
-        [EnumLabel(Simulator.CredentialsStorage_InCloud, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
+        [EnumLabel(Simulator.CredentialsStorage_InCloud, SimulatorResources.Names.Simulator_CredentialsStorage_InCloud, typeof(SimulatorResources))]
         InCloud,
-        [EnumLabel(Simulator.CredentialsStorage_OnDevice, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
+        [EnumLabel(Simulator.CredentialsStorage_OnDevice, SimulatorResources.Names.Simulator_CredentialsStorage_OnDevice, typeof(SimulatorResources))]
         OnDevice,
-        [EnumLabel(Simulator.CredentialsStorage_Prompt, SimulatorResources.Names.Transport_TCP, typeof(SimulatorResources))]
+        [EnumLabel(Simulator.CredentialsStorage_Prompt, SimulatorResources.Names.Simulator_CredentialsStorage_Prompt, typeof(SimulatorResources))]
         Prompt
     }
 
