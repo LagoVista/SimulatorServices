@@ -2,7 +2,7 @@
 using System.Reflection;
 
 //Resources:SimulatorResources:Common_Description
-namespace LagoVista.IoT.Simulator.Admin.Resources
+namespace LagoVista.IoT.Simulator.Models.Resources
 {
 	public class SimulatorResources
 	{
@@ -18,7 +18,7 @@ namespace LagoVista.IoT.Simulator.Admin.Resources
 			{
                 if (object.ReferenceEquals(_resourceManager, null)) 
 				{
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LagoVista.IoT.Simulator.Admin.Resources.SimulatorResources", typeof(SimulatorResources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LagoVista.IoT.Simulator.Models.SimulatorResources", typeof(SimulatorResources).GetTypeInfo().Assembly);
                     _resourceManager = temp;
                 }
                 return _resourceManager;

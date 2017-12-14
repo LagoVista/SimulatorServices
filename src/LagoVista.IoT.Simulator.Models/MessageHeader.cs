@@ -1,5 +1,4 @@
 ﻿using LagoVista.Core.Attributes;
-using LagoVista.IoT.Simulator.Admin.Resources;
 using System;
 using LagoVista.Core;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Text;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.Validation;
+using LagoVista.IoT.Simulator.Models.Resources;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
@@ -21,19 +21,19 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         public String Id { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_Key, HelpResource:Resources.SimulatorResources.Names.MessageHeader_Key_Help,  FieldType: FieldTypes.Key, RegExValidationMessageResource: Resources.SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired:true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageHeader_Key, HelpResource:SimulatorResources.Names.MessageHeader_Key_Help,  FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired:true)]
         public string Key { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_HeaderName, HelpResource: Resources.SimulatorResources.Names.MessageHeader_HeaderName_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageHeader_HeaderName, HelpResource: SimulatorResources.Names.MessageHeader_HeaderName_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string HeaderName { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageHeader_Value, HelpResource:Resources.SimulatorResources.Names.MessageHeader_Value_Help, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources), IsRequired:true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageHeader_Value, HelpResource:SimulatorResources.Names.MessageHeader_Value_Help, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources), IsRequired:true)]
         public string Value { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
         public IEntityHeader ToEntityHeader()

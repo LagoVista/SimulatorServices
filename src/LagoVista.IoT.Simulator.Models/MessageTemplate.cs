@@ -1,12 +1,12 @@
 ﻿using LagoVista.Core.Attributes;
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
-using LagoVista.IoT.Simulator.Admin.Resources;
 using System;
 using LagoVista.Core;
 using System.Collections.Generic;
 using System.Text;
 using LagoVista.Core.Validation;
+using LagoVista.IoT.Simulator.Models.Resources;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
@@ -65,75 +65,75 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         public String Id { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }        
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType, HelpResource: Resources.SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType:typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark:SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType, HelpResource: SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType:typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark:SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
         public EntityHeader<PaylodTypes> PayloadType { get; set; } 
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Key, HelpResource: Resources.SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: Resources.SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.Common_Key, HelpResource: SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Key { get; set; }   
         
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageHeader> MessageHeaders { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<KeyValuePair<string,string>> Properties { get; set; }
 
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageDynamicAttribute> DynamicAttributes { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PathAndQueryString, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_PathAndQueryString, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public String PathAndQueryString { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType_Text, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType_Text, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string TextPayload { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Message_PayloadType_Binary, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType_Binary, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string BinaryPayload { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.Simulator_QueueName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_QueueName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string QueueName { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_HttpVerb, FieldType: FieldTypes.Picker, EnumType: typeof(VerbTypes), WaterMark: SimulatorResources.Names.MessageTemplate_HttpVerb_Select, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_HttpVerb, FieldType: FieldTypes.Picker, EnumType: typeof(VerbTypes), WaterMark: SimulatorResources.Names.MessageTemplate_HttpVerb_Select, ResourceType: typeof(SimulatorResources))]
         public String HttpVerb { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_To, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_To, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String To { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_MessageId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_MessageId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String MessageId { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_ContentType, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_ContentType, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String ContentType { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String Topic { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_QOSLevel, FieldType: FieldTypes.Picker, EnumType: typeof(QualityOfServiceLevels), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.MessageTemplate_QOS_Select)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_QOSLevel, FieldType: FieldTypes.Picker, EnumType: typeof(QualityOfServiceLevels), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.MessageTemplate_QOS_Select)]
         public EntityHeader<QualityOfServiceLevels> QualityOfServiceLevel { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_RetainFlag, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_RetainFlag, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool RetainFlag { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendCR, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_AppendCR, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool AppendCR { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_AppendLF, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_AppendLF, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool AppendLF { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Transport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Transport_SelectTransportType, IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Transport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Transport_SelectTransportType, IsRequired: true)]
         public EntityHeader<TransportTypes> Transport { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_EndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_EndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string EndPoint { get; set; }
 
-        [FormField(LabelResource: Resources.SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int Port { get; set; }
 
         public IEntityHeader ToEntityHeader()
