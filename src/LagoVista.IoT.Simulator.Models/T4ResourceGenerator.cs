@@ -18,7 +18,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			{
                 if (object.ReferenceEquals(_resourceManager, null)) 
 				{
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LagoVista.IoT.Simulator.Models.SimulatorResources", typeof(SimulatorResources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LagoVista.IoT.Simulator.Models.Resources.SimulatorResources", typeof(SimulatorResources).GetTypeInfo().Assembly);
                     _resourceManager = temp;
                 }
                 return _resourceManager;
