@@ -136,7 +136,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultPayloadType, HelpResource: SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType: typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
         public EntityHeader<PaylodTypes> DefaultPayloadType { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Password, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String Password { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_UserName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
@@ -148,7 +148,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Simulator_AccessKeyName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AccessKeyName { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_AccessKey, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_AccessKey, FieldType: FieldTypes.Password, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AccessKey { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_AnonymousConnection, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources), IsRequired: false)]
