@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using LagoVista.Core.Models;
 using LagoVista.Core.Validation;
-using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 using LagoVista.IoT.Simulator.Admin.Repos;
 using LagoVista.Core.Managers;
 using static LagoVista.Core.Models.AuthorizeResult;
-using LagoVista.Core.PlatformSupport;
 using LagoVista.Core.Interfaces;
 using LagoVista.IoT.Logging.Loggers;
 
