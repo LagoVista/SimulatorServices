@@ -456,4 +456,7 @@
   <data name="Simulator_CredentialsStorage_Select" xml:space="preserve">
     <value>-select credentials storage location-</value>
   </data>
+  <data name="Message_PayloadType_GeoPath" xml:space="preserve">
+    <value>Geo Path</value>
+  </data>
 </root>

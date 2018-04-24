@@ -140,6 +140,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Message_PayloadType_Binary
 
 		public static string Message_PayloadType_Binary { get { return GetResourceString("Message_PayloadType_Binary"); } }
+//Resources:SimulatorResources:Message_PayloadType_GeoPath
+
+		public static string Message_PayloadType_GeoPath { get { return GetResourceString("Message_PayloadType_GeoPath"); } }
 //Resources:SimulatorResources:Message_PayloadType_Help
 
 		public static string Message_PayloadType_Help { get { return GetResourceString("Message_PayloadType_Help"); } }
@@ -424,6 +427,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Message_PathAndQueryString = "Message_PathAndQueryString";
 			public const string Message_PayloadType = "Message_PayloadType";
 			public const string Message_PayloadType_Binary = "Message_PayloadType_Binary";
+			public const string Message_PayloadType_GeoPath = "Message_PayloadType_GeoPath";
 			public const string Message_PayloadType_Help = "Message_PayloadType_Help";
 			public const string Message_PayloadType_Text = "Message_PayloadType_Text";
 			public const string Message_SelectPayloadType = "Message_SelectPayloadType";

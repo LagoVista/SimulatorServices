@@ -15,7 +15,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [EnumLabel(MessageTemplate.PayloadTypes_Text, SimulatorResources.Names.Message_PayloadType_Text, typeof(SimulatorResources))]
         String,
         [EnumLabel(MessageTemplate.PayloadTypes_Binary, SimulatorResources.Names.Message_PayloadType_Binary, typeof(SimulatorResources))]
-        Binary
+        Binary,
+        [EnumLabel(MessageTemplate.PayloadTypes_GeoPath, SimulatorResources.Names.Message_PayloadType_GeoPath, typeof(SimulatorResources))]
+        GeoPath,
     }
 
     public enum VerbTypes
@@ -45,6 +47,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     {
         public const string PayloadTypes_Text = "text";
         public const string PayloadTypes_Binary = "binary";
+        public const string PayloadTypes_GeoPath = "geopath";
 
         public const string HttpVerb_GET = "GET";
         public const string HttpVerb_POST = "POST";
