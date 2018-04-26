@@ -215,6 +215,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageTemplate_EndPoint
 
 		public static string MessageTemplate_EndPoint { get { return GetResourceString("MessageTemplate_EndPoint"); } }
+//Resources:SimulatorResources:MessageTemplate_GeoPoints
+
+		public static string MessageTemplate_GeoPoints { get { return GetResourceString("MessageTemplate_GeoPoints"); } }
 //Resources:SimulatorResources:MessageTemplate_Help
 
 		public static string MessageTemplate_Help { get { return GetResourceString("MessageTemplate_Help"); } }
@@ -452,6 +455,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string MessageTemplate_Description = "MessageTemplate_Description";
 			public const string MessageTemplate_DynamicAttributes = "MessageTemplate_DynamicAttributes";
 			public const string MessageTemplate_EndPoint = "MessageTemplate_EndPoint";
+			public const string MessageTemplate_GeoPoints = "MessageTemplate_GeoPoints";
 			public const string MessageTemplate_Help = "MessageTemplate_Help";
 			public const string MessageTemplate_HttpVerb = "MessageTemplate_HttpVerb";
 			public const string MessageTemplate_HttpVerb_Select = "MessageTemplate_HttpVerb_Select";

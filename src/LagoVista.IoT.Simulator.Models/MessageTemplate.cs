@@ -63,6 +63,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             MessageHeaders = new List<MessageHeader>();
             Properties = new List<KeyValuePair<string, string>>();
             DynamicAttributes = new List<MessageDynamicAttribute>();
+            GeoPoints = new List<SimulatorGeoLocation>();
             Id = Guid.NewGuid().ToId();
         }
 
@@ -135,6 +136,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_EndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string EndPoint { get; set; }
+
+    
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_GeoPoints, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        public List<SimulatorGeoLocation> GeoPoints { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int Port { get; set; }

@@ -7,6 +7,10 @@
 *.userosscache
 *.sln.docstates
 
+# NuvIoT temp files
+*.csproj.bak
+*.nuspec.txt
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

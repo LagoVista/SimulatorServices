@@ -459,4 +459,7 @@
   <data name="Message_PayloadType_GeoPath" xml:space="preserve">
     <value>Geo Path</value>
   </data>
+  <data name="MessageTemplate_GeoPoints" xml:space="preserve">
+    <value>Geo Points</value>
+  </data>
 </root>
