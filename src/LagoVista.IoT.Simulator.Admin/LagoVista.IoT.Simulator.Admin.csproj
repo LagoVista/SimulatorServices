@@ -3,15 +3,15 @@
     <TargetFramework>netstandard1.2</TargetFramework>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
     <FileVersion>1.2.0.0</FileVersion>
-    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
+    <NetStandardImplicitPackageVersion>2.0.3</NetStandardImplicitPackageVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LagoVista.Core" Version="1.2.342-alpha1623" />
-    <PackageReference Include="LagoVista.Core.Authentication" Version="1.2.342-alpha1623" />
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="1.2.342-alpha1623" />
-    <PackageReference Include="LagoVista.IoT.Logging" Version="1.2.342-alpha1623" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="1.2.342-alpha1623" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="LagoVista.Core" Version="2.1.435-beta1758" />
+    <PackageReference Include="LagoVista.Core.Authentication" Version="2.1.435-beta1758" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="2.1.435-beta1758" />
+    <PackageReference Include="LagoVista.IoT.Logging" Version="2.1.435-beta1758" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="2.1.435-beta1758" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
