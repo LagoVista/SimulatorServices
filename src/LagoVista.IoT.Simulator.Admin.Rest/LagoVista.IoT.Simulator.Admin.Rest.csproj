@@ -14,9 +14,9 @@
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LagoVista.IoT.Logging" Version="2.1.435-beta1758" />
-    <PackageReference Include="LagoVista.IoT.Web.Common" Version="2.1.435-beta1758" />
-    <PackageReference Include="LagoVista.UserAdmin" Version="2.1.435-beta1758" />
+    <PackageReference Include="LagoVista.IoT.Logging" Version="2.1.540-beta1400" />
+    <PackageReference Include="LagoVista.IoT.Web.Common" Version="2.1.540-beta1400" />
+    <PackageReference Include="LagoVista.UserAdmin" Version="2.1.540-beta1400" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
@@ -24,5 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LagoVista.IoT.Simulator.Admin\LagoVista.IoT.Simulator.Admin.csproj" />
     <ProjectReference Include="..\LagoVista.IoT.Simulator.CloudRepos\LagoVista.IoT.Simulator.CloudRepos.csproj" />
+    <ProjectReference Include="..\LagoVista.IoT.Simulator.Models\LagoVista.IoT.Simulator.Models.csproj" />
   </ItemGroup>
 </Project>
