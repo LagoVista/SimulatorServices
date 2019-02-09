@@ -31,7 +31,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
         public async Task<InvokeResult> DeleteSimulatorAsync(string id, EntityHeader org, EntityHeader user)
         {
             var simulator = await _simulatorRepo.GetSimulatorAsync(id);
-            await AuthorizeAsync(simulator, AuthorizeActions.Create, user, org);
+            await AuthorizeAsync(simulator, AuthorizeActions.Delete, user, org);
             await ConfirmNoDepenenciesAsync(simulator);
             await _simulatorRepo.DeleteSimulatorAsync(id);
             return InvokeResult.Success;

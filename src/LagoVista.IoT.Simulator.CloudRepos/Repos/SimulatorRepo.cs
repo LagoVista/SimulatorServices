@@ -1,12 +1,9 @@
 ﻿using LagoVista.IoT.Simulator.Admin.Repos;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 using LagoVista.CloudStorage.DocumentDB;
-using LagoVista.Core.PlatformSupport;
 using LagoVista.IoT.Logging.Loggers;
 
 namespace LagoVista.IoT.Simulator.CloudRepos.Repos
