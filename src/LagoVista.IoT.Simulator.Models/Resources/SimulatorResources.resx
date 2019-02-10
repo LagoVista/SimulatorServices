@@ -462,4 +462,76 @@
   <data name="MessageTemplate_GeoPoints" xml:space="preserve">
     <value>Geo Points</value>
   </data>
+  <data name="SimulatorNetwork_Description" xml:space="preserve">
+    <value>A Simulator Network is a collection of simulators that can be instantiated and send messages at specific intervals</value>
+  </data>
+  <data name="SimulatorNetwork_Help" xml:space="preserve">
+    <value>A Simulator Network is a collection of simulators that can be instantiated and send messages at specific intervals</value>
+  </data>
+  <data name="SimulatorNetwork_Simulators" xml:space="preserve">
+    <value>Simulators</value>
+  </data>
+  <data name="SimulatorNetwork_Title" xml:space="preserve">
+    <value>Simulator Network</value>
+  </data>
+  <data name="MessageTransmissionPlan_Description" xml:space="preserve">
+    <value>A plan for how a simulator instance should send messages</value>
+  </data>
+  <data name="MessageTransmissionPlan_Help" xml:space="preserve">
+    <value>A plan for how a simulator instance should send messages</value>
+  </data>
+  <data name="MessageTransmissionPlan_MessageTemplate" xml:space="preserve">
+    <value>Message Template</value>
+  </data>
+  <data name="MessageTransmissionPlan_PeriodMS" xml:space="preserve">
+    <value>Period (ms)</value>
+  </data>
+  <data name="MessageTransmissionPlan_Title" xml:space="preserve">
+    <value>Message Transmission Plan</value>
+  </data>
+  <data name="MessageTransmissionPlan_Values" xml:space="preserve">
+    <value>Values</value>
+  </data>
+  <data name="SimulatorInstance_Description" xml:space="preserve">
+    <value>An instance of a simulator that should be part of a simulator network</value>
+  </data>
+  <data name="SimulatorInstance_DeviceId" xml:space="preserve">
+    <value>Device Id</value>
+  </data>
+  <data name="SimulatorInstance_Help" xml:space="preserve">
+    <value>An instance of a simulator that should be part of a simulator network</value>
+  </data>
+  <data name="SimulatorInstance_Simulator" xml:space="preserve">
+    <value>Simulator</value>
+  </data>
+  <data name="SimulatorInstance_Title" xml:space="preserve">
+    <value>Simulator Instance</value>
+  </data>
+  <data name="SimulatorInstance_TransmissionPlan" xml:space="preserve">
+    <value>Transmission Plan</value>
+  </data>
+  <data name="MessageValue_Attribute" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
+  <data name="MessageValue_Description" xml:space="preserve">
+    <value>A message value is a customized value that your simulator instance will send with this transmission plan</value>
+  </data>
+  <data name="MessageValue_Help" xml:space="preserve">
+    <value>A message value is a customized value that your simulator instance will send with this transmission plan</value>
+  </data>
+  <data name="MessageValue_Title" xml:space="preserve">
+    <value>Message Value</value>
+  </data>
+  <data name="MessageValue_Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="MessageTransmissionPlan_SelectMessage" xml:space="preserve">
+    <value>-select message-</value>
+  </data>
+  <data name="MessageValue_SelectAttribute" xml:space="preserve">
+    <value>-select attribute-</value>
+  </data>
+  <data name="SimulatorInstance_SelectSimulator" xml:space="preserve">
+    <value>-select simulator-</value>
+  </data>
 </root>

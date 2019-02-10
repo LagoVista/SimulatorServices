@@ -71,6 +71,54 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         }
 
         /// <summary>
+        /// Simulator Network - Factory
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/network/factory")]
+        public DetailResponse<SimulatorNetwork> CreateSimulatorNetwork()
+        {
+            var simulator = DetailResponse<Models.SimulatorNetwork>.Create();
+            SetOwnedProperties(simulator.Model);
+            SetAuditProperties(simulator.Model);
+
+            return simulator;
+        }
+
+        /// <summary>
+        /// Simulator Instance - Factory
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/instance/factory")]
+        public DetailResponse<SimulatorInstance> CreateSimulatorInstance()
+        {
+            var simulator = DetailResponse<Models.SimulatorInstance>.Create();
+            return simulator;
+        }
+
+        /// <summary>
+        /// Simulator Transmission Plan - Factory
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/instance/transmissionplan/factory")]
+        public DetailResponse<MessageTransmissionPlan> CreateTransmissionPlan()
+        {
+            var simulator = DetailResponse<Models.MessageTransmissionPlan>.Create();
+            return simulator;
+        }
+
+        /// <summary>
+        /// Simulator Transmission Plan - Factory
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/instance/transmissionplan/messagevalue/factory")]
+        public DetailResponse<MessageValue> CreateMessageAttributeValue()
+        {
+            var simulator = DetailResponse<Models.MessageValue>.Create();
+            return simulator;
+        }
+
+
+        /// <summary>
         /// Simulator Network - Get for Org
         /// </summary>
         /// <returns></returns>

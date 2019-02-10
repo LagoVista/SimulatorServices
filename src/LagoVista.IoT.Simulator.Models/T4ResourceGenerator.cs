@@ -269,6 +269,45 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageTemplate_Transport
 
 		public static string MessageTemplate_Transport { get { return GetResourceString("MessageTemplate_Transport"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_Description
+
+		public static string MessageTransmissionPlan_Description { get { return GetResourceString("MessageTransmissionPlan_Description"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_Help
+
+		public static string MessageTransmissionPlan_Help { get { return GetResourceString("MessageTransmissionPlan_Help"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_MessageTemplate
+
+		public static string MessageTransmissionPlan_MessageTemplate { get { return GetResourceString("MessageTransmissionPlan_MessageTemplate"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_PeriodMS
+
+		public static string MessageTransmissionPlan_PeriodMS { get { return GetResourceString("MessageTransmissionPlan_PeriodMS"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_SelectMessage
+
+		public static string MessageTransmissionPlan_SelectMessage { get { return GetResourceString("MessageTransmissionPlan_SelectMessage"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_Title
+
+		public static string MessageTransmissionPlan_Title { get { return GetResourceString("MessageTransmissionPlan_Title"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_Values
+
+		public static string MessageTransmissionPlan_Values { get { return GetResourceString("MessageTransmissionPlan_Values"); } }
+//Resources:SimulatorResources:MessageValue_Attribute
+
+		public static string MessageValue_Attribute { get { return GetResourceString("MessageValue_Attribute"); } }
+//Resources:SimulatorResources:MessageValue_Description
+
+		public static string MessageValue_Description { get { return GetResourceString("MessageValue_Description"); } }
+//Resources:SimulatorResources:MessageValue_Help
+
+		public static string MessageValue_Help { get { return GetResourceString("MessageValue_Help"); } }
+//Resources:SimulatorResources:MessageValue_SelectAttribute
+
+		public static string MessageValue_SelectAttribute { get { return GetResourceString("MessageValue_SelectAttribute"); } }
+//Resources:SimulatorResources:MessageValue_Title
+
+		public static string MessageValue_Title { get { return GetResourceString("MessageValue_Title"); } }
+//Resources:SimulatorResources:MessageValue_Value
+
+		public static string MessageValue_Value { get { return GetResourceString("MessageValue_Value"); } }
 //Resources:SimulatorResources:Simulator_AccessKey
 
 		public static string Simulator_AccessKey { get { return GetResourceString("Simulator_AccessKey"); } }
@@ -365,6 +404,39 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_UserName
 
 		public static string Simulator_UserName { get { return GetResourceString("Simulator_UserName"); } }
+//Resources:SimulatorResources:SimulatorInstance_Description
+
+		public static string SimulatorInstance_Description { get { return GetResourceString("SimulatorInstance_Description"); } }
+//Resources:SimulatorResources:SimulatorInstance_DeviceId
+
+		public static string SimulatorInstance_DeviceId { get { return GetResourceString("SimulatorInstance_DeviceId"); } }
+//Resources:SimulatorResources:SimulatorInstance_Help
+
+		public static string SimulatorInstance_Help { get { return GetResourceString("SimulatorInstance_Help"); } }
+//Resources:SimulatorResources:SimulatorInstance_SelectSimulator
+
+		public static string SimulatorInstance_SelectSimulator { get { return GetResourceString("SimulatorInstance_SelectSimulator"); } }
+//Resources:SimulatorResources:SimulatorInstance_Simulator
+
+		public static string SimulatorInstance_Simulator { get { return GetResourceString("SimulatorInstance_Simulator"); } }
+//Resources:SimulatorResources:SimulatorInstance_Title
+
+		public static string SimulatorInstance_Title { get { return GetResourceString("SimulatorInstance_Title"); } }
+//Resources:SimulatorResources:SimulatorInstance_TransmissionPlan
+
+		public static string SimulatorInstance_TransmissionPlan { get { return GetResourceString("SimulatorInstance_TransmissionPlan"); } }
+//Resources:SimulatorResources:SimulatorNetwork_Description
+
+		public static string SimulatorNetwork_Description { get { return GetResourceString("SimulatorNetwork_Description"); } }
+//Resources:SimulatorResources:SimulatorNetwork_Help
+
+		public static string SimulatorNetwork_Help { get { return GetResourceString("SimulatorNetwork_Help"); } }
+//Resources:SimulatorResources:SimulatorNetwork_Simulators
+
+		public static string SimulatorNetwork_Simulators { get { return GetResourceString("SimulatorNetwork_Simulators"); } }
+//Resources:SimulatorResources:SimulatorNetwork_Title
+
+		public static string SimulatorNetwork_Title { get { return GetResourceString("SimulatorNetwork_Title"); } }
 //Resources:SimulatorResources:Transport_AMQP
 
 		public static string Transport_AMQP { get { return GetResourceString("Transport_AMQP"); } }
@@ -473,6 +545,19 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string MessageTemplate_To = "MessageTemplate_To";
 			public const string MessageTemplate_Topic = "MessageTemplate_Topic";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
+			public const string MessageTransmissionPlan_Description = "MessageTransmissionPlan_Description";
+			public const string MessageTransmissionPlan_Help = "MessageTransmissionPlan_Help";
+			public const string MessageTransmissionPlan_MessageTemplate = "MessageTransmissionPlan_MessageTemplate";
+			public const string MessageTransmissionPlan_PeriodMS = "MessageTransmissionPlan_PeriodMS";
+			public const string MessageTransmissionPlan_SelectMessage = "MessageTransmissionPlan_SelectMessage";
+			public const string MessageTransmissionPlan_Title = "MessageTransmissionPlan_Title";
+			public const string MessageTransmissionPlan_Values = "MessageTransmissionPlan_Values";
+			public const string MessageValue_Attribute = "MessageValue_Attribute";
+			public const string MessageValue_Description = "MessageValue_Description";
+			public const string MessageValue_Help = "MessageValue_Help";
+			public const string MessageValue_SelectAttribute = "MessageValue_SelectAttribute";
+			public const string MessageValue_Title = "MessageValue_Title";
+			public const string MessageValue_Value = "MessageValue_Value";
 			public const string Simulator_AccessKey = "Simulator_AccessKey";
 			public const string Simulator_AccessKeyName = "Simulator_AccessKeyName";
 			public const string Simulator_AnonymousConnection = "Simulator_AnonymousConnection";
@@ -505,6 +590,17 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_TLSSSL = "Simulator_TLSSSL";
 			public const string Simulator_Topic = "Simulator_Topic";
 			public const string Simulator_UserName = "Simulator_UserName";
+			public const string SimulatorInstance_Description = "SimulatorInstance_Description";
+			public const string SimulatorInstance_DeviceId = "SimulatorInstance_DeviceId";
+			public const string SimulatorInstance_Help = "SimulatorInstance_Help";
+			public const string SimulatorInstance_SelectSimulator = "SimulatorInstance_SelectSimulator";
+			public const string SimulatorInstance_Simulator = "SimulatorInstance_Simulator";
+			public const string SimulatorInstance_Title = "SimulatorInstance_Title";
+			public const string SimulatorInstance_TransmissionPlan = "SimulatorInstance_TransmissionPlan";
+			public const string SimulatorNetwork_Description = "SimulatorNetwork_Description";
+			public const string SimulatorNetwork_Help = "SimulatorNetwork_Help";
+			public const string SimulatorNetwork_Simulators = "SimulatorNetwork_Simulators";
+			public const string SimulatorNetwork_Title = "SimulatorNetwork_Title";
 			public const string Transport_AMQP = "Transport_AMQP";
 			public const string Transport_AzureEventHub = "Transport_AzureEventHub";
 			public const string Transport_AzureIoTHub = "Transport_AzureIoTHub";
