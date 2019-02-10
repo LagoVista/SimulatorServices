@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
+    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="2.1.635-beta1837" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.19.0" />
+    <PackageReference Include="Microsoft.Azure.Devices.Shared" Version="1.15.2" />
+    <PackageReference Include="Microsoft.Azure.EventHubs" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="1.0.0" />
+    <PackageReference Include="LagoVista.MQTT" Version="1.2.472-alpha1141" />
+    <PackageReference Include="LagoVista.Client.Core" Version="1.2.633-alpha1158" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\LagoVista.IoT.Simulator.Models\LagoVista.IoT.Simulator.Models.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="SimulatorRuntimeResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SimulatorRuntimeResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="SimulatorRuntimeResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SimulatorRuntimeResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
