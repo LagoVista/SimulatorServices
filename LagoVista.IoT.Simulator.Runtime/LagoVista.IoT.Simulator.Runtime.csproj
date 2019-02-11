@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Azure.Devices.Shared" Version="1.15.2" />
     <PackageReference Include="Microsoft.Azure.EventHubs" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="1.0.0" />
-    <PackageReference Include="LagoVista.MQTT" Version="1.2.472-alpha1141" />
+    <PackageReference Include="LagoVista.MQTT" Version="1.2.633-alpha1219" />
     <PackageReference Include="LagoVista.Client.Core" Version="1.2.633-alpha1158" />
   </ItemGroup>
   <ItemGroup>
