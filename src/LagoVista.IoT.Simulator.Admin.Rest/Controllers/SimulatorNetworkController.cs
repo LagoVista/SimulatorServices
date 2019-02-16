@@ -65,7 +65,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("/api/simulator/network/{id}")]
+        [HttpGet("/api/simulator/network/{id}/secure")]
         public async Task<DetailResponse<SimulatorNetwork>> GetSimulatorNetworkWithKeysAsync(string id)
         {
             var simNetwork = await _simulatorNetworkManager.GetSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader, true);
@@ -75,7 +75,6 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// <summary>
         /// Simulator Network - With Keys
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("/api/simulator/network/key/generate")]
         public string GenerateKey()
