@@ -16,16 +16,29 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
     public class SimulatorNetworkManager : ManagerBase, ISimulatorNetworkManager
     {
         ISimulatorNetworkRepo _repo;
+        ISecureStorage _secureStorage;
 
-        public SimulatorNetworkManager(ISimulatorNetworkRepo simulatorRepo, IAdminLogger logger, IAppConfig appConfig, IDependencyManager depmanager, ISecurity security) :
+        public SimulatorNetworkManager(ISimulatorNetworkRepo simulatorRepo, ISecureStorage secureStorage, IAdminLogger logger, IAppConfig appConfig, IDependencyManager depmanager, ISecurity security) :
             base(logger, appConfig, depmanager, security)
         {
             _repo = simulatorRepo;
+            _secureStorage = secureStorage;
         }
     
         public async Task<InvokeResult> AddSimulatorNetworkAsync(SimulatorNetwork simulatorNetwork, EntityHeader org, EntityHeader user)
         {
             await AuthorizeAsync(simulatorNetwork, AuthorizeActions.Create, user, org);
+
+            var addResult = await _secureStorage.AddSecretAsync(org, simulatorNetwork.SharedAccessKey1);
+            if (!addResult.Successful) return addResult.ToInvokeResult();
+            simulatorNetwork.SharedAccessKey1SecretId = addResult.Result;
+            simulatorNetwork.SharedAccessKey1 = null;
+
+            addResult = await _secureStorage.AddSecretAsync(org, simulatorNetwork.SharedAccessKey2);
+            if (!addResult.Successful) return addResult.ToInvokeResult();
+            simulatorNetwork.SharedAccessKey2SecretId = addResult.Result;
+            simulatorNetwork.SharedAccessKey2 = null;
+
             ValidationCheck(simulatorNetwork, Actions.Create);
             await _repo.AddSimulatorNetworkAsync(simulatorNetwork);
             return InvokeResult.Success;
@@ -43,14 +56,27 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
             var simulator = await _repo.GetSimulatorNetworkAsync(id);
             await AuthorizeAsync(simulator, AuthorizeActions.Delete, user, org);
             await ConfirmNoDepenenciesAsync(simulator);
-            await _repo.GetSimulatorNetworkAsync(id);
+            await _repo.DeleteSimulatorNetworkAsync(id);
+
             return InvokeResult.Success;
         }
 
-        public async Task<SimulatorNetwork> GetSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user)
+        public async Task<SimulatorNetwork> GetSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false)
         {
             var simulator = await _repo.GetSimulatorNetworkAsync(id);
             await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
+
+            if(loadSecrets)
+            {
+                var keyResult =  await _secureStorage.GetSecretAsync(org, simulator.SharedAccessKey1SecretId, user);
+                if (!keyResult.Successful) throw new Exception("Could not find secure id for simulatorNetwork.SharedAccessKey1SecretId");
+                simulator.SharedAccessKey1 = keyResult.Result;
+
+                keyResult = await _secureStorage.GetSecretAsync(org, simulator.SharedAccessKey2SecretId, user);
+                if (!keyResult.Successful) throw new Exception("Could not find secure id for simulatorNetwork.SharedAccessKey2SecretId");
+                simulator.SharedAccessKey2 = keyResult.Result;
+            }
+
             return simulator;
         }
 
@@ -68,7 +94,29 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
         public async Task<InvokeResult> UpdateSimulatorNetworkAsync(SimulatorNetwork simulatorNetwork, EntityHeader org, EntityHeader user)
         {
             await AuthorizeAsync(simulatorNetwork, AuthorizeActions.Update, user, org);
+
             ValidationCheck(simulatorNetwork, Actions.Update);
+
+            if (!String.IsNullOrEmpty(simulatorNetwork.SharedAccessKey1))
+            {
+                var addResult = await _secureStorage.AddSecretAsync(org, simulatorNetwork.SharedAccessKey1);
+                await _secureStorage.RemoveSecretAsync(org, simulatorNetwork.SharedAccessKey1SecretId);
+                if (!addResult.Successful) return addResult.ToInvokeResult();
+                simulatorNetwork.SharedAccessKey1SecretId = addResult.Result;
+                simulatorNetwork.SharedAccessKey1 = null;
+            }
+
+            if (!String.IsNullOrEmpty(simulatorNetwork.SharedAccessKey2))
+            {
+                await _secureStorage.RemoveSecretAsync(org, simulatorNetwork.SharedAccessKey2SecretId);
+
+                var addResult = await _secureStorage.AddSecretAsync(org, simulatorNetwork.SharedAccessKey2);
+                if (!addResult.Successful) return addResult.ToInvokeResult();
+                simulatorNetwork.SharedAccessKey2SecretId = addResult.Result;
+                simulatorNetwork.SharedAccessKey2 = null;
+            }
+
+            
             await _repo.UpdateSimulatorNetworkAsync(simulatorNetwork);
             return InvokeResult.Success;
         }

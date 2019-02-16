@@ -7,7 +7,9 @@ namespace LagoVista.IoT.Simulator.Runtime
 {
     public class SimulatorRuntimeManager
     {
-        INotificationPublisher _notificationPublisher;       
+        INotificationPublisher _notificationPublisher;
+
+        public List<SimulatorRuntime> _runtimes = new List<SimulatorRuntime>();
  
         public SimulatorRuntimeManager(INotificationPublisher notificationPublisher)
         {

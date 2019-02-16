@@ -317,6 +317,12 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_AnonymousConnection
 
 		public static string Simulator_AnonymousConnection { get { return GetResourceString("Simulator_AnonymousConnection"); } }
+//Resources:SimulatorResources:Simulator_AuthHeader
+
+		public static string Simulator_AuthHeader { get { return GetResourceString("Simulator_AuthHeader"); } }
+//Resources:SimulatorResources:Simulator_AuthHeader_Help
+
+		public static string Simulator_AuthHeader_Help { get { return GetResourceString("Simulator_AuthHeader_Help"); } }
 //Resources:SimulatorResources:Simulator_BasicAuth
 
 		public static string Simulator_BasicAuth { get { return GetResourceString("Simulator_BasicAuth"); } }
@@ -425,6 +431,15 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:SimulatorInstance_TransmissionPlan
 
 		public static string SimulatorInstance_TransmissionPlan { get { return GetResourceString("SimulatorInstance_TransmissionPlan"); } }
+//Resources:SimulatorResources:SimulatorNetwork_AccessKey_Help
+
+		public static string SimulatorNetwork_AccessKey_Help { get { return GetResourceString("SimulatorNetwork_AccessKey_Help"); } }
+//Resources:SimulatorResources:SimulatorNetwork_AccessKey1
+
+		public static string SimulatorNetwork_AccessKey1 { get { return GetResourceString("SimulatorNetwork_AccessKey1"); } }
+//Resources:SimulatorResources:SimulatorNetwork_AccessKey2
+
+		public static string SimulatorNetwork_AccessKey2 { get { return GetResourceString("SimulatorNetwork_AccessKey2"); } }
 //Resources:SimulatorResources:SimulatorNetwork_Description
 
 		public static string SimulatorNetwork_Description { get { return GetResourceString("SimulatorNetwork_Description"); } }
@@ -561,6 +576,8 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_AccessKey = "Simulator_AccessKey";
 			public const string Simulator_AccessKeyName = "Simulator_AccessKeyName";
 			public const string Simulator_AnonymousConnection = "Simulator_AnonymousConnection";
+			public const string Simulator_AuthHeader = "Simulator_AuthHeader";
+			public const string Simulator_AuthHeader_Help = "Simulator_AuthHeader_Help";
 			public const string Simulator_BasicAuth = "Simulator_BasicAuth";
 			public const string Simulator_ConnectionString = "Simulator_ConnectionString";
 			public const string Simulator_CredentialsStorage = "Simulator_CredentialsStorage";
@@ -597,6 +614,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string SimulatorInstance_Simulator = "SimulatorInstance_Simulator";
 			public const string SimulatorInstance_Title = "SimulatorInstance_Title";
 			public const string SimulatorInstance_TransmissionPlan = "SimulatorInstance_TransmissionPlan";
+			public const string SimulatorNetwork_AccessKey_Help = "SimulatorNetwork_AccessKey_Help";
+			public const string SimulatorNetwork_AccessKey1 = "SimulatorNetwork_AccessKey1";
+			public const string SimulatorNetwork_AccessKey2 = "SimulatorNetwork_AccessKey2";
 			public const string SimulatorNetwork_Description = "SimulatorNetwork_Description";
 			public const string SimulatorNetwork_Help = "SimulatorNetwork_Help";
 			public const string SimulatorNetwork_Simulators = "SimulatorNetwork_Simulators";

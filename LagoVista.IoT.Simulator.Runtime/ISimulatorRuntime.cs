@@ -1,8 +1,6 @@
 ﻿using LagoVista.Core.Validation;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LagoVista.IoT.Simulator.Runtime
@@ -11,8 +9,8 @@ namespace LagoVista.IoT.Simulator.Runtime
     {
         Task<InvokeResult> ConnectAsync();
 
-        Task<String> Send(MessageTemplate messageTemplate);
+        Task<InvokeResult<String>> SendAsync(MessageTemplate messageTemplate);
 
-        Task DisconnectAsync();
+        Task<InvokeResult> DisconnectAsync();
     }
 }

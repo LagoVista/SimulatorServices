@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using LagoVista.Core;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,6 +61,30 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         }
 
         /// <summary>
+        /// Simulator Network - With Keys
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/network/{id}")]
+        public async Task<DetailResponse<SimulatorNetwork>> GetSimulatorNetworkWithKeysAsync(string id)
+        {
+            var simNetwork = await _simulatorNetworkManager.GetSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader, true);
+            return DetailResponse<Models.SimulatorNetwork>.Create(simNetwork);
+        }
+
+        /// <summary>
+        /// Simulator Network - With Keys
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/api/simulator/network/key/generate")]
+        public string GenerateKey()
+        {
+            return GenerateRandomKey();
+        }
+
+
+        /// <summary>
         /// Simualtor Network - Delete
         /// </summary>
         /// <param name="id"></param>
@@ -70,6 +95,16 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             return _simulatorNetworkManager.DeleteSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader);
         }
 
+        static Random _rnd = new Random();
+
+        protected string GenerateRandomKey(byte len = 64)
+        {
+            var buffer = new byte[len];
+            _rnd.NextBytes(buffer);
+            return Convert.ToBase64String(buffer);
+        }
+
+
         /// <summary>
         /// Simulator Network - Factory
         /// </summary>
@@ -78,6 +113,10 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         public DetailResponse<SimulatorNetwork> CreateSimulatorNetwork()
         {
             var simulator = DetailResponse<Models.SimulatorNetwork>.Create();
+
+            simulator.Model.SharedAccessKey1 = GenerateRandomKey();
+            simulator.Model.SharedAccessKey2 = GenerateRandomKey();
+
             SetOwnedProperties(simulator.Model);
             SetAuditProperties(simulator.Model);
 

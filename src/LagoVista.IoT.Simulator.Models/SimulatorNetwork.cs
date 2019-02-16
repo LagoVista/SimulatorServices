@@ -43,6 +43,18 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_Simulators, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<SimulatorInstance> Simulators { get; set; }
 
+
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey1, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsUserEditable:false,IsRequired: false)]
+        public string SharedAccessKey1 { get; set; }
+
+        public string SharedAccessKey1SecretId { get; set; }
+
+
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey2, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsUserEditable: false, IsRequired: false)]
+        public string SharedAccessKey2 { get; set; }
+
+        public string SharedAccessKey2SecretId { get; set; }
+
         public string CreationDate { get; set; }
         public string LastUpdatedDate { get; set; }
         public EntityHeader CreatedBy { get; set; }

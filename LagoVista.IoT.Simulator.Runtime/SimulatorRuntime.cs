@@ -1,9 +1,12 @@
-﻿using LagoVista.Client.Core;
+﻿using Amqp;
+using LagoVista.Client.Core;
 using LagoVista.Core;
 using LagoVista.Core.Models;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Validation;
+using LagoVista.IoT.Logging.Loggers;
+using LagoVista.IoT.Runtime.Core.Services;
 using LagoVista.IoT.Simulator.Admin.Models;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.EventHubs;
@@ -20,11 +23,14 @@ using System.Threading.Tasks;
 
 namespace LagoVista.IoT.Simulator.Runtime
 {
-    public class SimulatorRuntime : ISimulatorRuntime
+    public partial class SimulatorRuntime : ISimulatorRuntime
     {
         LagoVista.IoT.Simulator.Admin.Models.Simulator _simulator;
 
         DeviceClient _azureIoTHubClient;
+        private static Connection _amqpConnection;
+        private static Session _amqpSession;
+
         IMQTTDeviceClient _mqttClient;
         ITCPClient _tcpClient;
         IUDPClient _udpClient;
@@ -36,241 +42,29 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         private DateTime _connected;
         private DateTime _lastAccess;
-        
 
-        public SimulatorRuntime(ISimulatorRuntimeServices runtimeService, LagoVista.IoT.Simulator.Admin.Models.Simulator simulator)
+        IAdminLogger _adminLogger;
+
+        bool _listening;
+
+        INotificationPublisher _notificationPublisher;
+
+        public SimulatorRuntime(ISimulatorRuntimeServices runtimeService, INotificationPublisher notificationPublisher, IAdminLogger adminLogger, LagoVista.IoT.Simulator.Admin.Models.Simulator simulator)
         {
             _runtimeService = runtimeService;
-
+            _notificationPublisher = notificationPublisher;
             _connected = DateTime.UtcNow;
             _lastAccess = _connected;
 
             _simulator = simulator;
 
+            _adminLogger = adminLogger;
+
             InstanceId = Guid.NewGuid().ToId();
         }
 
-        private String BuildRequestContent(MessageTemplate messageTemplate)
-        {
-            var sentContent = new StringBuilder();
+     
 
-            switch (messageTemplate.Transport.Value)
-            {
-
-                case TransportTypes.TCP:
-                    sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
-                    sentContent.AppendLine($"Port   : {messageTemplate.Port}");
-                    sentContent.AppendLine($"Body");
-                    sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
-                    break;
-                case TransportTypes.UDP:
-                    sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
-                    sentContent.AppendLine($"Port   : {messageTemplate.Port}");
-                    sentContent.AppendLine($"Body");
-                    sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
-                    break;
-                case TransportTypes.AzureIoTHub:
-                    sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
-                    sentContent.AppendLine($"Port   : {messageTemplate.Port}");
-                    sentContent.AppendLine($"Body");
-                    sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
-                    break;
-
-                case TransportTypes.AzureEventHub:
-                    sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
-                    sentContent.AppendLine($"Body");
-                    sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
-                    break;
-
-                case TransportTypes.AzureServiceBus:
-                    sentContent.AppendLine($"Host   : {messageTemplate.Name}");
-                    //sentContent.AppendLine($"Queue   : {MsgTemplate.Qu}");
-                    sentContent.AppendLine($"Body");
-                    sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
-                    break;
-                case TransportTypes.MQTT:
-                    sentContent.AppendLine($"Host         : {_simulator.DefaultEndPoint}");
-                    sentContent.AppendLine($"Port         : {messageTemplate.Port}");
-                    sentContent.AppendLine($"Topics");
-                    sentContent.AppendLine($"Publish      : {ReplaceTokens(messageTemplate, messageTemplate.Topic)}");
-                    sentContent.AppendLine($"Subscription : {ReplaceTokens(messageTemplate, _simulator.Subscription)}");
-
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
-                    break;
-                case TransportTypes.RestHttps:
-                case TransportTypes.RestHttp:
-                    {
-                        var protocol = messageTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                        var uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
-                        sentContent.AppendLine($"Method       : {messageTemplate.HttpVerb}");
-                        sentContent.AppendLine($"Endpoint     : {uri}");
-                        var contentType = String.IsNullOrEmpty(messageTemplate.ContentType) ? "text/plain" : messageTemplate.ContentType;
-                        sentContent.AppendLine($"Content Type : {contentType}");
-
-                        if (_simulator.BasicAuth)
-                        {
-                            var authCreds = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(_simulator.UserName + ":" + _simulator.Password));
-                            sentContent.AppendLine($"Authorization: Basic {authCreds}");
-                        }
-                        if (messageTemplate.MessageHeaders.Any())
-                        {
-                            sentContent.AppendLine($"Custom Headers");
-                        }
-
-                        var idx = 1;
-                        foreach (var hdr in messageTemplate.MessageHeaders)
-                        {
-                            sentContent.AppendLine($"\t{idx++}. {hdr.HeaderName}={ReplaceTokens(messageTemplate, hdr.Value)}");
-                        }
-
-                        if (messageTemplate.HttpVerb == "POST" || messageTemplate.HttpVerb == "PUT")
-                        {
-                            sentContent.AppendLine("");
-                            sentContent.AppendLine("Post Content");
-                            sentContent.AppendLine("=========================");
-                            sentContent.AppendLine(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-                        }
-                    }
-                    break;
-            }
-
-            return sentContent.ToString();
-        }
-
-        private byte[] GetMessageBytes(MessageTemplate messageTemplate)
-        {
-            if (EntityHeader.IsNullOrEmpty(messageTemplate.PayloadType) || messageTemplate.PayloadType.Value == PaylodTypes.Binary)
-            {
-                return GetBinaryPayload(messageTemplate.BinaryPayload);
-            }
-            else
-            {
-                var msgText = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
-                return System.Text.UTF8Encoding.UTF8.GetBytes(msgText);
-            }
-        }
-
-        private byte[] GetBinaryPayload(string binaryPayload)
-        {
-            if (String.IsNullOrEmpty(binaryPayload))
-            {
-                return new byte[0];
-            }
-
-            try
-            {
-                var bytes = new List<Byte>();
-
-                if (binaryPayload.Length % 2 == 0 && !binaryPayload.StartsWith("0x"))
-                {
-                    for (var idx = 0; idx < binaryPayload.Length; idx += 2)
-                    {
-                        var byteStr = binaryPayload.Substring(idx, 2);
-                        bytes.Add(Byte.Parse(byteStr, System.Globalization.NumberStyles.HexNumber));
-                    }
-                }
-                else
-                {
-                    var bytesList = binaryPayload.Split(' ');
-                    foreach (var byteStr in bytesList)
-                    {
-                        var lowerByteStr = byteStr.ToLower();
-                        if (lowerByteStr.Contains("soh"))
-                        {
-                            bytes.Add(0x01);
-                        }
-                        else if (lowerByteStr.Contains("stx"))
-                        {
-                            bytes.Add(0x02);
-                        }
-                        else if (lowerByteStr.Contains("etx"))
-                        {
-                            bytes.Add(0x03);
-                        }
-                        else if (lowerByteStr.Contains("eot"))
-                        {
-                            bytes.Add(0x04);
-                        }
-                        else if (lowerByteStr.Contains("ack"))
-                        {
-                            bytes.Add(0x06);
-                        }
-                        else if (lowerByteStr.Contains("cr"))
-                        {
-                            bytes.Add(0x0d);
-                        }
-                        else if (lowerByteStr.Contains("lf"))
-                        {
-                            bytes.Add(0x0a);
-                        }
-                        else if (lowerByteStr.Contains("nak"))
-                        {
-                            bytes.Add(0x15);
-                        }
-                        else if (lowerByteStr.Contains("esc"))
-                        {
-                            bytes.Add(0x1b);
-                        }
-                        else if (lowerByteStr.Contains("del"))
-                        {
-                            bytes.Add(0x1b);
-                        }
-                        else if ((lowerByteStr.StartsWith("x")))
-                        {
-                            bytes.Add(Byte.Parse(byteStr.Substring(1), System.Globalization.NumberStyles.HexNumber));
-                        }
-                        else if (lowerByteStr.StartsWith("0x"))
-                        {
-                            bytes.Add(Byte.Parse(byteStr.Substring(2), System.Globalization.NumberStyles.HexNumber));
-                        }
-                        else
-                        {
-                            bytes.Add(Byte.Parse(byteStr, System.Globalization.NumberStyles.HexNumber));
-                        }
-                    }
-                }
-
-                return bytes.ToArray();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(Simulator.Runtime.SimulatorRuntimeResources.SendMessage_InvalidBinaryPayload + " " + ex.Message);
-            }
-        }
-
-        private async Task ReceiveDataFromAzure()
-        {
-            while (_azureIoTHubClient != null)
-            {
-                var message = await _azureIoTHubClient.ReceiveAsync();
-                if (message != null)
-                {
-                    try
-                    {
-                        var msg = new ReceivedMessage(message.GetBytes());
-                        msg.MessageId = message.MessageId;
-                        msg.Topic = message.To;
-                        await AddReceviedMessage(msg);
-                        await _azureIoTHubClient.CompleteAsync(message);
-                    }
-                    catch
-                    {
-                        await _azureIoTHubClient.RejectAsync(message);
-                    }
-                }
-            }
-        }
 
 
         private void StartReceiveThread()
@@ -299,13 +93,6 @@ namespace LagoVista.IoT.Simulator.Runtime
             });
         }
 
-        private async void _mqttClient_CommandReceived(object sender, MqttMsgPublishEventArgs e)
-        {
-            var msg = new ReceivedMessage(e.Message);
-            msg.Topic = e.Topic;
-            msg.MessageId = e.MessageId;
-            await AddReceviedMessage(msg);
-        }
 
         Task _receivingTask;
 
@@ -330,52 +117,33 @@ namespace LagoVista.IoT.Simulator.Runtime
                                             break;*/
 
                     case TransportTypes.AzureIoTHub:
-                        var connectionString = $"HostName={_simulator.DefaultEndPoint};DeviceId={_simulator.DeviceId};SharedAccessKey={_simulator.AccessKey}";
-                        _azureIoTHubClient = DeviceClient.CreateFromConnectionString(connectionString, Microsoft.Azure.Devices.Client.TransportType.Amqp_Tcp_Only);
-                        await _azureIoTHubClient.OpenAsync();
-                        _receivingTask = Task.Run(ReceiveDataFromAzure);
-                        SetConnectedState();
+                        await ConnectAzureIoTHubAsync();
                         break;
-                    case TransportTypes.MQTT:
-                        _mqttClient = _runtimeService.GetMQTTClient();
-                        _mqttClient.ShowDiagnostics = true;
-                        _mqttClient.BrokerHostName = _simulator.DefaultEndPoint;
-                        _mqttClient.BrokerPort = _simulator.DefaultPort;
-                        _mqttClient.DeviceId = _simulator.UserName;
-                        _mqttClient.Password = _simulator.Password;
-                        var result = await _mqttClient.ConnectAsync();
-                        if (result.Result == ConnAck.Accepted)
-                        {
-                            if (!String.IsNullOrEmpty(_simulator.Subscription))
-                            {
-                                var subscription = new MQTTSubscription()
-                                {
-                                    Topic = _simulator.Subscription.Replace("~deviceid~", _simulator.DeviceId),
-                                    QOS = EntityHeader<QOS>.Create(QOS.QOS2)
-                                };
-                                await _mqttClient.SubscribeAsync(subscription);
-                                _mqttClient.MessageReceived += _mqttClient_CommandReceived;
-                            }
-
-                            SetConnectedState();
-                        }
-                        else
-                        {
-                            await ShowMessageAsync($"{SimulatorRuntimeResources.Simulator_ErrorConnecting}: {result.Result.ToString()}");
-                        }
-
+                    case TransportTypes.MQTT:                        
+                        await MQTTConnectAsync();
                         break;
                     case TransportTypes.TCP:
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connecting to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
+
                         _tcpClient = _runtimeService.GetTCPClient();
                         await _tcpClient.ConnectAsync(_simulator.DefaultEndPoint, _simulator.DefaultPort);
                         StartReceiveThread();
                         SetConnectedState();
+
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connected to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
                         break;
                     case TransportTypes.UDP:
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connecting to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
+
                         _udpClient = _runtimeService.GetUDPCLient();
                         await _udpClient.ConnectAsync(_simulator.DefaultEndPoint, _simulator.DefaultPort);
                         StartReceiveThread();
                         SetConnectedState();
+
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connected to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
+                        break;
+                    default:
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Attempt to connect to {_simulator.DefaultTransport.Text} that does not allow connections..");
                         break;
                 }
 
@@ -384,8 +152,8 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
-                await ShowMessageAsync(ex.Message);
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error connecting to {_simulator.DefaultTransport.Text} - {ex.Message}.");
+
                 if (_mqttClient != null)
                 {
                     _mqttClient.Dispose();
@@ -423,85 +191,32 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
-        private String ReplaceTokens(MessageTemplate msg, String input)
+     
+
+        private async Task<InvokeResult> SendServiceBusMessage(MessageTemplate messageTemplate)
         {
-            if (String.IsNullOrEmpty(input))
+            if (String.IsNullOrEmpty(_simulator.DefaultEndPoint))
             {
-                return String.Empty;
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Default End Point is Missing to send to Service Bus.");
+                return InvokeResult.FromError("Default End Point is Missing to send to Event Hub.");
             }
 
-            foreach (var attr in msg.DynamicAttributes)
+            if (String.IsNullOrEmpty(_simulator.AccessKeyName))
             {
-                input = input.Replace($"~{attr.Key}~", attr.DefaultValue);
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Access Key Name is Missing to send to Service Bus.");
+                return InvokeResult.FromError("Access Key Name is Missing to send to Event Hub.");
             }
 
-            input = input.Replace($"~deviceid~", _simulator.DeviceId);
-            input = input.Replace($"~datetime~", DateTime.Now.ToString());
-            input = input.Replace($"~username~", _simulator.UserName);
-            input = input.Replace($"~password~", _simulator.Password);
-            input = input.Replace($"~accesskey~", _simulator.AccessKey);
-            input = input.Replace($"~password~", _simulator.Password);
-            input = input.Replace($"~datetimeiso8601~", DateTime.UtcNow.ToJSONString());
-
-            var floatRegEx = new Regex(@"~random-float,(?'min'[+-]?(([0-9]*[.]?)?[0-9]+)),(?'max'[+-]?([0-9]*[.])?[0-9]+)~");
-            var intRegEx = new Regex(@"~random-int,(?'min'[+-]?\d+),(?'max'[+-]?\d+)~");
-            var floatMatches = floatRegEx.Matches(input);
-
-            foreach (Match match in floatMatches)
+            if (String.IsNullOrEmpty(_simulator.QueueName))
             {
-                if (float.TryParse(match.Groups["min"].Value, out float minValue) && float.TryParse(match.Groups["max"].Value, out float maxValue))
-                {
-                    if (minValue > maxValue)
-                    {
-                        var tmp = maxValue;
-                        maxValue = minValue;
-                        minValue = tmp;
-                    }
-
-                    Debug.WriteLine(minValue + " " + maxValue);
-                    var delta = maxValue - minValue;
-                    var value = delta * _random.NextDouble() + minValue;
-                    input = input.Replace(match.Value, Math.Round(value, 2).ToString());
-                }
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Queue Name is Missing to send to Service Bus.");
+                return InvokeResult.FromError("Queue Name is Missing to send to Event Hub.");
             }
 
-            var intMatches = intRegEx.Matches(input);
-
-            foreach (Match match in intMatches)
-            {
-                if (int.TryParse(match.Groups["min"].Value, out int minValue) && int.TryParse(match.Groups["max"].Value, out int maxValue))
-                {
-                    if (minValue > maxValue)
-                    {
-                        var tmp = maxValue;
-                        maxValue = minValue;
-                        minValue = tmp;
-                    }
-                    var delta = maxValue - minValue;
-                    var value = _random.Next(minValue, maxValue);
-                    input = input.Replace(match.Value, value.ToString());
-                }
-            }
-
-            if (msg.AppendCR)
-            {
-                input += "\r";
-            }
-
-            if (msg.AppendLF)
-            {
-                input += "\n";
-            }
-
-            return input;
-        }
-
-        private async Task SendServiceBusMessage(MessageTemplate messageTemplate)
-        {
             if (String.IsNullOrEmpty(_simulator.AccessKey))
             {
-                await ShowMessageAsync("Access Key is missing");
-                return;
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Access Key is Missing to send to Service Bus.");
+                return InvokeResult.FromError("Access Key is Missing to send to Event Hub.");
             }
 
             var connectionString = $"Endpoint=sb://{_simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={_simulator.AccessKeyName};SharedAccessKey={_simulator.AccessKey}";
@@ -524,56 +239,58 @@ namespace LagoVista.IoT.Simulator.Runtime
                 msg.MessageId = msg.MessageId;
             }
 
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to Service Bus {_simulator.DefaultEndPoint}");
+
             await client.SendAsync(msg);
             await client.CloseAsync();
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
+
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, ReceivedContent);
+
+            return InvokeResult.Success;
         }
 
-        private async Task SendEventHubMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendEventHubMessage(MessageTemplate messageTemplate)
         {
+            if (String.IsNullOrEmpty(_simulator.DefaultEndPoint))
+            {
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Default End Point is Missing to send to Event Hub.");
+                return InvokeResult.FromError("Default End Point is Missing to send to Event Hub.");
+            }
+
+            if (String.IsNullOrEmpty(_simulator.AccessKeyName))
+            {
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Access Key Name is Missing to send to Event Hub.");
+                return InvokeResult.FromError("Access Key Name is Missing to send to Event Hub.");
+            }
+
+            if (String.IsNullOrEmpty(_simulator.HubName))
+            {
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Hub Name is Missing to send to Event Hub.");
+                return InvokeResult.FromError("Hub Name is Missing to send to Event Hub.");
+            }
+
             if (String.IsNullOrEmpty(_simulator.AccessKey))
             {
-                await ShowMessageAsync("Access Key is missing");
-                return;
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Access Key is Missing to send to Event Hub.");
+                return InvokeResult.FromError("Access Key is Missing to send to Event Hub.");
             }
 
             var connectionString = $"Endpoint=sb://{_simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={_simulator.AccessKeyName};SharedAccessKey={_simulator.AccessKey}";
             var connectionStringBuilder = new EventHubsConnectionStringBuilder(connectionString) { EntityPath = _simulator.HubName };
 
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to Azure Event Hub {_simulator.DefaultEndPoint}");
+
             var client = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
             await client.SendAsync(new EventData(GetMessageBytes(messageTemplate)));
-            ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessageSent}";
-        }
-
-        private async Task SendIoTHubMessage(MessageTemplate messageTemplate)
-        {
-            var textPayload = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
-            var msg = new Microsoft.Azure.Devices.Client.Message(GetMessageBytes(messageTemplate));
-            await _azureIoTHubClient.SendEventAsync(msg);
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
-        }
 
-        private async Task SendMQTTMessage(MessageTemplate messageTemplate)
-        {
-            var qos = QOS.QOS0;
+            return InvokeResult.Success;
+        }    
 
-            if (!EntityHeader.IsNullOrEmpty(messageTemplate.QualityOfServiceLevel))
-            {
-                switch (messageTemplate.QualityOfServiceLevel.Value)
-                {
-                    case QualityOfServiceLevels.QOS1: qos = QOS.QOS1; break;
-                    case QualityOfServiceLevels.QOS2: qos = QOS.QOS2; break;
-                }
-            }
-
-            await _mqttClient.PublishAsync(ReplaceTokens(messageTemplate, messageTemplate.Topic), GetMessageBytes(messageTemplate), qos, messageTemplate.RetainFlag);
-
-            ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
-        }
-
-        private async Task SendGeoMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendGeoMessage(MessageTemplate messageTemplate)
         {
             var pointArray = messageTemplate.TextPayload.Split('\r');
             var geoLocation = pointArray[_pointIndex++];
@@ -591,8 +308,8 @@ namespace LagoVista.IoT.Simulator.Runtime
                 {
                     if (String.IsNullOrEmpty(_simulator.Password))
                     {
-                        await ShowMessageAsync("Password is missing");
-                        return;
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Simulator is not anonymous however credentials not supplied.");
+                        return InvokeResult.FromError("Simulator is not anonymous however credentials not supplied.");
                     }
 
                     var authCreds = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(_simulator.UserName + ":" + _simulator.Password));
@@ -606,9 +323,11 @@ namespace LagoVista.IoT.Simulator.Runtime
                     client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(messageTemplate, hdr.Value));
                 }
 
-
                 var messageBody = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
                 messageBody = $"{{'latitude':{lat}, 'longitude':{lon}}}";
+
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending Geo Point {messageBody} via {messageTemplate.HttpVerb} to {uri}.");
+
                 try
                 {
                     switch (messageTemplate.HttpVerb)
@@ -637,7 +356,10 @@ namespace LagoVista.IoT.Simulator.Runtime
                     }
 
                     ReceivedContent = fullResponseString.ToString();
-                    return;
+
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error sending GeoPoint: {ex.Message}.");
+
+                    return InvokeResult.FromException("SendRESTRequestAsync", ex);
                 }
 
                 if (responseMessage.IsSuccessStatusCode)
@@ -653,41 +375,74 @@ namespace LagoVista.IoT.Simulator.Runtime
                     fullResponseString.AppendLine();
                     fullResponseString.Append(responseContent);
                     ReceivedContent = fullResponseString.ToString();
+                    if (this._pointIndex < pointArray.Length)
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Queue up point {_pointIndex} to send.");
+                        _timer = new Timer(SentNextPoint, null, delay, Timeout.Infinite);
+                    }
+
+                    return InvokeResult.Success;
                 }
                 else
                 {
                     ReceivedContent = $"{responseMessage.StatusCode} - {responseMessage.ReasonPhrase}";
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error sending GeoPoint: {ReceivedContent}.");
+                    return InvokeResult.FromError(ReceivedContent);
                 }
             }
 
-            if (this._pointIndex < pointArray.Length)
-            {
-                _timer = new Timer(SentNextPoint, null, delay, Timeout.Infinite);
-            }
         }
 
-        private async Task SendRESTRequest(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendRESTRequestAsync(MessageTemplate messageTemplate)
         {
             if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_GeoPath)
             {
-                await SendGeoMessage(messageTemplate);
+                return await SendGeoMessage(messageTemplate);
             }
 
             using (var client = new HttpClient())
             {
                 var protocol = messageTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                var uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+
+                String uri = null;
+                if (!String.IsNullOrEmpty(messageTemplate.EndPoint))
+                {
+                    uri = $"{protocol}://{messageTemplate.EndPoint}:{messageTemplate.Port}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+                }
+                else if (!String.IsNullOrEmpty(_simulator.DefaultEndPoint))
+                {
+                    uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+                }
+
+                if (String.IsNullOrEmpty(uri))
+                {
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "End Point must be provided at the Simulator or Message Level");
+                    return InvokeResult.FromError("End Point must be provided at the Simulator or Message Level");
+                }
 
                 if (!_simulator.Anonymous)
                 {
-                    if (String.IsNullOrEmpty(_simulator.Password))
+                    if (_simulator.BasicAuth)
                     {
-                        await ShowMessageAsync("Password is missing");
-                        return;
-                    }
+                        if (String.IsNullOrEmpty(_simulator.Password) || String.IsNullOrEmpty(_simulator.UserName))
+                        {
+                            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Simulator is not anonymous however user name and password not supplied for basic auth.");
+                            return InvokeResult.FromError("Simulator is not anonymous however user name and password not supplied for basic auth.");
+                        }
 
-                    var authCreds = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(_simulator.UserName + ":" + _simulator.Password));
-                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authCreds);
+                        var authCreds = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(_simulator.UserName + ":" + _simulator.Password));
+                        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authCreds);
+                    }
+                    else
+                    {
+                        if (String.IsNullOrEmpty(_simulator.AuthHeader))
+                        {
+                            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Simulator is not anonymous however auth header is not provided and not basic auth.");
+                            return InvokeResult.FromError("Simulator is not anonymous however auth header is not provided and not basic auth..");
+                        }
+
+                        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(_simulator.AuthHeader);
+                    }
                 }
 
                 System.Net.Http.HttpResponseMessage responseMessage = null;
@@ -697,6 +452,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                     client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(messageTemplate, hdr.Value));
                 }
 
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending: {messageTemplate.HttpVerb} to {uri}.");
 
                 var messageBody = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
                 try
@@ -715,6 +471,9 @@ namespace LagoVista.IoT.Simulator.Runtime
                         case MessageTemplate.HttpVerb_DELETE:
                             responseMessage = await client.DeleteAsync(uri);
                             break;
+                        default:
+                            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Uknown HTTP Verb [{messageTemplate.HttpVerb}]");
+                            return InvokeResult.FromError($"Uknown HTTP Verb [{messageTemplate.HttpVerb}]");
                     }
                 }
                 catch (HttpRequestException ex)
@@ -726,8 +485,10 @@ namespace LagoVista.IoT.Simulator.Runtime
                         fullResponseString.AppendLine(ex.InnerException.Message);
                     }
 
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error sending message: {ex.Message}.");
+
                     ReceivedContent = fullResponseString.ToString();
-                    return;
+                    return InvokeResult.FromException("SendRESTRequestAsync", ex);
                 }
 
                 if (responseMessage.IsSuccessStatusCode)
@@ -743,56 +504,90 @@ namespace LagoVista.IoT.Simulator.Runtime
                     fullResponseString.AppendLine();
                     fullResponseString.Append(responseContent);
                     ReceivedContent = fullResponseString.ToString();
+
+                    if (ReceivedContent.Length > 255)
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, ReceivedContent.Substring(0, 250));
+                    }
+                    else
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, ReceivedContent);
+                    }
+
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Success sending message.");
+
+                    return InvokeResult.Success;
                 }
                 else
                 {
                     ReceivedContent = $"{responseMessage.StatusCode} - {responseMessage.ReasonPhrase}";
+
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error sending message: {ReceivedContent}.");
+                    return InvokeResult.FromError(ReceivedContent);
                 }
             }
         }
 
-        private async Task SendTCPMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendTCPMessage(MessageTemplate messageTemplate)
         {
             var buffer = GetMessageBytes(messageTemplate);
             await _udpClient.WriteAsync(buffer, 0, buffer.Length);
+
+            return InvokeResult.Success;
         }
 
-        private async Task SendUDPMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendUDPMessage(MessageTemplate messageTemplate)
         {
             var buffer = GetMessageBytes(messageTemplate);
             await _tcpClient.WriteAsync(buffer, 0, buffer.Length);
+
+            return InvokeResult.Success;
         }
 
         private async void SentNextPoint(Object obj)
         {
-            await SendRESTRequest(obj as MessageTemplate);
+            await SendRESTRequestAsync(obj as MessageTemplate);
         }
 
-        public async Task<String> Send(MessageTemplate messageTemplate)
+        public async Task<InvokeResult<string>> SendAsync(MessageTemplate messageTemplate)
         {
             IsBusy = true;
 
             try
             {
+                InvokeResult res = InvokeResult.FromError("");
+
                 switch (messageTemplate.Transport.Value)
                 {
-                    case TransportTypes.TCP: await SendTCPMessage(messageTemplate); break;
-                    case TransportTypes.UDP: await SendUDPMessage(messageTemplate); break;
-                    case TransportTypes.AzureServiceBus: await SendServiceBusMessage(messageTemplate); break;
-                    case TransportTypes.AzureEventHub: await SendEventHubMessage(messageTemplate); break;
-                    case TransportTypes.AzureIoTHub: await SendIoTHubMessage(messageTemplate); break;
-                    case TransportTypes.MQTT: await SendMQTTMessage(messageTemplate); break;
+                    case TransportTypes.TCP: res = await SendTCPMessage(messageTemplate); break;
+                    case TransportTypes.UDP: res = await SendUDPMessage(messageTemplate); break;
+                    case TransportTypes.AzureServiceBus: res = await SendServiceBusMessage(messageTemplate); break;
+                    case TransportTypes.AzureEventHub: res = await SendEventHubMessage(messageTemplate); break;
+                    case TransportTypes.AzureIoTHub: res = await SendIoTHubMessage(messageTemplate); break;
+                    case TransportTypes.MQTT: res = await SendMQTTMessage(messageTemplate); break;
                     case TransportTypes.RestHttps:
-                    case TransportTypes.RestHttp: await SendRESTRequest(messageTemplate); break;
+                    case TransportTypes.RestHttp: res = await SendRESTRequestAsync(messageTemplate); break;
                 }
 
-                return BuildRequestContent(messageTemplate);
+                if (res.Successful)
+                {
+                    var msg = BuildRequestContent(messageTemplate);
+                    return InvokeResult<string>.Create(msg);
+                }
+                else
+                {
+                    return InvokeResult<string>.FromInvokeResult(res);
+                }
             }
             catch (Exception ex)
             {
-                await ShowMessageAsync(ex.Message);
+                _adminLogger.AddException("Send", ex);
+
                 ReceivedContent = ex.Message;
-                return ex.Message;
+
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error sending {messageTemplate.Transport.Value} message {ex.Message}.");
+
+                return InvokeResult<string>.FromException("SendAsync", ex);
             }
             finally
             {
@@ -800,59 +595,88 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
-        public async Task DisconnectAsync()
+        public async Task<InvokeResult> DisconnectAsync()
         {
             switch (_simulator.DefaultTransport.Value)
             {
-                /*case TransportTypes.AMQP:
-                    ConnectButtonVisible = true;
-                    break;*/
+                case TransportTypes.AMQP:
+                    break;
                 case TransportTypes.AzureIoTHub:
+
                     if (_azureIoTHubClient != null)
                     {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting from {_simulator.DefaultTransport.Text}.");
+
                         await _azureIoTHubClient.CloseAsync();
                         _azureIoTHubClient.Dispose();
                         _azureIoTHubClient = null;
+                    }
+                    else
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
+                        return InvokeResult.FromError($"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
                     }
 
                     break;
                 case TransportTypes.MQTT:
                     if (_mqttClient != null)
                     {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting from {_simulator.DefaultTransport.Text}.");
+
                         _mqttClient.Disconnect();
                         _mqttClient = null;
+                    }
+                    else
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
+                        return InvokeResult.FromError($"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
                     }
 
                     break;
                 case TransportTypes.TCP:
                     if (_tcpClient != null)
                     {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting from {_simulator.DefaultTransport.Text}.");
+
                         await _tcpClient.DisconnectAsync();
                         _tcpClient.Dispose();
+                    }
+                    else
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
+                        return InvokeResult.FromError($"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
                     }
 
                     break;
                 case TransportTypes.UDP:
                     if (_udpClient != null)
                     {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting from {_simulator.DefaultTransport.Text}.");
+
                         await _udpClient.DisconnectAsync();
                         _udpClient.Dispose();
                     }
+                    else
+                    {
+                        await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
+                        return InvokeResult.FromError($"Disconnecting called for {_simulator.DefaultTransport.Text} but not connected.");
+                    }
                     break;
+
+                default:
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Disconnecting called for {_simulator.DefaultTransport.Text} but not a connection to be closed.");
+                    return InvokeResult.FromError($"Disconnecting called for {_simulator.DefaultTransport.Text} but not a connection to be closed.");
             }
 
-            if(_receivingTask != null)
+            if (_receivingTask != null)
             {
-                
+
             }
 
-            SetDisconnectedState(); 
-        }
+            SetDisconnectedState();
 
-        private Task ShowMessageAsync(string msg)
-        {
-            return Task.FromResult(default(object));
-        }        
+            return InvokeResult.Success;
+        }
 
         public bool IsBusy
         {
@@ -862,29 +686,66 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         public string InstanceId { get; }
 
+
+        private String _receivedContent;
         public string ReceivedContent
         {
-            get { return _runtimeService.ReceivedContent; }
-            set { _runtimeService.ReceivedContent = value; }
+            get { return _receivedContent; }
+            set
+            {
+                _receivedContent = value;
+                _runtimeService.ReceivedContent = value;
+            }
         }
 
         private bool _isConnected;
 
-        private void SetConnectedState()
+        private async void SetConnectedState()
         {
+            var connectionStatus = new ConnectionStatus()
+            {
+                Connected = true,
+                DateStamp = DateTime.UtcNow.ToJSONString(),
+                EndPoint = _simulator.DefaultEndPoint,
+                TransportType = _simulator.DefaultTransport,
+            };
+
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connected to {_simulator.DefaultTransport.Text}.", connectionStatus);
+
             _isConnected = true;
             _runtimeService.Connected();
         }
 
-        private void SetDisconnectedState()
+        private async void SetDisconnectedState()
         {
             _isConnected = false;
+
+            var connectionStatus = new ConnectionStatus()
+            {
+                Connected = false,
+                DateStamp = DateTime.UtcNow.ToJSONString(),
+                EndPoint = _simulator.DefaultEndPoint,
+                TransportType = _simulator.DefaultTransport,
+            };
+
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connected to {_simulator.DefaultTransport.Text}.", connectionStatus);
+
             _runtimeService.Disconnected();
         }
 
-        private Task AddReceviedMessage(ReceivedMessage msg)
+        private async Task AddReceviedMessage(ReceivedMessage msg)
         {
-            return _runtimeService.AddReceviedMessage(msg);
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Topic: {msg.Topic}");
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, msg.TextPayload);
+            await _runtimeService.AddReceviedMessage(msg);
         }
+    }
+
+    public class ConnectionStatus
+    {
+        public bool Connected { get; set; }
+        public String DateStamp { get; set; }
+        public string EndPoint { get; set; }
+        public EntityHeader<TransportTypes> TransportType { get; set; }
     }
 }

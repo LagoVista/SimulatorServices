@@ -534,4 +534,19 @@
   <data name="SimulatorInstance_SelectSimulator" xml:space="preserve">
     <value>-select simulator-</value>
   </data>
+  <data name="Simulator_AuthHeader" xml:space="preserve">
+    <value>Authorization Header</value>
+  </data>
+  <data name="Simulator_AuthHeader_Help" xml:space="preserve">
+    <value>Please provide an authorization header to be included in the Http Headers</value>
+  </data>
+  <data name="SimulatorNetwork_AccessKey1" xml:space="preserve">
+    <value>Access Key Primary</value>
+  </data>
+  <data name="SimulatorNetwork_AccessKey_Help" xml:space="preserve">
+    <value>The access key can be used by remote runtime to download the full configuration of a simulator network.</value>
+  </data>
+  <data name="SimulatorNetwork_AccessKey2" xml:space="preserve">
+    <value>Access Key Secondary</value>
+  </data>
 </root>
