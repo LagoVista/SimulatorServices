@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LagoVista.MQTT" Version="1.2.640-alpha1012" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LagoVista.IoT.Simulator.Runtime\LagoVista.IoT.Simulator.Runtime.csproj" />
+  </ItemGroup>
+
+</Project>

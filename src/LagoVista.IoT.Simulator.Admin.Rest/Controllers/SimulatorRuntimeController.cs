@@ -25,7 +25,6 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         public const string USER_ID = "x-nuviot-userid";
         public const string USER = "x-nuviot-user";
         public const string NETWORK_ID = "x-nuviot-sim-network-id";
-        public const string NETWORK_NAME = "x-nuviot-user-id";
         public const string DATE = "x-nuviot-date";
         public const string VERSION = "x-nuviot-version";
 
@@ -69,17 +68,17 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 
         protected EntityHeader OrgEntityHeader { get; private set; }
         protected EntityHeader UserEntityHeader { get; private set; }
-        protected EntityHeader InstanceEntityHeader { get; private set; }
-
+        
 
         [HttpGet("/api/simulator/network/runtime")]
-        public async Task<SimulatorNetwork> ValidateRequest(HttpRequest request)
+        public async Task<SimulatorNetwork> ValidateRequest()
         {
+            var request = HttpContext.Request;
+
             CheckHeader(request, REQUEST_ID);
             CheckHeader(request, ORG_ID);
             CheckHeader(request, ORG);
             CheckHeader(request, NETWORK_ID);
-            CheckHeader(request, NETWORK_NAME);
             CheckHeader(request, DATE);
             CheckHeader(request, VERSION);
 
@@ -90,7 +89,6 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             var orgId = request.Headers[ORG_ID];
             var org = request.Headers[ORG];
             var networkId = request.Headers[NETWORK_ID];
-            var networkName = request.Headers[NETWORK_NAME];
             var userId = request.Headers[USER_ID];
             var userName = request.Headers[USER];
 
@@ -108,7 +106,6 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 
             OrgEntityHeader = EntityHeader.Create(orgId, org);
             UserEntityHeader = EntityHeader.Create(userId, userName);
-            InstanceEntityHeader = EntityHeader.Create(networkId, networkName);
 
             var network = await _simNetworkManager.GetSimulatorNetworkAsync(networkId, OrgEntityHeader, UserEntityHeader);
             var key1 = await _secureStorage.GetSecretAsync(OrgEntityHeader, network.SharedAccessKey1SecretId, UserEntityHeader);

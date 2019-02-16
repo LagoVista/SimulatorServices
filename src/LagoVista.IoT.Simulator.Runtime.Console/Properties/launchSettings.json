@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LagoVista.IoT.Simulator.Runtime.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "-id=AF13A4424CC74A578A3E05723E3447BC -key=ww2JzzegpAsbMckh0qdIqSliDP8bl2rw+VrVUIxHlS+xyYd9M3J61tduymTBriDFaoqX7+NnpCujmNbcy1N+0w== -org=\"Software Logistics\" -orgid=C8AD4589F26842E7A1AEFBAEFC979C9B -uid=F2135E2A9BC44A0D-8A7DB1C4886848AA -usrname=SimNetworkUser "
+    }
+  }
+}
