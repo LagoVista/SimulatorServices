@@ -12,5 +12,8 @@ namespace LagoVista.IoT.Simulator.Runtime
         Task<InvokeResult<String>> SendAsync(MessageTemplate messageTemplate);
 
         Task<InvokeResult> DisconnectAsync();
+
+        void Start();
+        void Stop();
     }
 }

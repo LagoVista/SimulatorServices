@@ -36,9 +36,11 @@ namespace LagoVista.IoT.Simulator.Runtime
         IUDPClient _udpClient;
         Random _random = new Random();
         Timer _timer;
+        List<Timer> _msgSendTimers = new List<Timer>();
         int _pointIndex;
 
         ISimulatorRuntimeServices _runtimeService;
+        SimulatorInstance _instance;
 
         private DateTime _connected;
         private DateTime _lastAccess;
@@ -49,14 +51,16 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         INotificationPublisher _notificationPublisher;
 
-        public SimulatorRuntime(ISimulatorRuntimeServices runtimeService, INotificationPublisher notificationPublisher, IAdminLogger adminLogger, LagoVista.IoT.Simulator.Admin.Models.Simulator simulator)
+        public SimulatorRuntime(ISimulatorRuntimeServices runtimeService, INotificationPublisher notificationPublisher, IAdminLogger adminLogger, LagoVista.IoT.Simulator.Admin.Models.SimulatorInstance instance)
         {
             _runtimeService = runtimeService;
+            _instance = instance;
+
             _notificationPublisher = notificationPublisher;
             _connected = DateTime.UtcNow;
             _lastAccess = _connected;
 
-            _simulator = simulator;
+            _simulator = instance.Simulator.Value;
 
             _adminLogger = adminLogger;
 
@@ -91,6 +95,46 @@ namespace LagoVista.IoT.Simulator.Runtime
                     }
                 }
             });
+        }
+
+        public void Start()
+        {
+            lock (_msgSendTimers)
+            {
+                foreach (var plan in _instance.TransmissionPlans)
+                {
+                    plan.Message.Value = _simulator.MessageTemplates.Where(msg => msg.Id == plan.Message.Id).FirstOrDefault();
+
+                    if (plan.Message.Value == null)
+                    {
+                        _adminLogger.AddError("SimulatorRuntime_Start", $"Could not resolve message template {plan.Message.Text}", _simulator.Name.ToKVP("simulatorName"));
+                    }
+                    else
+                    {
+                        var tmr = new Timer(SendMessage, plan, plan.PeriodMS, plan.PeriodMS);
+                        _msgSendTimers.Add(tmr);
+                    }
+                }
+            }
+        }
+
+        public void Stop()
+        {
+            lock(_msgSendTimers)
+            {
+                foreach(var tmr in _msgSendTimers)
+                {
+                    tmr.Change(Timeout.Infinite, Timeout.Infinite);
+                }
+
+                _msgSendTimers.Clear();
+            }
+        }
+
+        private async void SendMessage(Object msg)
+        {
+            var plan = msg as MessageTransmissionPlan;
+            await SendAsync(plan.Message.Value);
         }
 
 

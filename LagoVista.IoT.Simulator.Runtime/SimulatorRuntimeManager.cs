@@ -114,8 +114,9 @@ namespace LagoVista.IoT.Simulator.Runtime
             foreach(var sim in network.Simulators)
             {
                 var services = _factory.GetServices();
-                var runtime = new SimulatorRuntime(services, _notificationPublisher, _adminLogger, sim.Simulator.Value);
+                var runtime = new SimulatorRuntime(services, _notificationPublisher, _adminLogger, sim);
                 await runtime.ConnectAsync();
+                runtime.Start();
             }
         }
     }
