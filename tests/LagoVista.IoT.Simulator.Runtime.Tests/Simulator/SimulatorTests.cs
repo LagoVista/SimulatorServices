@@ -35,11 +35,16 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
             _runtimeServices.Setup<IUDPClient>(rs => rs.GetUDPCLient()).Returns(_udpClient.Object);
         }
 
-        LagoVista.IoT.Simulator.Admin.Models.Simulator GetSimulator(Admin.Models.TransportTypes transport)
+        LagoVista.IoT.Simulator.Admin.Models.SimulatorInstance GetSimulator(Admin.Models.TransportTypes transport)
         {
-            return new Admin.Models.Simulator()
+            var sim = new Admin.Models.Simulator()
             {
                 DefaultTransport = Core.Models.EntityHeader<Admin.Models.TransportTypes>.Create(transport)
+            };
+
+            return new SimulatorInstance()
+            {
+                 Simulator = Core.Models.EntityHeader<Admin.Models.Simulator>.Create(sim)
             };
         }
 
@@ -67,7 +72,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
         public async Task CreateRESTSimulator()
         {
             var sim = GetSimulator(TransportTypes.RestHttp);
-            sim.Anonymous = true;
+            sim.Simulator.Value.Anonymous = true;
 
             var runtime = new SimulatorRuntime(_runtimeServices.Object, _notifPublisher, _adminLogger, sim);
 
@@ -108,8 +113,8 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
             Assert.IsFalse(String.IsNullOrEmpty(azDeviceId), "Missing TEST_AZ_IOT_LISTENER_DEVICEID");
 
             var sim = GetSimulator(TransportTypes.AzureIoTHub);
-            sim.AccessKey = azIoTAccessKey;
-            sim.AccessKeyName = azIoTAccountPolicyName;
+            sim.Simulator.Value.AccessKey = azIoTAccessKey;
+            sim.Simulator.Value.AccessKeyName = azIoTAccountPolicyName;
             
             
 
@@ -203,10 +208,10 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
             Assert.IsFalse(String.IsNullOrEmpty(testPwd), "Missing environment variable TEST_MQTT_PASSWORD");
 
             var sim = GetSimulator(TransportTypes.MQTT);
-            sim.DefaultEndPoint = testHostName;
-            sim.DefaultPort = 1883;
-            sim.UserName = testUserName;
-            sim.Password = testPwd;
+            sim.Simulator.Value.DefaultEndPoint = testHostName;
+            sim.Simulator.Value.DefaultPort = 1883;
+            sim.Simulator.Value.UserName = testUserName;
+            sim.Simulator.Value.Password = testPwd;
 
             var msg = new MessageTemplate()
             {
