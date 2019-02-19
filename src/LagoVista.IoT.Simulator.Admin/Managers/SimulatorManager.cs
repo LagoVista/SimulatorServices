@@ -99,17 +99,23 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
 
             if (!String.IsNullOrEmpty(simulator.AccessKeySecureId))
             {
-                await _secureStorage.GetSecretAsync(org, simulator.AccessKeySecureId, user);
+                 var result = await _secureStorage.GetSecretAsync(org, simulator.AccessKeySecureId, user);
+                if (!result.Successful) throw new Exception("Could not get access key from secure id.");
+                simulator.AccessKey = result.Result;
             }
 
-            if (!String.IsNullOrEmpty(simulator.AccessKeySecureId))
+            if (!String.IsNullOrEmpty(simulator.PasswordSecureId))
             {
-                await _secureStorage.GetSecretAsync(org, simulator.AccessKeySecureId, user);
+                var result = await _secureStorage.GetSecretAsync(org, simulator.PasswordSecureId, user);
+                if (!result.Successful) throw new Exception("Could not get password from from secure id.");
+                simulator.Password = result.Result;
             }
 
             if (!String.IsNullOrEmpty(simulator.AuthHeaderSecureId))
             {
-                await _secureStorage.GetSecretAsync(org, simulator.AuthHeaderSecureId, user);
+                var result = await _secureStorage.GetSecretAsync(org, simulator.AuthHeaderSecureId, user);
+                if (!result.Successful) throw new Exception("Could not get auth header from secure id.");
+                simulator.AuthHeader = result.Result;
             }
 
             await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
