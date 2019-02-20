@@ -67,9 +67,6 @@ namespace LagoVista.IoT.Simulator.Runtime
             InstanceId = Guid.NewGuid().ToId();
         }
 
-     
-
-
 
         private void StartReceiveThread()
         {
