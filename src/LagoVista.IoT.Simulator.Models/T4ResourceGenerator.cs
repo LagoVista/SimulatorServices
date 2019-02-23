@@ -275,6 +275,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageTransmissionPlan_ForState
 
 		public static string MessageTransmissionPlan_ForState { get { return GetResourceString("MessageTransmissionPlan_ForState"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_ForState_Select
+
+		public static string MessageTransmissionPlan_ForState_Select { get { return GetResourceString("MessageTransmissionPlan_ForState_Select"); } }
 //Resources:SimulatorResources:MessageTransmissionPlan_Help
 
 		public static string MessageTransmissionPlan_Help { get { return GetResourceString("MessageTransmissionPlan_Help"); } }
@@ -577,6 +580,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string MessageTransmissionPlan_Description = "MessageTransmissionPlan_Description";
 			public const string MessageTransmissionPlan_ForState = "MessageTransmissionPlan_ForState";
+			public const string MessageTransmissionPlan_ForState_Select = "MessageTransmissionPlan_ForState_Select";
 			public const string MessageTransmissionPlan_Help = "MessageTransmissionPlan_Help";
 			public const string MessageTransmissionPlan_MessageTemplate = "MessageTransmissionPlan_MessageTemplate";
 			public const string MessageTransmissionPlan_PeriodMS = "MessageTransmissionPlan_PeriodMS";

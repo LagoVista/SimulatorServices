@@ -564,4 +564,7 @@
   <data name="MessageTransmissionPlan_ForState" xml:space="preserve">
     <value>For State</value>
   </data>
+  <data name="MessageTransmissionPlan_ForState_Select" xml:space="preserve">
+    <value>-select state-</value>
+  </data>
 </root>
