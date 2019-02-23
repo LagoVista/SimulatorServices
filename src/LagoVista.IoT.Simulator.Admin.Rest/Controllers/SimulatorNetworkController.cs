@@ -140,8 +140,9 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         [HttpGet("/api/simulator/state/factory")]
         public DetailResponse<SimulatorState> CreateSimulatorState()
         {
-            var simulator = DetailResponse<Models.SimulatorState>.Create();
-            return simulator;
+            var state = DetailResponse<Models.SimulatorState>.Create();
+            state.Model.Id = Guid.NewGuid().ToId();
+            return state;
         }
 
         /// <summary>
