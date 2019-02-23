@@ -11,8 +11,10 @@ namespace LagoVista.IoT.Simulator.Runtime
 {
     public partial class SimulatorRuntime
     {
-        private String BuildRequestContent(MessageTemplate messageTemplate)
+        private String BuildRequestContent(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             var sentContent = new StringBuilder();
 
             switch (messageTemplate.Transport.Value)
@@ -23,32 +25,30 @@ namespace LagoVista.IoT.Simulator.Runtime
                     sentContent.AppendLine($"Port   : {messageTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
+                    sentContent.Append(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                     break;
+
                 case TransportTypes.UDP:
                     sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port   : {messageTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
+                    sentContent.Append(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                     break;
+
                 case TransportTypes.AzureIoTHub:
                     sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port   : {messageTemplate.Port}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
+                    sentContent.Append(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                     break;
 
                 case TransportTypes.AzureEventHub:
                     sentContent.AppendLine($"Host   : {_simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
+                    sentContent.Append(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                     break;
 
                 case TransportTypes.AzureServiceBus:
@@ -56,24 +56,24 @@ namespace LagoVista.IoT.Simulator.Runtime
                     //sentContent.AppendLine($"Queue   : {MsgTemplate.Qu}");
                     sentContent.AppendLine($"Body");
                     sentContent.AppendLine($"---------------------------------");
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
+                    sentContent.Append(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                     break;
+
                 case TransportTypes.MQTT:
                     sentContent.AppendLine($"Host         : {_simulator.DefaultEndPoint}");
                     sentContent.AppendLine($"Port         : {messageTemplate.Port}");
                     sentContent.AppendLine($"Topics");
-                    sentContent.AppendLine($"Publish      : {ReplaceTokens(messageTemplate, messageTemplate.Topic)}");
-                    sentContent.AppendLine($"Subscription : {ReplaceTokens(messageTemplate, _simulator.Subscription)}");
+                    sentContent.AppendLine($"Publish      : {ReplaceTokens(_instance, plan, messageTemplate.Topic)}");
+                    sentContent.AppendLine($"Subscription : {ReplaceTokens(_instance, plan, _simulator.Subscription)}");
 
-                    sentContent.Append(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
-
+                    sentContent.Append(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                     break;
+
                 case TransportTypes.RestHttps:
                 case TransportTypes.RestHttp:
                     {
                         var protocol = messageTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                        var uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+                        var uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
                         sentContent.AppendLine($"Method       : {messageTemplate.HttpVerb}");
                         sentContent.AppendLine($"Endpoint     : {uri}");
                         var contentType = String.IsNullOrEmpty(messageTemplate.ContentType) ? "text/plain" : messageTemplate.ContentType;
@@ -92,7 +92,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                         var idx = 1;
                         foreach (var hdr in messageTemplate.MessageHeaders)
                         {
-                            sentContent.AppendLine($"\t{idx++}. {hdr.HeaderName}={ReplaceTokens(messageTemplate, hdr.Value)}");
+                            sentContent.AppendLine($"\t{idx++}. {hdr.HeaderName}={ReplaceTokens(_instance, plan, hdr.Value)}");
                         }
 
                         if (messageTemplate.HttpVerb == "POST" || messageTemplate.HttpVerb == "PUT")
@@ -100,7 +100,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                             sentContent.AppendLine("");
                             sentContent.AppendLine("Post Content");
                             sentContent.AppendLine("=========================");
-                            sentContent.AppendLine(ReplaceTokens(messageTemplate, messageTemplate.TextPayload));
+                            sentContent.AppendLine(ReplaceTokens(_instance, plan, messageTemplate.TextPayload));
                         }
                     }
                     break;
@@ -109,15 +109,17 @@ namespace LagoVista.IoT.Simulator.Runtime
             return sentContent.ToString();
         }
 
-        private byte[] GetMessageBytes(MessageTemplate messageTemplate)
+        private byte[] GetMessageBytes(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             if (EntityHeader.IsNullOrEmpty(messageTemplate.PayloadType) || messageTemplate.PayloadType.Value == PaylodTypes.Binary)
             {
                 return GetBinaryPayload(messageTemplate.BinaryPayload);
             }
             else
             {
-                var msgText = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
+                var msgText = ReplaceTokens(_instance, plan, messageTemplate.TextPayload);
                 return System.Text.UTF8Encoding.UTF8.GetBytes(msgText);
             }
         }
@@ -210,30 +212,10 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
-        private String ReplaceTokens(MessageTemplate msg, String input)
+        private string RandomizeInt(string input, string newValueRegEx, string key = "")
         {
-            if (String.IsNullOrEmpty(input))
-            {
-                return String.Empty;
-            }
-
-            foreach (var attr in msg.DynamicAttributes)
-            {
-                input = input.Replace($"~{attr.Key}~", attr.DefaultValue);
-            }
-
-            input = input.Replace($"~deviceid~", _simulator.DeviceId);
-            input = input.Replace($"~datetime~", DateTime.Now.ToString());
-            input = input.Replace($"~username~", _simulator.UserName);
-            input = input.Replace($"~password~", _simulator.Password);
-            input = input.Replace($"~accesskey~", _simulator.AccessKey);
-            input = input.Replace($"~password~", _simulator.Password);
-            input = input.Replace($"~datetimeiso8601~", DateTime.UtcNow.ToJSONString());
-
-            var floatRegEx = new Regex(@"~random-float,(?'min'[+-]?(([0-9]*[.]?)?[0-9]+)),(?'max'[+-]?([0-9]*[.])?[0-9]+)~");
-            var intRegEx = new Regex(@"~random-int,(?'min'[+-]?\d+),(?'max'[+-]?\d+)~");
-            var floatMatches = floatRegEx.Matches(input);
-
+            var floatRegEx = new Regex(@"~random-int,(?'min'[+-]?(([0-9]*[.]?)?[0-9]+)),(?'max'[+-]?([0-9]*[.])?[0-9]+)~");
+            var floatMatches = floatRegEx.Matches(newValueRegEx);
             foreach (Match match in floatMatches)
             {
                 if (float.TryParse(match.Groups["min"].Value, out float minValue) && float.TryParse(match.Groups["max"].Value, out float maxValue))
@@ -247,15 +229,27 @@ namespace LagoVista.IoT.Simulator.Runtime
 
                     var delta = maxValue - minValue;
                     var value = delta * _random.NextDouble() + minValue;
-                    input = input.Replace(match.Value, Math.Round(value, 2).ToString());
+                    if (String.IsNullOrEmpty(key))
+                    {
+                        input = input.Replace(match.Value, Math.Round(value).ToString());
+                    }
+                    else
+                    {
+                        input = input.Replace($"~{key}~", Math.Round(value, 0).ToString());
+                    }
                 }
             }
 
-            var intMatches = intRegEx.Matches(input);
+            return input;
+        }
 
-            foreach (Match match in intMatches)
+        private string RandomizeFloat(string input, string newValueRegEx, string key = "")
+        {
+            var floatRegEx = new Regex(@"~random-float,(?'min'[+-]?(([0-9]*[.]?)?[0-9]+)),(?'max'[+-]?([0-9]*[.])?[0-9]+)~");
+            var floatMatches = floatRegEx.Matches(newValueRegEx);
+            foreach (Match match in floatMatches)
             {
-                if (int.TryParse(match.Groups["min"].Value, out int minValue) && int.TryParse(match.Groups["max"].Value, out int maxValue))
+                if (float.TryParse(match.Groups["min"].Value, out float minValue) && float.TryParse(match.Groups["max"].Value, out float maxValue))
                 {
                     if (minValue > maxValue)
                     {
@@ -263,11 +257,68 @@ namespace LagoVista.IoT.Simulator.Runtime
                         maxValue = minValue;
                         minValue = tmp;
                     }
+
                     var delta = maxValue - minValue;
-                    var value = _random.Next(minValue, maxValue);
-                    input = input.Replace(match.Value, value.ToString());
+                    var value = delta * _random.NextDouble() + minValue;
+                    if (String.IsNullOrEmpty(key))
+                    {
+                        input = input.Replace(match.Value, Math.Round(value, 2).ToString());
+                    }
+                    else
+                    {
+                        input = input.Replace($"~{key}~", Math.Round(value, 2).ToString());
+                    }
+
                 }
             }
+
+            return input;
+        }
+
+        private String ReplaceTokens(SimulatorInstance instance, MessageTransmissionPlan plan, String input)
+        {
+            var msg = plan.Message.Value;
+            
+            if (String.IsNullOrEmpty(input))
+            {
+                return String.Empty;
+            }
+
+            foreach (var attr in msg.DynamicAttributes)
+            {
+                var instanceValue = plan.Values.Where(atr => atr.Attribute.Id == attr.Id).FirstOrDefault();
+                if (instanceValue == null || String.IsNullOrEmpty(instanceValue.Value))
+                {
+                    input = input.Replace($"~{attr.Key}~", attr.DefaultValue);
+                }
+                else
+                {
+                    if(instanceValue.Value.StartsWith("~random-int"))
+                    {
+                        input = RandomizeInt(input, instanceValue.Value, attr.Key);
+                    }
+                    else if (instanceValue.Value.StartsWith("~random-float"))
+                    {
+                        input = RandomizeFloat(input, instanceValue.Value, attr.Key);
+                    }
+                    else
+                    {
+                        input = input.Replace($"~{attr.Key}~", instanceValue.Value);
+                    }
+                }
+            }
+
+            input = input.Replace($"~deviceid~", String.IsNullOrEmpty(instance.DeviceId) ? _simulator.DeviceId : instance.DeviceId);
+            input = input.Replace($"~datetime~", DateTime.Now.ToString());
+            input = input.Replace($"~username~", _simulator.UserName);
+            input = input.Replace($"~password~", _simulator.Password);
+            input = input.Replace($"~accesskey~", _simulator.AccessKey);
+            input = input.Replace($"~password~", _simulator.Password);
+            input = input.Replace($"~datetimeiso8601~", DateTime.UtcNow.ToJSONString());
+
+            input = RandomizeInt(input, input);
+            input = RandomizeFloat(input, input);
+
 
             if (msg.AppendCR)
             {

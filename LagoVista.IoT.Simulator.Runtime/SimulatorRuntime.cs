@@ -131,7 +131,7 @@ namespace LagoVista.IoT.Simulator.Runtime
         private async void SendMessage(Object msg)
         {
             var plan = msg as MessageTransmissionPlan;
-            await SendAsync(plan.Message.Value);
+            await SendAsync(plan);
         }
 
 
@@ -234,8 +234,10 @@ namespace LagoVista.IoT.Simulator.Runtime
 
      
 
-        private async Task<InvokeResult> SendServiceBusMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendServiceBusMessage(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             if (String.IsNullOrEmpty(_simulator.DefaultEndPoint))
             {
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Default End Point is Missing to send to Service Bus.");
@@ -270,7 +272,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             var msg = new Microsoft.Azure.ServiceBus.Message()
             {
-                Body = GetMessageBytes(messageTemplate),
+                Body = GetMessageBytes(plan),
                 To = messageTemplate.To,
                 ContentType = messageTemplate.ContentType
             };
@@ -292,7 +294,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             return InvokeResult.Success;
         }
 
-        private async Task<InvokeResult> SendEventHubMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendEventHubMessage(MessageTransmissionPlan messageTemplate)
         {
             if (String.IsNullOrEmpty(_simulator.DefaultEndPoint))
             {
@@ -331,8 +333,10 @@ namespace LagoVista.IoT.Simulator.Runtime
             return InvokeResult.Success;
         }    
 
-        private async Task<InvokeResult> SendGeoMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendGeoMessage(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             var pointArray = messageTemplate.TextPayload.Split('\r');
             var geoLocation = pointArray[_pointIndex++];
             var parts = geoLocation.Split(',');
@@ -343,7 +347,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             using (var client = new HttpClient())
             {
                 var protocol = messageTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
-                var uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+                var uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
 
                 if (!this._simulator.Anonymous)
                 {
@@ -361,10 +365,10 @@ namespace LagoVista.IoT.Simulator.Runtime
 
                 foreach (var hdr in messageTemplate.MessageHeaders)
                 {
-                    client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(messageTemplate, hdr.Value));
+                    client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(_instance, plan, hdr.Value));
                 }
 
-                var messageBody = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
+                var messageBody = ReplaceTokens(_instance, plan, messageTemplate.TextPayload);
                 messageBody = $"{{'latitude':{lat}, 'longitude':{lon}}}";
 
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending Geo Point {messageBody} via {messageTemplate.HttpVerb} to {uri}.");
@@ -434,11 +438,13 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         }
 
-        private async Task<InvokeResult> SendRESTRequestAsync(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendRESTRequestAsync(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_GeoPath)
             {
-                return await SendGeoMessage(messageTemplate);
+                return await SendGeoMessage(plan);
             }
 
             using (var client = new HttpClient())
@@ -448,11 +454,11 @@ namespace LagoVista.IoT.Simulator.Runtime
                 String uri = null;
                 if (!String.IsNullOrEmpty(messageTemplate.EndPoint))
                 {
-                    uri = $"{protocol}://{messageTemplate.EndPoint}:{messageTemplate.Port}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+                    uri = $"{protocol}://{messageTemplate.EndPoint}:{messageTemplate.Port}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
                 }
                 else if (!String.IsNullOrEmpty(_simulator.DefaultEndPoint))
                 {
-                    uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(messageTemplate, messageTemplate.PathAndQueryString)}";
+                    uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
                 }
 
                 if (String.IsNullOrEmpty(uri))
@@ -490,12 +496,12 @@ namespace LagoVista.IoT.Simulator.Runtime
 
                 foreach (var hdr in messageTemplate.MessageHeaders)
                 {
-                    client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(messageTemplate, hdr.Value));
+                    client.DefaultRequestHeaders.Add(hdr.HeaderName, ReplaceTokens(_instance, plan, hdr.Value));
                 }
 
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending: {messageTemplate.HttpVerb} to {uri}.");
 
-                var messageBody = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
+                var messageBody = ReplaceTokens(_instance, plan, messageTemplate.TextPayload);
                 try
                 {
                     switch (messageTemplate.HttpVerb)
@@ -569,7 +575,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
-        private async Task<InvokeResult> SendTCPMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendTCPMessage(MessageTransmissionPlan messageTemplate)
         {
             var buffer = GetMessageBytes(messageTemplate);
             await _udpClient.WriteAsync(buffer, 0, buffer.Length);
@@ -577,7 +583,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             return InvokeResult.Success;
         }
 
-        private async Task<InvokeResult> SendUDPMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendUDPMessage(MessageTransmissionPlan messageTemplate)
         {
             var buffer = GetMessageBytes(messageTemplate);
             await _tcpClient.WriteAsync(buffer, 0, buffer.Length);
@@ -587,32 +593,35 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         private async void SentNextPoint(Object obj)
         {
-            await SendRESTRequestAsync(obj as MessageTemplate);
+            await SendRESTRequestAsync(obj as MessageTransmissionPlan);
         }
 
-        public async Task<InvokeResult<string>> SendAsync(MessageTemplate messageTemplate)
+        public async Task<InvokeResult<string>> SendAsync(MessageTransmissionPlan plan)
         {
             IsBusy = true;
+
+            var messageTemplate = plan.Message.Value;
 
             try
             {
                 InvokeResult res = InvokeResult.FromError("");
 
+           
                 switch (messageTemplate.Transport.Value)
                 {
-                    case TransportTypes.TCP: res = await SendTCPMessage(messageTemplate); break;
-                    case TransportTypes.UDP: res = await SendUDPMessage(messageTemplate); break;
-                    case TransportTypes.AzureServiceBus: res = await SendServiceBusMessage(messageTemplate); break;
-                    case TransportTypes.AzureEventHub: res = await SendEventHubMessage(messageTemplate); break;
-                    case TransportTypes.AzureIoTHub: res = await SendIoTHubMessage(messageTemplate); break;
-                    case TransportTypes.MQTT: res = await SendMQTTMessage(messageTemplate); break;
+                    case TransportTypes.TCP: res = await SendTCPMessage(plan); break;
+                    case TransportTypes.UDP: res = await SendUDPMessage(plan); break;
+                    case TransportTypes.AzureServiceBus: res = await SendServiceBusMessage(plan); break;
+                    case TransportTypes.AzureEventHub: res = await SendEventHubMessage(plan); break;
+                    case TransportTypes.AzureIoTHub: res = await SendIoTHubMessage(plan); break;
+                    case TransportTypes.MQTT: res = await SendMQTTMessage(plan); break;
                     case TransportTypes.RestHttps:
-                    case TransportTypes.RestHttp: res = await SendRESTRequestAsync(messageTemplate); break;
+                    case TransportTypes.RestHttp: res = await SendRESTRequestAsync(plan); break;
                 }
 
                 if (res.Successful)
                 {
-                    var msg = BuildRequestContent(messageTemplate);
+                    var msg = BuildRequestContent(plan);
                     return InvokeResult<string>.Create(msg);
                 }
                 else

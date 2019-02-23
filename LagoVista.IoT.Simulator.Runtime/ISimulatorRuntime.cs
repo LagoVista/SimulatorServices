@@ -9,7 +9,7 @@ namespace LagoVista.IoT.Simulator.Runtime
     {
         Task<InvokeResult> ConnectAsync();
 
-        Task<InvokeResult<String>> SendAsync(MessageTemplate messageTemplate);
+        Task<InvokeResult<String>> SendAsync(MessageTransmissionPlan messageTemplate);
 
         Task<InvokeResult> DisconnectAsync();
 

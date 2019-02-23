@@ -48,8 +48,10 @@ namespace LagoVista.IoT.Simulator.Runtime
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connected to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
         }
 
-        private async Task<InvokeResult> SendIoTHubMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendIoTHubMessage(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             if (_azureIoTHubClient == null)
             {
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "Azure IoT Hub is null, could not send message");
@@ -64,8 +66,8 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to Azure IoT Hub {_simulator.DefaultEndPoint}");
 
-            var textPayload = ReplaceTokens(messageTemplate, messageTemplate.TextPayload);
-            var msg = new Microsoft.Azure.Devices.Client.Message(GetMessageBytes(messageTemplate));
+            var textPayload = ReplaceTokens(_instance, plan, messageTemplate.TextPayload);
+            var msg = new Microsoft.Azure.Devices.Client.Message(GetMessageBytes(plan));
             await _azureIoTHubClient.SendEventAsync(msg);
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";

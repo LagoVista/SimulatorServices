@@ -56,8 +56,10 @@ namespace LagoVista.IoT.Simulator.Runtime
         }
 
 
-        private async Task<InvokeResult> SendMQTTMessage(MessageTemplate messageTemplate)
+        private async Task<InvokeResult> SendMQTTMessage(MessageTransmissionPlan plan)
         {
+            var messageTemplate = plan.Message.Value;
+
             if (_mqttClient == null)
             {
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is null, could not send message");
@@ -83,7 +85,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to MQTT Server {_simulator.DefaultEndPoint} with topic {messageTemplate.Topic}");
 
-            await _mqttClient.PublishAsync(ReplaceTokens(messageTemplate, messageTemplate.Topic), GetMessageBytes(messageTemplate), qos, messageTemplate.RetainFlag);
+            await _mqttClient.PublishAsync(ReplaceTokens(_instance, plan, messageTemplate.Topic), GetMessageBytes(plan), qos, messageTemplate.RetainFlag);
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
 

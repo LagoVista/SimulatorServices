@@ -85,9 +85,14 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
                 Port = 80,
                 HttpVerb = "GET"
             };
+
+            var plan = new MessageTransmissionPlan()
+            {
+                Message = Core.Models.EntityHeader<MessageTemplate>.Create(msg)
+            };
            
 
-            var result = await runtime.SendAsync(msg);
+            var result = await runtime.SendAsync(plan);
             AssertSuccess(result);            
         }
 
@@ -128,9 +133,15 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
                 HttpVerb = "GET"
             };
 
+
+            var plan = new MessageTransmissionPlan()
+            {
+                Message = Core.Models.EntityHeader<MessageTemplate>.Create(msg)
+            };
+
             var runtime = new SimulatorRuntime(_runtimeServices.Object, _notifPublisher, _adminLogger, sim);
 
-            var result = await runtime.SendAsync(msg);
+            var result = await runtime.SendAsync(plan);
             AssertSuccess(result);
         }
 
@@ -160,8 +171,13 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
             };
 
             var runtime = new SimulatorRuntime(_runtimeServices.Object, _notifPublisher, _adminLogger, sim);
-            
-            var result = await runtime.SendAsync(msg);
+
+            var plan = new MessageTransmissionPlan()
+            {
+                Message = Core.Models.EntityHeader<MessageTemplate>.Create(msg)
+            };
+
+            var result = await runtime.SendAsync(plan);
             AssertSuccess(result);
         }
 
@@ -189,9 +205,15 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
                 HttpVerb = "GET"
             };
 
+
+            var plan = new MessageTransmissionPlan()
+            {
+                Message = Core.Models.EntityHeader<MessageTemplate>.Create(msg)
+            };
+
             var runtime = new SimulatorRuntime(_runtimeServices.Object, _notifPublisher, _adminLogger, sim);
 
-            var result = await runtime.SendAsync(msg);
+            var result = await runtime.SendAsync(plan);
             AssertSuccess(result);
         }
 
@@ -225,7 +247,12 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
             var connectResult = await runtime.ConnectAsync();
             AssertSuccess(connectResult);
 
-            var result = await runtime.SendAsync(msg);
+            var plan = new MessageTransmissionPlan()
+            {
+                Message = Core.Models.EntityHeader<MessageTemplate>.Create(msg)
+            };
+
+            var result = await runtime.SendAsync(plan);
             AssertSuccess(result);
 
             var disconnectResult = await runtime.DisconnectAsync();
