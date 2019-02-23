@@ -78,6 +78,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_Values, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageValue> Values { get; set; }
 
+        [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_ForState, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
+        public EntityHeader<SimulatorState> ForState { get; set; }
+
         public IEntityHeader ToEntityHeader()
         {
             return EntityHeader.Create(Id, Name);

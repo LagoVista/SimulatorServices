@@ -549,4 +549,19 @@
   <data name="SimulatorNetwork_AccessKey2" xml:space="preserve">
     <value>Access Key Secondary</value>
   </data>
+  <data name="SimulatorState_Description" xml:space="preserve">
+    <value>You can add different states to your simulator these can then be used to send out different error conditions or message values.</value>
+  </data>
+  <data name="SimulatorState_Help" xml:space="preserve">
+    <value>You can add different states to your simulator these can then be used to send out different error conditions or message values.</value>
+  </data>
+  <data name="SimulatorState_Title" xml:space="preserve">
+    <value>Simulator State</value>
+  </data>
+  <data name="Simulator_SimulatorStates" xml:space="preserve">
+    <value>Simulator States</value>
+  </data>
+  <data name="MessageTransmissionPlan_ForState" xml:space="preserve">
+    <value>For State</value>
+  </data>
 </root>

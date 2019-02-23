@@ -272,6 +272,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageTransmissionPlan_Description
 
 		public static string MessageTransmissionPlan_Description { get { return GetResourceString("MessageTransmissionPlan_Description"); } }
+//Resources:SimulatorResources:MessageTransmissionPlan_ForState
+
+		public static string MessageTransmissionPlan_ForState { get { return GetResourceString("MessageTransmissionPlan_ForState"); } }
 //Resources:SimulatorResources:MessageTransmissionPlan_Help
 
 		public static string MessageTransmissionPlan_Help { get { return GetResourceString("MessageTransmissionPlan_Help"); } }
@@ -392,6 +395,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_QueueName
 
 		public static string Simulator_QueueName { get { return GetResourceString("Simulator_QueueName"); } }
+//Resources:SimulatorResources:Simulator_SimulatorStates
+
+		public static string Simulator_SimulatorStates { get { return GetResourceString("Simulator_SimulatorStates"); } }
 //Resources:SimulatorResources:Simulator_Subscription
 
 		public static string Simulator_Subscription { get { return GetResourceString("Simulator_Subscription"); } }
@@ -452,6 +458,15 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:SimulatorNetwork_Title
 
 		public static string SimulatorNetwork_Title { get { return GetResourceString("SimulatorNetwork_Title"); } }
+//Resources:SimulatorResources:SimulatorState_Description
+
+		public static string SimulatorState_Description { get { return GetResourceString("SimulatorState_Description"); } }
+//Resources:SimulatorResources:SimulatorState_Help
+
+		public static string SimulatorState_Help { get { return GetResourceString("SimulatorState_Help"); } }
+//Resources:SimulatorResources:SimulatorState_Title
+
+		public static string SimulatorState_Title { get { return GetResourceString("SimulatorState_Title"); } }
 //Resources:SimulatorResources:Transport_AMQP
 
 		public static string Transport_AMQP { get { return GetResourceString("Transport_AMQP"); } }
@@ -561,6 +576,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string MessageTemplate_Topic = "MessageTemplate_Topic";
 			public const string MessageTemplate_Transport = "MessageTemplate_Transport";
 			public const string MessageTransmissionPlan_Description = "MessageTransmissionPlan_Description";
+			public const string MessageTransmissionPlan_ForState = "MessageTransmissionPlan_ForState";
 			public const string MessageTransmissionPlan_Help = "MessageTransmissionPlan_Help";
 			public const string MessageTransmissionPlan_MessageTemplate = "MessageTransmissionPlan_MessageTemplate";
 			public const string MessageTransmissionPlan_PeriodMS = "MessageTransmissionPlan_PeriodMS";
@@ -601,6 +617,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_Password = "Simulator_Password";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
 			public const string Simulator_QueueName = "Simulator_QueueName";
+			public const string Simulator_SimulatorStates = "Simulator_SimulatorStates";
 			public const string Simulator_Subscription = "Simulator_Subscription";
 			public const string Simulator_Subscription_Help = "Simulator_Subscription_Help";
 			public const string Simulator_Title = "Simulator_Title";
@@ -621,6 +638,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string SimulatorNetwork_Help = "SimulatorNetwork_Help";
 			public const string SimulatorNetwork_Simulators = "SimulatorNetwork_Simulators";
 			public const string SimulatorNetwork_Title = "SimulatorNetwork_Title";
+			public const string SimulatorState_Description = "SimulatorState_Description";
+			public const string SimulatorState_Help = "SimulatorState_Help";
+			public const string SimulatorState_Title = "SimulatorState_Title";
 			public const string Transport_AMQP = "Transport_AMQP";
 			public const string Transport_AzureEventHub = "Transport_AzureEventHub";
 			public const string Transport_AzureIoTHub = "Transport_AzureIoTHub";

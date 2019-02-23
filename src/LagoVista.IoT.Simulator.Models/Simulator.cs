@@ -65,6 +65,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         public Simulator()
         {
+            SimulatorStates = new List<SimulatorState>();
             MessageTemplates = new List<MessageTemplate>();
             Id = Guid.NewGuid().ToId();
         }
@@ -104,6 +105,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
+
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        public List<SimulatorState> SimulatorStates { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource: SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
         public EntityHeader<CredentialsStorage> CredentialStorage { get; set; }
