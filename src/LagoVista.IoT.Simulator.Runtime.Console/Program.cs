@@ -2,8 +2,10 @@
 using LagoVista.IoT.Logging.Loggers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LagoVista.IoT.Simulator.Runtime.App
 {

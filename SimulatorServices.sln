@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.Run
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.Runtime.Tests", "tests\LagoVista.IoT.Simulator.Runtime.Tests\LagoVista.IoT.Simulator.Runtime.Tests.csproj", "{725CB722-CAA3-42C6-AA74-3C0546220805}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagoVista.IoT.Simulator.Runtime.Console", "src\LagoVista.IoT.Simulator.Runtime.Console\LagoVista.IoT.Simulator.Runtime.Console.csproj", "{364CB8C3-729E-402A-974A-B7FD6447EE29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.Runtime.Console", "src\LagoVista.IoT.Simulator.Runtime.Console\LagoVista.IoT.Simulator.Runtime.Console.csproj", "{364CB8C3-729E-402A-974A-B7FD6447EE29}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagoVista.IoT.Simulator.Runtime.Portal", "src\LagoVista.IoT.Simulator.Runtime.Portal\LagoVista.IoT.Simulator.Runtime.Portal.csproj", "{645551B3-0F45-4E0B-BBCA-94D70E163970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{364CB8C3-729E-402A-974A-B7FD6447EE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{364CB8C3-729E-402A-974A-B7FD6447EE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{364CB8C3-729E-402A-974A-B7FD6447EE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{645551B3-0F45-4E0B-BBCA-94D70E163970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{645551B3-0F45-4E0B-BBCA-94D70E163970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{645551B3-0F45-4E0B-BBCA-94D70E163970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{645551B3-0F45-4E0B-BBCA-94D70E163970}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
