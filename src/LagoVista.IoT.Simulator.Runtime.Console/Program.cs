@@ -69,7 +69,8 @@ namespace LagoVista.IoT.Simulator.Runtime.App
             var id = parms["id"];
             var key = parms["key"];
 
-            var mgr = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(), new NotificationPublisher(), new AdminLogger(new LogWriter()));
+            var mgr = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(),new AdminLogger(new LogWriter()));
+            mgr.Publisher = new NotificationPublisher();
             await mgr.InitAsync(id, key, org, usr, Core.Interfaces.Environments.Development);
 
             Console.ReadKey();

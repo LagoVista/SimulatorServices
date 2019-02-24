@@ -5,6 +5,8 @@ using LagoVista.Core.Validation;
 using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Simulator.Admin.Repos;
 using System;
+using System.Linq;
+using LagoVista.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static LagoVista.Core.Models.AuthorizeResult;
@@ -119,6 +121,20 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
             }
 
             await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
+
+
+            //Added 2/24/2019, just ensure that all simulators a have default state.
+            if (!simulator.SimulatorStates.Where(sim => sim.Key == "default").Any())
+            {
+                simulator.SimulatorStates.Add(new Models.SimulatorState()
+                {
+                    Id = Guid.NewGuid().ToId(),
+                    Description = "Default State",
+                    Key = "default",
+                    Name = "Default State"
+                });
+            }
+
             return simulator;
         }
 

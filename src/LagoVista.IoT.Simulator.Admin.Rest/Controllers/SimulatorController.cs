@@ -1,15 +1,16 @@
-﻿using LagoVista.IoT.Simulator.Admin.Managers;
+﻿using LagoVista.Core;
+using LagoVista.Core.Models;
+using LagoVista.Core.Models.UIMetaData;
+using LagoVista.Core.Validation;
+using LagoVista.IoT.Logging.Loggers;
+using LagoVista.IoT.Simulator.Admin.Managers;
 using LagoVista.IoT.Web.Common.Controllers;
+using LagoVista.UserAdmin.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using LagoVista.Core.Validation;
 using System.Threading.Tasks;
-using LagoVista.Core.Models.UIMetaData;
-using LagoVista.UserAdmin.Models.Users;
-using LagoVista.Core.Models;
-using LagoVista.IoT.Logging.Loggers;
 
 namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 {
@@ -156,6 +157,14 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         public DetailResponse<Models.Simulator> CreateSimulator()
         {
             var simulator = DetailResponse<Models.Simulator>.Create();
+            simulator.Model.SimulatorStates.Add(new Models.SimulatorState()
+            {
+                Id = Guid.NewGuid().ToId(),
+                Description = "Default State",
+                Key = "default",
+                Name = "Default State"
+            });
+
             SetOwnedProperties(simulator.Model);
             SetAuditProperties(simulator.Model);
 

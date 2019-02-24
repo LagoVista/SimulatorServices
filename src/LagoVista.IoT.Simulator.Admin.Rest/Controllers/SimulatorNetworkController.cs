@@ -115,6 +115,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 
             simulator.Model.SharedAccessKey1 = GenerateRandomKey();
             simulator.Model.SharedAccessKey2 = GenerateRandomKey();
+           
 
             SetOwnedProperties(simulator.Model);
             SetAuditProperties(simulator.Model);
