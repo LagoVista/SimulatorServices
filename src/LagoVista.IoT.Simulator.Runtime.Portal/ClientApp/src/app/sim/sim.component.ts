@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HubConnection } from '@aspnet/signalr';
+import * as signalR from '@aspnet/signalr';
 
 @Component({
   selector: 'app-sim',
@@ -7,21 +9,54 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./sim.component.css']
 })
 export class SimComponent implements OnInit {
-   public simulators: Simulator[];
+  private _hubConnection: HubConnection | undefined;
+  public simulators: Simulator[];
+  messages: string[] = [];
+  message: '';
+  _baseUrl: string;
+  _http: HttpClient;
 
-    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     console.log(baseUrl);
 
-      http.get<Simulator[]>(baseUrl + 'api/simnetwork/simulators').subscribe(result => {
-        console.log(result);
-        this.simulators = result;
-      }, error => console.error(error));
+    this._http = http;
+
+    this._baseUrl = baseUrl;
+    http.get<Simulator[]>(baseUrl + 'api/simnetwork/simulators').subscribe(result => {
+      console.log(result);
+      this.simulators = result;
+    }, error => console.error(error));
 
   }
 
   ngOnInit() {
+    this._hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl('https://localhost:5001/realtime')
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+    this._hubConnection.start().catch(err => console.error(err.toString()));
+
+    this._hubConnection.on('update', (data: any) => {
+      const received = `Received: ${data}`;
+      console.log(received);
+      this.messages.push(received);
+    });
+
+    this._hubConnection.on('Send', (data: any) => {
+      const received = `From Send: ${data}`;
+      console.log(received);
+      this.messages.push(received);
+    });
   }
 
+
+  send() {
+    const data = `Sent: ${this.message}`;
+
+    this._http.get<Simulator[]>(this._baseUrl + 'api/simnetwork/Update').subscribe(result => {
+    }, error => console.error(error));
+  }
 }
 
 interface Simulator {

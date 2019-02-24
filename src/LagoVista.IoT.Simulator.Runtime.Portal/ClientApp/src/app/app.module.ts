@@ -25,7 +25,7 @@ import { SimComponent } from './sim/sim.component';
       HttpClientModule,
       FormsModule,
       RouterModule.forRoot([
-         { path: '', component: HomeComponent, pathMatch: 'full' },
+         { path: '', component: SimComponent, pathMatch: 'full' },
          { path: 'counter', component: CounterComponent },
          { path: 'sim', component: SimComponent },
          { path: 'fetch-data', component: FetchDataComponent },

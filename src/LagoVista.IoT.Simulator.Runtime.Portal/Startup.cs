@@ -3,7 +3,6 @@ using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Simulator.Runtime.Portal.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +37,6 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
             _simulatorId = Configuration.GetValue<string>("simulatorId");
             _accessKey = Configuration.GetValue<string>("accessKey");
 
-            _simRuntimeManager = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(), new NotificationPublisher(), new AdminLogger(new LogWriter()));
         }
 
         EntityHeader _org;
@@ -50,13 +48,18 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
 
         public IConfiguration Configuration { get; }
 
+        public IServiceCollection _serviceCollection;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            _serviceCollection = services;
+            _simRuntimeManager = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(), new AdminLogger(new LogWriter()));
+            _serviceCollection.AddSingleton(_simRuntimeManager);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddSingleton(_simRuntimeManager);
-
+            services.AddSignalR();
+            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -70,7 +73,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -83,11 +86,14 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
                 app.UseHsts();
             }
 
-            StartSimManager();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotificationHub>("/realtime");
+            });
 
             app.UseMvc(routes =>
             {
@@ -109,6 +115,10 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            _simRuntimeManager.Publisher = new NotificationPublisher(app.ApplicationServices);
+
+            StartSimManager();
         }
     }
 }

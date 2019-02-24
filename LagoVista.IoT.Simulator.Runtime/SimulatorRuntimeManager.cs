@@ -29,14 +29,12 @@ namespace LagoVista.IoT.Simulator.Runtime
         public const string VERSION = "x-nuviot-version";
 
         ISimulatorRuntimeServicesFactory _factory;
-        INotificationPublisher _notificationPublisher;
         IAdminLogger _adminLogger;
 
         public ObservableCollection<SimulatorRuntime> Runtimes { get; }
 
-        public SimulatorRuntimeManager(ISimulatorRuntimeServicesFactory factory, INotificationPublisher notificationPublisher, IAdminLogger adminLogger)
+        public SimulatorRuntimeManager(ISimulatorRuntimeServicesFactory factory, IAdminLogger adminLogger)
         {
-            _notificationPublisher = notificationPublisher;
             _adminLogger = adminLogger;
             _factory = factory;
 
@@ -58,6 +56,8 @@ namespace LagoVista.IoT.Simulator.Runtime
             var b64Str = System.Convert.ToBase64String(resultBytes);
             return $"{requestId}:{b64Str}";
         }
+
+        public INotificationPublisher Publisher { get; set; }
 
         public async Task InitAsync(string simulatorNetworkId, string key, EntityHeader org, EntityHeader user, Environments environment)
         {            
@@ -114,7 +114,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             foreach(var sim in network.Simulators)
             {
                 var services = _factory.GetServices();
-                var runtime = new SimulatorRuntime(services, _notificationPublisher, _adminLogger, sim);
+                var runtime = new SimulatorRuntime(services, Publisher, _adminLogger, sim);
                 await runtime.ConnectAsync();
                 runtime.Start();
                 Runtimes.Add(runtime);

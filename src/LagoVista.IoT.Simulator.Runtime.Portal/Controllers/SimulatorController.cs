@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LagoVista.IoT.Simulator.Runtime.Portal.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,8 +15,11 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Controllers
     {
         SimulatorRuntimeManager _simulatorRuntimeManager;
 
-        public SimulatorController(SimulatorRuntimeManager simulatorRuntimeManager)
+        IHubContext<NotificationHub> _hub;
+
+        public SimulatorController(IHubContext<NotificationHub> hub, SimulatorRuntimeManager simulatorRuntimeManager)
         {
+            _hub = hub;
             _simulatorRuntimeManager = simulatorRuntimeManager;
         }
 
@@ -22,6 +27,13 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Controllers
         public ObservableCollection<SimulatorRuntime> GetSimulators()
         {
             return _simulatorRuntimeManager.Runtimes;
+        }
+
+
+        [Route("/api/simnetwork/update")]
+        public void Update()
+        {
+            _hub.Clients.All.SendAsync("update", DateTime.UtcNow.ToString());
         }
     }
 }

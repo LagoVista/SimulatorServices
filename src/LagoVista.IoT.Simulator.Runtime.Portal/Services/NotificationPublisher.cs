@@ -1,16 +1,48 @@
 ﻿using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using LagoVista.IoT.Runtime.Core.Services;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+
+
 
 namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 {
     public class NotificationPublisher : INotificationPublisher
     {
-        public Task PublishAsync(Targets target, Notification notification, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
+        IServiceCollection _serviceCollection;
+
+        IServiceProvider _serviceProvider;
+
+        IHubContext<NotificationHub> _hub;
+
+        public NotificationPublisher(IHubContext<NotificationHub> hub)
+        {
+            _hub = hub;
+        }
+
+        public NotificationPublisher(IServiceCollection collection)
+        {
+            _serviceCollection = collection;
+        }
+
+        public NotificationPublisher(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+
+        private IHubContext<NotificationHub> GetHub()
+        {
+           // var sp = _serviceCollection.BuildServiceProvider();
+           // var svc = _serviceCollection.Where(sc => sc.ServiceType == typeof(IHubContext<NotificationHub>)).FirstOrDefault();
+            return _serviceProvider.GetService<IHubContext<NotificationHub>>();
+        }
+
+        public async Task PublishAsync(Targets target, Notification notification, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine($"{notification.Channel} {notification.ChannelId}");
@@ -20,10 +52,11 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine();
 
-            return Task.FromResult(default(object));
+            _hub = GetHub();
+            await _hub.Clients.All.SendCoreAsync("update", new string[] { notification.Payload });
         }
 
-        public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
+        public async Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine($"{channel} {channelId}");
@@ -33,10 +66,12 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine();
 
-            return Task.FromResult(default(object));
+
+            _hub = GetHub();
+            await _hub.Clients.All.SendCoreAsync("update", new string[] { JsonConvert.SerializeObject(message) });
         }
 
-        public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, string text, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
+        public async Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, string text, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine($"{channel} {channelId}");
@@ -47,10 +82,12 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine();
 
-            return Task.FromResult(default(object));
+
+            _hub = GetHub();
+            await _hub.Clients.All.SendCoreAsync("update", new string[] { JsonConvert.SerializeObject(message) });
         }
 
-        public Task PublishTextAsync(Targets target, Channels channel, string channelId, string text, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
+        public async Task PublishTextAsync(Targets target, Channels channel, string channelId, string text, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine($"{channel} {channelId}");
@@ -59,7 +96,9 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine();
 
-            return Task.FromResult(default(object));
+
+            _hub = GetHub();
+            await _hub.Clients.All.SendAsync("update", text);
         }
     }
 }
