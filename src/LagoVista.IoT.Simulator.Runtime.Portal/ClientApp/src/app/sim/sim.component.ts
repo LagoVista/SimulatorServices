@@ -13,6 +13,7 @@ export class SimComponent implements OnInit {
   public simulators: Simulator[];
   messages: string[] = [];
   message: '';
+  _instanceId: string;
   _baseUrl: string;
   _http: HttpClient;
 
@@ -37,10 +38,15 @@ export class SimComponent implements OnInit {
 
     this._hubConnection.start().catch(err => console.error(err.toString()));
 
-    this._hubConnection.on('update', (data: any) => {
-      const received = `Received: ${data}`;
-      console.log(received);
-      this.messages.push(received);
+    this._hubConnection.on('notification', (json: string) => {
+      let data = JSON.parse(json);
+
+      if(data.channelId === this._instanceId) {
+        this.messages.splice(0, 0, data.title);
+      }
+      
+      var intsance = this.simulators.find(sim=>sim.instanceId == data.channelId);
+      intsance.lastUpdate = data.dateStamp;
     });
 
     this._hubConnection.on('Send', (data: any) => {
@@ -50,6 +56,11 @@ export class SimComponent implements OnInit {
     });
   }
 
+  selectSim(instanceId: string) {
+    this._instanceId = instanceId;
+    
+    this.messages = [];
+  }
 
   send() {
     const data = `Sent: ${this.message}`;
@@ -59,10 +70,28 @@ export class SimComponent implements OnInit {
   }
 }
 
+interface EntityHeader {
+  id: string;
+  name: string;
+}
+
+interface Notification{
+  messageId: string;
+  dateStamp: string;
+  channel: EntityHeader;
+  verbosity: EntityHeader;
+  channelId: string;
+  title: string;
+  text: string;
+  payloadType: string;
+  payload: string;
+}
+
 interface Simulator {
   instanceName: string;
   simulatorName: string;
   instanceId: string;
   currentState: string;
   isActive: string;
+  lastUpdate: string;
 }

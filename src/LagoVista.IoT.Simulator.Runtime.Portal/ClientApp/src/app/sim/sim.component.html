@@ -13,14 +13,17 @@
   </thead>
   <tbody>
     <tr *ngFor="let simulator of simulators">
+      <td><a (click)="selectSim(simulator.instanceId)" href="#" > {{ simulator.instanceName }}</a></td>
       <td>{{ simulator.simulatorName }}</td>
-      <td>{{ simulator.instanceName }}</td>
+      <td>{{ simulator.lastUpdate }}</td>
     </tr>
   </tbody>
-</table><form class="form-inline" (ngSubmit)="send()" #messageForm="ngForm">
-  <div class="form-group">
-      <label class="sr-only" for="message">Message</label>
-      <input type="text" class="form-control" id="message" placeholder="your message..." name="message" [(ngModel)]="message" required>
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">Send SignalR Message</button>
-</form>
+</table>
+
+<div style="width:800px;height:400px;background-color: black;color: yellow">
+  <ol style="list-style-type: none;">
+    <li *ngFor="let msg of messages" style="margin: 0px">
+     <span style="font-family: consolas;font-size:12px">{{ msg }}</span>
+    </li>
+  </ol>
+</div>
