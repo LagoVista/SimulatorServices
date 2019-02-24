@@ -12,15 +12,17 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 
         public static NotificationHub Current { get; set; }
 
-        public NotificationHub()
+        SimulatorRuntimeManager _mgr;
+
+        public NotificationHub(SimulatorRuntimeManager mgr)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Gen => " + Guid.NewGuid());
-            Console.ResetColor();
+            _mgr = mgr;
+        }        
 
-            Current = this;
-
-            _hubCount++;
+        public void SetState(string instanceId, string newState)
+        {
+            var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
+            instance.SetState(newState);
         }
 
         public async Task Send(string message)

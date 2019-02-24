@@ -98,6 +98,8 @@ namespace LagoVista.IoT.Simulator.Runtime
         {
             lock (_msgSendTimers)
             {
+                SetState("default");
+
                 foreach (var plan in _instance.TransmissionPlans)
                 {
                     plan.Message.Value = _simulator.MessageTemplates.Where(msg => msg.Id == plan.Message.Id).FirstOrDefault();
@@ -751,7 +753,20 @@ namespace LagoVista.IoT.Simulator.Runtime
         public string SimulatorName => _simulator.Name;
         public string InstanceName => _instance.Name;
 
-        public string CurrentState => "Running";
+        public List<MessageTemplate> Messages => _simulator.MessageTemplates;
+
+        public SimulatorState CurrentState { get; set; }
+
+        public async void SetState(string key)
+        {
+            CurrentState = _simulator.SimulatorStates.Where(stat => stat.Key == key).FirstOrDefault();
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"State Changed to {CurrentState.Name}", CurrentState);
+        }
+
+        public List<SimulatorState> States
+        {
+            get{return _simulator.SimulatorStates;}
+        }
 
         public bool IsActive => true;
 

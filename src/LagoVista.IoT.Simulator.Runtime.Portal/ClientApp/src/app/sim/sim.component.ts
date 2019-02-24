@@ -17,6 +17,8 @@ export class SimComponent implements OnInit {
   _baseUrl: string;
   _http: HttpClient;
 
+  public currentSimulator: Simulator;
+
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     console.log(baseUrl);
 
@@ -39,14 +41,19 @@ export class SimComponent implements OnInit {
     this._hubConnection.start().catch(err => console.error(err.toString()));
 
     this._hubConnection.on('notification', (json: string) => {
-      let data = JSON.parse(json);
+      const data = JSON.parse(json);
 
-      if(data.channelId === this._instanceId) {
+      if (data.channelId === this._instanceId) {
         this.messages.splice(0, 0, data.title);
       }
-      
-      var intsance = this.simulators.find(sim=>sim.instanceId == data.channelId);
-      intsance.lastUpdate = data.dateStamp;
+
+      const instance = this.simulators.find(sim => sim.instanceId === data.channelId);
+      instance.lastUpdate = data.dateStamp;
+      if (data.payloadType === 'SimulatorState') {
+        console.log(data.payloadJSON);
+        instance.currentState = JSON.parse(data.payloadJSON);
+        console.log(instance.currentState);
+      }
     });
 
     this._hubConnection.on('Send', (data: any) => {
@@ -58,8 +65,15 @@ export class SimComponent implements OnInit {
 
   selectSim(instanceId: string) {
     this._instanceId = instanceId;
-    
+
+    this.currentSimulator = this.simulators.find(sim => sim.instanceId === instanceId);
+    console.log(this.currentSimulator);
+
     this.messages = [];
+  }
+
+  changeState(stateId: string) {
+    this._hubConnection.send('setState', this.currentSimulator.instanceId, stateId);
   }
 
   send() {
@@ -75,7 +89,7 @@ interface EntityHeader {
   name: string;
 }
 
-interface Notification{
+interface Notification {
   messageId: string;
   dateStamp: string;
   channel: EntityHeader;
@@ -84,14 +98,38 @@ interface Notification{
   title: string;
   text: string;
   payloadType: string;
-  payload: string;
+  payloadJSON: string;
+}
+
+interface SimulatorState {
+  id: string;
+  key: string;
+  name: string;
+  description: string;
+}
+
+interface MessageDynamicAttribute {
+  id: string;
+  name: string;
+  key: string;
+  defaultValue: string;
+  parameterType: EntityHeader;
+}
+
+interface Message {
+  key: string;
+  name: string;
+  description: string;
+  dynamicAttributes: MessageDynamicAttribute[];
 }
 
 interface Simulator {
   instanceName: string;
   simulatorName: string;
   instanceId: string;
-  currentState: string;
+  currentState: SimulatorState;
+  states: SimulatorState[];
   isActive: string;
+  messages: Message[];
   lastUpdate: string;
 }

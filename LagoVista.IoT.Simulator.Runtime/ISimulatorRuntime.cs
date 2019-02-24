@@ -1,6 +1,8 @@
-﻿using LagoVista.Core.Validation;
+﻿using LagoVista.Core.Models;
+using LagoVista.Core.Validation;
 using LagoVista.IoT.Simulator.Admin.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LagoVista.IoT.Simulator.Runtime
@@ -21,8 +23,14 @@ namespace LagoVista.IoT.Simulator.Runtime
         String InstanceName { get; }
         String InstanceId { get; }
 
-        String CurrentState { get; }
+        SimulatorState CurrentState { get; }
+
+        void SetState(string stateKey);
+
+        List<SimulatorState> States { get; }
 
         bool IsActive { get; }
+
+        List<MessageTemplate> Messages { get; }
     }
 }

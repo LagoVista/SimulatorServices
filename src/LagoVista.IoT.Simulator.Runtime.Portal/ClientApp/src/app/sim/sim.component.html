@@ -5,25 +5,46 @@
 <table class='table table-striped' *ngIf="simulators">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
+      <th>Last Update</th>
+      <th>Sim Instance</th>
+      <th>Sim Type</th>
+      <th>State</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let simulator of simulators">
-      <td><a (click)="selectSim(simulator.instanceId)" href="#" > {{ simulator.instanceName }}</a></td>
-      <td>{{ simulator.simulatorName }}</td>
       <td>{{ simulator.lastUpdate }}</td>
+      <td><a (click)="selectSim(simulator.instanceId)" href="#"> {{ simulator.instanceName }}</a></td>
+      <td>{{ simulator.simulatorName }}</td>
+      <td>{{ simulator.currentState.name }}</td>
     </tr>
   </tbody>
 </table>
 
-<div style="width:800px;height:400px;background-color: black;color: yellow">
-  <ol style="list-style-type: none;">
-    <li *ngFor="let msg of messages" style="margin: 0px">
-     <span style="font-family: consolas;font-size:12px">{{ msg }}</span>
-    </li>
-  </ol>
+<div *ngIf="currentSimulator">
+  <h1>{{currentSimulator.instanceName}} - ({{currentSimulator.simulatorName}})</h1>
+  <div>
+    <select (change)="changeState($event.target.value)" [(ngModel)]="currentSimulator.currentState.key">
+      <option *ngFor="let state of currentSimulator.states" value="{{state.key}}">
+        {{state.name}}
+      </option>
+    </select>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-9">
+        <div
+          style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+          class="pre-scrollable">
+          <div *ngFor="let msg of messages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div *ngFor="let msg of currentSimulator.messages">
+          <a href="#">{{msg.name}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -4,6 +4,7 @@ using LagoVista.IoT.Runtime.Core.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
     public class NotificationPublisher : INotificationPublisher
     {
         IServiceProvider _serviceProvider;
+
+        static JsonSerializerSettings _camelCaseSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
 
         public NotificationPublisher(IServiceProvider serviceProvider)
         {
@@ -75,7 +78,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
                 ChannelId = channelId,
                 Title = text,
                 PayloadType = typeof(TPayload).Name,
-                Payload = JsonConvert.SerializeObject(message)
+                Payload = JsonConvert.SerializeObject(message, _camelCaseSettings)
             };
 
             return PublishAsync(target, notification);
