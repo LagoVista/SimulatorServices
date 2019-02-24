@@ -1,0 +1,20 @@
+<h1>Simulators</h1>
+
+<p *ngIf="!simulators"><em>Loading...</em></p>
+
+<table class='table table-striped' *ngIf="simulators">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Temp. (C)</th>
+      <th>Temp. (F)</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let simulator of simulators">
+      <td>{{ simulator.simulatorName }}</td>
+      <td>{{ simulator.instanceName }}</td>
+    </tr>
+  </tbody>
+</table>

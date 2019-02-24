@@ -15,5 +15,14 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         void Start();
         void Stop();
+
+        String SimulatorName { get; }
+
+        String InstanceName { get; }
+        String InstanceId { get; }
+
+        String CurrentState { get; }
+
+        bool IsActive { get; }
     }
 }

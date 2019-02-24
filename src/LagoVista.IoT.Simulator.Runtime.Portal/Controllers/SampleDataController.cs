@@ -14,7 +14,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        [HttpGet("[action]")]
+        [HttpGet("/api/SampleData/WeatherForecasts")]
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {
             var rng = new Random();

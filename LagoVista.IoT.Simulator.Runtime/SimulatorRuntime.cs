@@ -748,6 +748,13 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
+        public string SimulatorName => _simulator.Name;
+        public string InstanceName => _instance.Name;
+
+        public string CurrentState => "Running";
+
+        public bool IsActive => true;
+
         private bool _isConnected;
 
         private async void SetConnectedState()

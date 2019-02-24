@@ -13,6 +13,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Digests;
 using Newtonsoft.Json;
 using LagoVista.IoT.Simulator.Admin.Models;
+using System.Collections.ObjectModel;
 
 namespace LagoVista.IoT.Simulator.Runtime
 {
@@ -31,13 +32,15 @@ namespace LagoVista.IoT.Simulator.Runtime
         INotificationPublisher _notificationPublisher;
         IAdminLogger _adminLogger;
 
-        public List<SimulatorRuntime> _runtimes = new List<SimulatorRuntime>();
+        public ObservableCollection<SimulatorRuntime> Runtimes { get; }
 
         public SimulatorRuntimeManager(ISimulatorRuntimeServicesFactory factory, INotificationPublisher notificationPublisher, IAdminLogger adminLogger)
         {
             _notificationPublisher = notificationPublisher;
             _adminLogger = adminLogger;
             _factory = factory;
+
+            Runtimes = new ObservableCollection<SimulatorRuntime>();
         }
 
         private string GetSignature(string requestId, string key, string source)
@@ -106,10 +109,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             var json = await client.GetStringAsync(rootUri);
 
-            Console.WriteLine(json);
-
-            await Task.Delay(1);
-
+  
             var network = JsonConvert.DeserializeObject<SimulatorNetwork>(json);
             foreach(var sim in network.Simulators)
             {
@@ -117,6 +117,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                 var runtime = new SimulatorRuntime(services, _notificationPublisher, _adminLogger, sim);
                 await runtime.ConnectAsync();
                 runtime.Start();
+                Runtimes.Add(runtime);
             }
         }
     }

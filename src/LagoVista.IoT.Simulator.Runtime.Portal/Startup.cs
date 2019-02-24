@@ -37,12 +37,16 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
 
             _simulatorId = Configuration.GetValue<string>("simulatorId");
             _accessKey = Configuration.GetValue<string>("accessKey");
+
+            _simRuntimeManager = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(), new NotificationPublisher(), new AdminLogger(new LogWriter()));
         }
 
         EntityHeader _org;
         EntityHeader _user;
         string _simulatorId;
         string _accessKey;
+
+        SimulatorRuntimeManager _simRuntimeManager;
 
         public IConfiguration Configuration { get; }
 
@@ -51,11 +55,18 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSingleton(_simRuntimeManager);
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+        }
+
+        private async void StartSimManager()
+        {
+            await _simRuntimeManager.InitAsync(_simulatorId, _accessKey, _org, _user, Core.Interfaces.Environments.Development);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,8 +83,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
                 app.UseHsts();
             }
 
-            var mgr = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(), new NotificationPublisher(), new AdminLogger(new LogWriter()));
-            await mgr.InitAsync(_simulatorId, _accessKey, _org, _user, Core.Interfaces.Environments.Development);
+            StartSimManager();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
