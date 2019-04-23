@@ -454,11 +454,13 @@ namespace LagoVista.IoT.Simulator.Runtime
                 var protocol = messageTemplate.Transport.Value == TransportTypes.RestHttps ? "https" : "http";
 
                 String uri = null;
-                if (!String.IsNullOrEmpty(messageTemplate.EndPoint))
+                /*if (!String.IsNullOrEmpty(messageTemplate.EndPoint))
                 {
                     uri = $"{protocol}://{messageTemplate.EndPoint}:{messageTemplate.Port}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
                 }
-                else if (!String.IsNullOrEmpty(_simulator.DefaultEndPoint))
+                else */
+                
+                if (!String.IsNullOrEmpty(_simulator.DefaultEndPoint))
                 {
                     uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
                 }
