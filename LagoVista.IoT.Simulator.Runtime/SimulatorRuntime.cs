@@ -3,7 +3,6 @@ using LagoVista.Client.Core;
 using LagoVista.Core;
 using LagoVista.Core.Models;
 using LagoVista.Core.Networking.Interfaces;
-using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Validation;
 using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Runtime.Core.Services;
@@ -13,11 +12,9 @@ using Microsoft.Azure.EventHubs;
 using Microsoft.Azure.ServiceBus;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -119,9 +116,9 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         public void Stop()
         {
-            lock(_msgSendTimers)
+            lock (_msgSendTimers)
             {
-                foreach(var tmr in _msgSendTimers)
+                foreach (var tmr in _msgSendTimers)
                 {
                     tmr.Change(Timeout.Infinite, Timeout.Infinite);
                 }
@@ -162,7 +159,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                     case TransportTypes.AzureIoTHub:
                         await ConnectAzureIoTHubAsync();
                         break;
-                    case TransportTypes.MQTT:                        
+                    case TransportTypes.MQTT:
                         await MQTTConnectAsync();
                         break;
                     case TransportTypes.TCP:
@@ -234,7 +231,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
-     
+
 
         private async Task<InvokeResult> SendServiceBusMessage(MessageTransmissionPlan plan)
         {
@@ -333,7 +330,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
 
             return InvokeResult.Success;
-        }    
+        }
 
         private async Task<InvokeResult> SendGeoMessage(MessageTransmissionPlan plan)
         {
@@ -459,7 +456,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                     uri = $"{protocol}://{messageTemplate.EndPoint}:{messageTemplate.Port}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
                 }
                 else */
-                
+
                 if (!String.IsNullOrEmpty(_simulator.DefaultEndPoint))
                 {
                     uri = $"{protocol}://{_simulator.DefaultEndPoint}:{_simulator.DefaultPort}{ReplaceTokens(_instance, plan, messageTemplate.PathAndQueryString)}";
@@ -610,7 +607,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             {
                 InvokeResult res = InvokeResult.FromError("");
 
-           
+
                 switch (messageTemplate.Transport.Value)
                 {
                     case TransportTypes.TCP: res = await SendTCPMessage(plan); break;
@@ -767,7 +764,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         public List<SimulatorState> States
         {
-            get{return _simulator.SimulatorStates;}
+            get { return _simulator.SimulatorStates; }
         }
 
         public bool IsActive => true;

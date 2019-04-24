@@ -35,5 +35,24 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Controllers
         {
             _hub.Clients.All.SendAsync("update", DateTime.UtcNow.ToString());
         }
+
+        [Route("/api/simnetwork/start")]
+        public void Start()
+        {
+            _simulatorRuntimeManager.Runtimes.First().Start();
+        }
+
+        [Route("/api/simnetwork/stop")]
+        public void Stop()
+        {
+            _simulatorRuntimeManager.Runtimes.First().Stop();
+        }
+
+
+        [Route("/api/simnetwork/status")]
+        public string Status()
+        {
+            return _simulatorRuntimeManager.Runtimes.First().CurrentState.ToString();
+        }
     }
 }
