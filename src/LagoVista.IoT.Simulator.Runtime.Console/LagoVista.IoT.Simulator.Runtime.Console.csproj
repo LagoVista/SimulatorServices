@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="version.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="version.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LagoVista.MQTT" Version="1.2.640-alpha1012" />
   </ItemGroup>
 

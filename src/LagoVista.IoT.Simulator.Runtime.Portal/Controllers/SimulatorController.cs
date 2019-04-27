@@ -39,13 +39,13 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Controllers
         [Route("/api/simnetwork/start")]
         public void Start()
         {
-            _simulatorRuntimeManager.Runtimes.First().Start();
+            _simulatorRuntimeManager.Runtimes.First().StartAsync();
         }
 
         [Route("/api/simnetwork/stop")]
         public void Stop()
         {
-            _simulatorRuntimeManager.Runtimes.First().Stop();
+            _simulatorRuntimeManager.Runtimes.First().StopAsync();
         }
 
 

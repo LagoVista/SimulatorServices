@@ -62,8 +62,9 @@ namespace LagoVista.IoT.Simulator.Runtime
             _adminLogger = adminLogger;
 
             InstanceId = Guid.NewGuid().ToId();
-        }
 
+            SetState("default");
+        }
 
         private void StartReceiveThread()
         {
@@ -91,13 +92,16 @@ namespace LagoVista.IoT.Simulator.Runtime
             });
         }
 
-        public void Start()
+        public async Task StartAsync()
         {
             lock (_msgSendTimers)
             {
-                SetState("default");
+                if(Status != null && Status.IsRunning)
+                {
+                    return;
+                }
 
-                foreach (var plan in _instance.TransmissionPlans)
+                foreach (var plan in _instance.TransmissionPlans.Where(st=>st?.ForState.Id == CurrentState.Id))
                 {
                     plan.Message.Value = _simulator.MessageTemplates.Where(msg => msg.Id == plan.Message.Id).FirstOrDefault();
 
@@ -112,19 +116,51 @@ namespace LagoVista.IoT.Simulator.Runtime
                     }
                 }
             }
+
+            Status = new SimulatorStatus()
+            {
+                IsRunning = true,
+                Text = "Running"
+            };
+
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Simulator Started", CurrentState);
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Status Update", Status);
         }
 
-        public void Stop()
+        public async Task StopAsync()
         {
             lock (_msgSendTimers)
             {
+                if (Status != null && !Status.IsRunning)
+                {
+                    return;
+                }
+
+
                 foreach (var tmr in _msgSendTimers)
                 {
                     tmr.Change(Timeout.Infinite, Timeout.Infinite);
+                    tmr.Dispose();
                 }
 
                 _msgSendTimers.Clear();
             }
+
+
+            Status = new SimulatorStatus()
+            {
+                IsRunning = false,
+                Text = "Stopped"
+            };
+
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Simulator Stopped", CurrentState);
+            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Status Update", Status);
+        }
+
+        public async Task RestartAsync()
+        {
+            await StopAsync();
+            await StartAsync();
         }
 
         private async void SendMessage(Object msg)
@@ -132,7 +168,6 @@ namespace LagoVista.IoT.Simulator.Runtime
             var plan = msg as MessageTransmissionPlan;
             await SendAsync(plan);
         }
-
 
         Task _receivingTask;
 
@@ -729,6 +764,8 @@ namespace LagoVista.IoT.Simulator.Runtime
             return InvokeResult.Success;
         }
 
+        public bool IsRunning { get; set; } = true;
+
         public bool IsBusy
         {
             get { return _runtimeService.IsBusy; }
@@ -761,13 +798,13 @@ namespace LagoVista.IoT.Simulator.Runtime
             CurrentState = _simulator.SimulatorStates.Where(stat => stat.Key == key).FirstOrDefault();
             await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"State Changed to {CurrentState.Name}", CurrentState);
         }
-
+        
         public List<SimulatorState> States
         {
             get { return _simulator.SimulatorStates; }
         }
 
-        public bool IsActive => true;
+        public SimulatorStatus Status { get; private set; }
 
         private bool _isConnected;
 
@@ -810,6 +847,12 @@ namespace LagoVista.IoT.Simulator.Runtime
             await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, msg.TextPayload);
             await _runtimeService.AddReceviedMessage(msg);
         }
+    }
+
+    public class SimulatorStatus
+    {
+        public bool IsRunning { get; set; }
+        public string Text { get; set; }
     }
 
     public class ConnectionStatus

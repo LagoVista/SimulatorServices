@@ -116,9 +116,34 @@ namespace LagoVista.IoT.Simulator.Runtime
                 var services = _factory.GetServices();
                 var runtime = new SimulatorRuntime(services, Publisher, _adminLogger, sim);
                 await runtime.ConnectAsync();
-                runtime.Start();
+                runtime.StartAsync();
                 Runtimes.Add(runtime);
             }
+        }
+
+        public void Start()
+        {
+
+        }
+
+        public void Stop()
+        {
+
+        }
+
+        public void Start(string simulatorId)
+        {
+
+        }
+
+        public void Stop(String simulatorId)
+        {
+
+        }
+
+        public void Reload()
+        {
+
         }
     }
 }

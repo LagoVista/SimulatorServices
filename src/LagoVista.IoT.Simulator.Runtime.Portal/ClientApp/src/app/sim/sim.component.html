@@ -5,18 +5,24 @@
 <table class='table table-striped' *ngIf="simulators">
   <thead>
     <tr>
+      <th></th>
+      <th></th>
       <th>Last Update</th>
       <th>Sim Instance</th>
       <th>Sim Type</th>
-      <th>State</th>
+      <th>Current State</th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let simulator of simulators">
+      <td> <i (click)="stop(simulator.instanceId)" class="fas fa-stop"></i></td>
+      <td> <i (click)="start(simulator.instanceId)" class="fas fa-play"></i></td>
       <td>{{ simulator.lastUpdate }}</td>
       <td><a (click)="selectSim(simulator.instanceId)" href="#"> {{ simulator.instanceName }}</a></td>
       <td>{{ simulator.simulatorName }}</td>
       <td>{{ simulator.currentState.name }}</td>
+      <td>{{ simulator.status.text }}</td>
     </tr>
   </tbody>
 </table>

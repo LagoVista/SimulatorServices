@@ -54,6 +54,12 @@ export class SimComponent implements OnInit {
         instance.currentState = JSON.parse(data.payloadJSON);
         console.log(instance.currentState);
       }
+
+      if (data.payloadType === 'SimulatorStatus') {
+        console.log(data.payloadJSON);
+        instance.status = JSON.parse(data.payloadJSON);
+        console.log(instance.status);
+      }
     });
 
     this._hubConnection.on('Send', (data: any) => {
@@ -74,6 +80,14 @@ export class SimComponent implements OnInit {
 
   changeState(stateId: string) {
     this._hubConnection.send('setState', this.currentSimulator.instanceId, stateId);
+  }
+
+  start(instanceId: string) {
+    this._hubConnection.send('start', instanceId);
+  }
+
+  stop(instanceId: string) {
+    this._hubConnection.send('stop', instanceId);
   }
 
   send() {
@@ -123,13 +137,18 @@ interface Message {
   dynamicAttributes: MessageDynamicAttribute[];
 }
 
+interface SimulatorStatus {
+  isRuning: boolean;
+  text: string;
+}
+
 interface Simulator {
   instanceName: string;
   simulatorName: string;
   instanceId: string;
+  status: SimulatorStatus;
   currentState: SimulatorState;
   states: SimulatorState[];
-  isActive: string;
   messages: Message[];
   lastUpdate: string;
 }

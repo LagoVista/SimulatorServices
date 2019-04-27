@@ -15,8 +15,8 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         Task<InvokeResult> DisconnectAsync();
 
-        void Start();
-        void Stop();
+        Task StartAsync();
+        Task StopAsync();
 
         String SimulatorName { get; }
 
@@ -29,7 +29,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         List<SimulatorState> States { get; }
 
-        bool IsActive { get; }
+        SimulatorStatus Status { get; }
 
         List<MessageTemplate> Messages { get; }
     }

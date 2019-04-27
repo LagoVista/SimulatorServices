@@ -22,7 +22,20 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
         public void SetState(string instanceId, string newState)
         {
             var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
-            instance.SetState(newState);
+            instance?.SetState(newState);
+            instance?.RestartAsync();
+        }
+
+        public async void Start(string instanceId)
+        {
+            var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
+            await instance?.StartAsync();
+        }
+
+        public async void Stop(string instanceId)
+        {
+            var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
+            await instance?.StopAsync();
         }
 
         public async Task Send(string message)
