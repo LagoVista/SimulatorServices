@@ -24,15 +24,20 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             _serviceProvider = serviceProvider;
         }        
 
+        void ConsoleWriteLine(string msg = "")
+        {
+
+        }
+
         public async Task PublishAsync(Targets target, Notification notification, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine($"{notification.Channel} {notification.ChannelId}");
-            Console.WriteLine($"{verbosity}");
-            Console.WriteLine($"{notification.PayloadType}");
-            Console.WriteLine($"{notification.Payload}");
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine();
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine($"{notification.Channel} {notification.ChannelId}");
+            ConsoleWriteLine($"{verbosity}");
+            ConsoleWriteLine($"{notification.PayloadType}");
+            ConsoleWriteLine($"{notification.Payload}");
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine();
 
             notification.Verbosity = EntityHeader<NotificationVerbosity>.Create(verbosity);
 
@@ -42,13 +47,13 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 
         public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine($"{channel} {channelId}");
-            Console.WriteLine($"{verbosity}");
-            Console.WriteLine(JsonConvert.SerializeObject(message));
-            Console.WriteLine(typeof(TPayload));
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine();
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine($"{channel} {channelId}");
+            ConsoleWriteLine($"{verbosity}");
+            ConsoleWriteLine(JsonConvert.SerializeObject(message));
+            ConsoleWriteLine(typeof(TPayload).ToString());
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine();
 
             var notification = new Notification()
             {
@@ -63,14 +68,14 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 
         public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, string text, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine($"{channel} {channelId}");
-            Console.WriteLine($"{verbosity}");
-            Console.WriteLine($"{text}");
-            Console.WriteLine(JsonConvert.SerializeObject(message));
-            Console.WriteLine(typeof(TPayload));
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine();
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine($"{channel} {channelId}");
+            ConsoleWriteLine($"{verbosity}");
+            ConsoleWriteLine($"{text}");
+            ConsoleWriteLine(JsonConvert.SerializeObject(message));
+            ConsoleWriteLine(typeof(TPayload).ToString());
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine();
 
             var notification = new Notification()
             {
@@ -86,12 +91,12 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 
         public Task PublishTextAsync(Targets target, Channels channel, string channelId, string text, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine($"{channel} {channelId}");
-            Console.WriteLine($"{verbosity}");
-            Console.WriteLine($"{text}");
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine();
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine($"{channel} {channelId}");
+            ConsoleWriteLine($"{verbosity}");
+            ConsoleWriteLine($"{text}");
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine();
 
             var notification = new Notification()
             {

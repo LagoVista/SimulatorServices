@@ -8,8 +8,6 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 {
     public class NotificationHub : Hub
     {
-        static int _hubCount = 0;
-
         public static NotificationHub Current { get; set; }
 
         SimulatorRuntimeManager _mgr;
@@ -26,13 +24,34 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             instance?.RestartAsync();
         }
 
-        public async void Start(string instanceId)
+        public async void Reload()
+        {
+            await _mgr.ReloadAsync();
+        }
+
+        public async void SendMessage(string instanceId, string msgId)
+        {
+            var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
+            await instance?.SendMessageAsync(msgId);
+        }
+
+        public async void Start()
+        {
+            await _mgr.StartAsync();
+        }
+
+        public async void Stop()
+        {
+            await _mgr.StopAsync();
+        }
+
+        public async void StartSimulator(string instanceId)
         {
             var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
             await instance?.StartAsync();
         }
 
-        public async void Stop(string instanceId)
+        public async void StopSimulator(string instanceId)
         {
             var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
             await instance?.StopAsync();
@@ -54,7 +73,5 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 
             return base.OnConnectedAsync();
         }
-
-
     }
 }

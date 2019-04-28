@@ -25,11 +25,15 @@ export class SimComponent implements OnInit {
     this._http = http;
 
     this._baseUrl = baseUrl;
-    http.get<Simulator[]>(baseUrl + 'api/simnetwork/simulators').subscribe(result => {
+    this.loadSimulators();
+  }
+
+  loadSimulators() {
+    this.simulators = null;
+    this._http.get<Simulator[]>(this._baseUrl + 'api/simnetwork/simulators').subscribe(result => {
       console.log(result);
       this.simulators = result;
     }, error => console.error(error));
-
   }
 
   ngOnInit() {
@@ -43,22 +47,26 @@ export class SimComponent implements OnInit {
     this._hubConnection.on('notification', (json: string) => {
       const data = JSON.parse(json);
 
+      if (data.payloadType === 'Simulators') {
+        this.simulators = JSON.parse(data.payloadJSON);
+        console.log(this.simulators);
+        return;
+      }
+
       if (data.channelId === this._instanceId) {
         this.messages.splice(0, 0, data.title);
       }
 
-      const instance = this.simulators.find(sim => sim.instanceId === data.channelId);
-      instance.lastUpdate = data.dateStamp;
-      if (data.payloadType === 'SimulatorState') {
-        console.log(data.payloadJSON);
-        instance.currentState = JSON.parse(data.payloadJSON);
-        console.log(instance.currentState);
-      }
+      if (this.simulators) {
+        const instance = this.simulators.find(sim => sim.instanceId === data.channelId);
+        instance.lastUpdate = data.dateStamp;
+        if (data.payloadType === 'SimulatorState') {
+          instance.currentState = JSON.parse(data.payloadJSON);
+        }
 
-      if (data.payloadType === 'SimulatorStatus') {
-        console.log(data.payloadJSON);
-        instance.status = JSON.parse(data.payloadJSON);
-        console.log(instance.status);
+        if (data.payloadType === 'SimulatorStatus') {
+          instance.status = JSON.parse(data.payloadJSON);
+        }
       }
     });
 
@@ -73,7 +81,6 @@ export class SimComponent implements OnInit {
     this._instanceId = instanceId;
 
     this.currentSimulator = this.simulators.find(sim => sim.instanceId === instanceId);
-    console.log(this.currentSimulator);
 
     this.messages = [];
   }
@@ -82,12 +89,32 @@ export class SimComponent implements OnInit {
     this._hubConnection.send('setState', this.currentSimulator.instanceId, stateId);
   }
 
-  start(instanceId: string) {
-    this._hubConnection.send('start', instanceId);
+  startSimulator(instanceId: string) {
+    this._hubConnection.send('startSimulator', instanceId);
   }
 
-  stop(instanceId: string) {
-    this._hubConnection.send('stop', instanceId);
+  stopSimulator(instanceId: string) {
+    this._hubConnection.send('stopSimulator', instanceId);
+  }
+
+  sendMessage(messageId: string) {
+    console.log(messageId);
+    this._hubConnection.send('sendMessage', this.currentSimulator.instanceId, messageId);
+  }
+
+  reload() {
+    this.simulators = null;
+    this.currentSimulator = null;
+    this._instanceId = null;
+    this._hubConnection.send("reload");
+  }
+
+  start() {
+    this._hubConnection.send("start");
+  }
+
+  stop() {
+    this._hubConnection.send("stop");
   }
 
   send() {

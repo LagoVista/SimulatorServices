@@ -1,19 +1,20 @@
-﻿using LagoVista.Core.Interfaces;
+﻿using LagoVista.Core;
+using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.IoT.Logging.Loggers;
+using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using LagoVista.IoT.Runtime.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using LagoVista.Core;
-using System.Text;
-using System.Threading.Tasks;
+using LagoVista.IoT.Simulator.Admin.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Digests;
-using Newtonsoft.Json;
-using LagoVista.IoT.Simulator.Admin.Models;
+using System;
 using System.Collections.ObjectModel;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LagoVista.IoT.Simulator.Runtime
 {
@@ -30,6 +31,12 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         ISimulatorRuntimeServicesFactory _factory;
         IAdminLogger _adminLogger;
+
+        String _simulatorNetworkId;
+        EntityHeader _org;
+        EntityHeader _user;
+        Environments _environment;
+        String _simAccessKey;
 
         public ObservableCollection<SimulatorRuntime> Runtimes { get; }
 
@@ -59,12 +66,23 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         public INotificationPublisher Publisher { get; set; }
 
-        public async Task InitAsync(string simulatorNetworkId, string key, EntityHeader org, EntityHeader user, Environments environment)
-        {            
+        public async Task InitAsync(string simulatorNetworkId, string simAccessKey, EntityHeader org, EntityHeader user, Environments environment)
+        {
+            _environment = environment;
+            _simulatorNetworkId = simulatorNetworkId;
+            _org = org;
+            _user = user;
+            _simAccessKey = simAccessKey;
+
+            await LoadAsync();
+        }
+
+        private async Task LoadAsync()
+        {
             var rootUri = "https://api.nuviot.com/api/simulator/network/runtime";
 
-            switch(environment)
-                {
+            switch (_environment)
+            {
                 case Environments.Development:
                     rootUri = "https://dev.nuviot.com/api/simulator/network/runtime";
                     break;
@@ -88,62 +106,72 @@ namespace LagoVista.IoT.Simulator.Runtime
             bldr.Append($"{requestId}\r\n");
             bldr.Append($"{dateStamp}\r\n");
             bldr.Append($"{version}\r\n");
-            bldr.Append($"{org.Id}\r\n");
-            bldr.Append($"{user.Id}\r\n");
-            bldr.Append($"{simulatorNetworkId}\r\n");
+            bldr.Append($"{_org.Id}\r\n");
+            bldr.Append($"{_user.Id}\r\n");
+            bldr.Append($"{_simulatorNetworkId}\r\n");
 
-            var sasKey = GetSignature(requestId, key, bldr.ToString());
+            var sasKey = GetSignature(requestId, _simAccessKey, bldr.ToString());
 
             _adminLogger.AddCustomEvent(Core.PlatformSupport.LogLevel.Message, "SimulatorRuntimeManager_InitAsync", $"Requesting configuration from: {rootUri} ");
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("SAS", sasKey);
             client.DefaultRequestHeaders.Add(REQUEST_ID, requestId);
-            client.DefaultRequestHeaders.Add(ORG_ID, org.Id);
-            client.DefaultRequestHeaders.Add(ORG, org.Text);
-            client.DefaultRequestHeaders.Add(USER_ID, user.Id);
-            client.DefaultRequestHeaders.Add(USER, user.Text);
-            client.DefaultRequestHeaders.Add(NETWORK_ID, simulatorNetworkId);
+            client.DefaultRequestHeaders.Add(ORG_ID, _org.Id);
+            client.DefaultRequestHeaders.Add(ORG, _org.Text);
+            client.DefaultRequestHeaders.Add(USER_ID, _user.Id);
+            client.DefaultRequestHeaders.Add(USER, _user.Text);
+            client.DefaultRequestHeaders.Add(NETWORK_ID, _simulatorNetworkId);
             client.DefaultRequestHeaders.Add(DATE, dateStamp);
             client.DefaultRequestHeaders.Add(VERSION, version);
 
             var json = await client.GetStringAsync(rootUri);
 
-  
+            Runtimes.Clear();
+
             var network = JsonConvert.DeserializeObject<SimulatorNetwork>(json);
-            foreach(var sim in network.Simulators)
+            foreach (var sim in network.Simulators)
             {
                 var services = _factory.GetServices();
                 var runtime = new SimulatorRuntime(services, Publisher, _adminLogger, sim);
-                await runtime.ConnectAsync();
-                runtime.StartAsync();
+                await runtime.StartAsync();
                 Runtimes.Add(runtime);
             }
         }
 
-        public void Start()
+        public async Task StartAsync()
         {
-
+            foreach (var rt in Runtimes)
+            {
+                await rt.StartAsync();
+            }
         }
 
-        public void Stop()
+        public async Task StopAsync()
         {
-
+            foreach (var rt in Runtimes)
+            {
+                await rt.StopAsync();
+            }
         }
 
-        public void Start(string simulatorId)
+        public async Task ReloadAsync()
         {
+            await StopAsync();
+            await LoadAsync();
+            await StartAsync();
 
-        }
-
-        public void Stop(String simulatorId)
-        {
-
-        }
-
-        public void Reload()
-        {
-
+            await Publisher.PublishAsync(Targets.WebSocket,
+                new Notification()
+                {
+                    Channel = EntityHeader<Channels>.Create(Channels.Simulator),
+                    ChannelId = _simulatorNetworkId,
+                    PayloadType = "Simulators",
+                    Payload = JsonConvert.SerializeObject(Runtimes, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }),
+                    DateStamp = DateTime.UtcNow.ToJSONString(),
+                    MessageId = Guid.NewGuid().ToId(),
+                    Verbosity = EntityHeader<NotificationVerbosity>.Create(NotificationVerbosity.Normal)
+                });
         }
     }
 }

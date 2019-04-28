@@ -48,6 +48,9 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         INotificationPublisher _notificationPublisher;
 
+        CancellationTokenSource _receiveTaskCancelTokenSource;
+
+
         public SimulatorRuntime(ISimulatorRuntimeServices runtimeService, INotificationPublisher notificationPublisher, IAdminLogger adminLogger, LagoVista.IoT.Simulator.Admin.Models.SimulatorInstance instance)
         {
             _runtimeService = runtimeService;
@@ -68,40 +71,52 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         private void StartReceiveThread()
         {
+            _receiveTaskCancelTokenSource = new CancellationTokenSource();
+
             Task.Run(async () =>
             {
-                while (_isConnected)
+                try
                 {
-                    switch (_simulator.DefaultTransport.Value)
+                    while (_isConnected)
                     {
-                        case TransportTypes.TCP:
-                            {
-                                var response = await _tcpClient.ReceiveAsync();
-                                await AddReceviedMessage(new ReceivedMessage(response));
-                            }
+                        switch (_simulator.DefaultTransport.Value)
+                        {
+                            case TransportTypes.TCP:
+                                {
+                                    var response = await _tcpClient.ReceiveAsync();
+                                    await AddReceviedMessage(new ReceivedMessage(response));
+                                }
 
-                            break;
-                        case TransportTypes.UDP:
-                            {
-                                var response = await _udpClient.ReceiveAsync();
-                                await AddReceviedMessage(new ReceivedMessage(response));
-                            }
-                            break;
+                                break;
+                            case TransportTypes.UDP:
+                                {
+                                    var response = await _udpClient.ReceiveAsync();
+                                    await AddReceviedMessage(new ReceivedMessage(response));
+                                }
+                                break;
+                        }
                     }
                 }
-            });
+                catch (TaskCanceledException) { }
+            }, _receiveTaskCancelTokenSource.Token);
         }
 
         public async Task StartAsync()
         {
             lock (_msgSendTimers)
             {
-                if(Status != null && Status.IsRunning)
+                if (Status != null && Status.IsRunning)
                 {
                     return;
                 }
+            }
 
-                foreach (var plan in _instance.TransmissionPlans.Where(st=>st?.ForState.Id == CurrentState.Id))
+            await ConnectAsync();
+
+            lock (_msgSendTimers)
+            {
+
+                foreach (var plan in _instance.TransmissionPlans.Where(st => st?.ForState.Id == CurrentState.Id))
                 {
                     plan.Message.Value = _simulator.MessageTemplates.Where(msg => msg.Id == plan.Message.Id).FirstOrDefault();
 
@@ -116,6 +131,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                     }
                 }
             }
+
 
             Status = new SimulatorStatus()
             {
@@ -144,6 +160,29 @@ namespace LagoVista.IoT.Simulator.Runtime
                 }
 
                 _msgSendTimers.Clear();
+
+                _receiveTaskCancelTokenSource?.Cancel();
+                _receiveTaskCancelTokenSource = null;
+            }
+
+            switch(_simulator.DefaultTransport.Value)
+            {
+                case TransportTypes.MQTT:
+                    DisconnectMQTT();
+                    break;
+                case TransportTypes.AzureIoTHub:
+                    await DisconnectAzureIoTHubAsync();
+                    break;
+                case TransportTypes.TCP:
+                    _tcpClient?.DisconnectAsync();
+                    _tcpClient.Dispose();
+                    _tcpClient = null;
+                    break;
+                case TransportTypes.UDP:
+                    await _udpClient?.DisconnectAsync();
+                    _udpClient.Dispose();
+                    _udpClient = null;
+                    break;
             }
 
 
@@ -161,6 +200,36 @@ namespace LagoVista.IoT.Simulator.Runtime
         {
             await StopAsync();
             await StartAsync();
+        }
+
+        public async Task SendMessageAsync(string msgId)
+        {
+            var msg = _simulator.MessageTemplates.Where(message => message.Id == msgId).FirstOrDefault();
+            if (msg != null)
+            {
+                var values = new List<MessageValue>();
+                foreach (var prop in msg.DynamicAttributes)
+                {
+                    values.Add(new MessageValue()
+                    {
+                        Attribute = new EntityHeader<MessageDynamicAttribute>() { Id = prop.Key },
+                        Value = prop.DefaultValue
+                    });
+                }
+
+                var template = new EntityHeader<MessageTemplate>()
+                {
+                    Id = msg.Id,
+                    Text = msg.Name,
+                    Value = msg
+                };
+
+                await SendAsync(new MessageTransmissionPlan()
+                {
+                    Message = template,
+                    Values = values
+                });
+            }
         }
 
         private async void SendMessage(Object msg)
@@ -216,6 +285,9 @@ namespace LagoVista.IoT.Simulator.Runtime
                         SetConnectedState();
 
                         await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Connected to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
+                        break;
+                    case TransportTypes.RestHttp:
+                    case TransportTypes.RestHttps:
                         break;
                     default:
                         await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Attempt to connect to {_simulator.DefaultTransport.Text} that does not allow connections..");
@@ -642,7 +714,6 @@ namespace LagoVista.IoT.Simulator.Runtime
             {
                 InvokeResult res = InvokeResult.FromError("");
 
-
                 switch (messageTemplate.Transport.Value)
                 {
                     case TransportTypes.TCP: res = await SendTCPMessage(plan); break;
@@ -798,7 +869,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             CurrentState = _simulator.SimulatorStates.Where(stat => stat.Key == key).FirstOrDefault();
             await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"State Changed to {CurrentState.Name}", CurrentState);
         }
-        
+
         public List<SimulatorState> States
         {
             get { return _simulator.SimulatorStates; }
@@ -843,8 +914,8 @@ namespace LagoVista.IoT.Simulator.Runtime
 
         private async Task AddReceviedMessage(ReceivedMessage msg)
         {
-            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Topic: {msg.Topic}");
-            await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, msg.TextPayload);
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Topic: {msg.Topic}");
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, msg.TextPayload);
             await _runtimeService.AddReceviedMessage(msg);
         }
     }

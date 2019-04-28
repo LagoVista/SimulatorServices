@@ -24,13 +24,14 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 
         public Task WriteEvent(LogRecord record)
         {
+            /*
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"---------------------{record.LogLevel}-----------------------------");
             Console.WriteLine(record.Message);
             Console.WriteLine($"---------------------{record.LogLevel}-----------------------------");
             Console.WriteLine();
             Console.ResetColor();
-
+            */
             return Task.FromResult(default(object));
         }
     }

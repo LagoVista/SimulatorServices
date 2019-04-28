@@ -2,6 +2,8 @@
 
 <p *ngIf="!simulators"><em>Loading...</em></p>
 
+<i (click)="reload()" class="fas fa-sync"></i>
+
 <table class='table table-striped' *ngIf="simulators">
   <thead>
     <tr>
@@ -16,8 +18,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let simulator of simulators">
-      <td> <i (click)="stop(simulator.instanceId)" class="fas fa-stop"></i></td>
-      <td> <i (click)="start(simulator.instanceId)" class="fas fa-play"></i></td>
+      <td> <i (click)="stopSimulator(simulator.instanceId)" class="fas fa-stop"></i></td>
+      <td> <i (click)="startSimulator(simulator.instanceId)" class="fas fa-play"></i></td>
       <td>{{ simulator.lastUpdate }}</td>
       <td><a (click)="selectSim(simulator.instanceId)" href="#"> {{ simulator.instanceName }}</a></td>
       <td>{{ simulator.simulatorName }}</td>
@@ -40,15 +42,14 @@
   <div class="container">
     <div class="row">
       <div class="col-9">
-        <div
-          style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
-          class="pre-scrollable">
+        <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+             class="pre-scrollable">
           <div *ngFor="let msg of messages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
         </div>
       </div>
       <div class="col-3">
         <div *ngFor="let msg of currentSimulator.messages">
-          <a href="#">{{msg.name}}</a>
+          <a href="#" (click)="sendMessage(msg.id)">{{msg.name}}</a>
         </div>
       </div>
     </div>

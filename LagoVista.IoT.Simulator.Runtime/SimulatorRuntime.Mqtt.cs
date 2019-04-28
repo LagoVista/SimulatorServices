@@ -56,6 +56,17 @@ namespace LagoVista.IoT.Simulator.Runtime
         }
 
 
+        private void DisconnectMQTT()
+        {
+            if (_mqttClient != null)
+            {
+                _mqttClient.MessageReceived -= _mqttClient_CommandReceived;
+                _mqttClient?.Disconnect();
+                _mqttClient?.Dispose();
+                _mqttClient = null;
+            }
+        }
+
         private async Task<InvokeResult> SendMQTTMessage(MessageTransmissionPlan plan)
         {
             var messageTemplate = plan.Message.Value;
