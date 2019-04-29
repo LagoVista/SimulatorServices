@@ -38,7 +38,7 @@ export class SimComponent implements OnInit {
 
   ngOnInit() {
     this._hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/realtime')
+      .withUrl(`${this._baseUrl}realtime`)
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
