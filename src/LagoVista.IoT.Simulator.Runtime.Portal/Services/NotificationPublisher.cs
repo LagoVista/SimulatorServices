@@ -17,7 +17,10 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
     {
         IServiceProvider _serviceProvider;
 
-        static JsonSerializerSettings _camelCaseSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+        readonly JsonSerializerSettings _camelCaseSettings = new Newtonsoft.Json.JsonSerializerSettings()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+        };
 
         public NotificationPublisher(IServiceProvider serviceProvider)
         {
@@ -42,7 +45,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             notification.Verbosity = EntityHeader<NotificationVerbosity>.Create(verbosity);
 
             var _hub = _serviceProvider.GetService<IHubContext<NotificationHub>>();
-            await _hub.Clients.All.SendAsync("notification", JsonConvert.SerializeObject(notification));
+            await _hub.Clients.All.SendAsync("notification", JsonConvert.SerializeObject(notification, _camelCaseSettings));
         }
 
         public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
@@ -60,7 +63,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
                  Channel =  EntityHeader<Channels>.Create(channel),
                  ChannelId = channelId,
                  PayloadType = typeof(TPayload).Name,
-                 Payload = JsonConvert.SerializeObject(message)
+                 Payload = JsonConvert.SerializeObject(message, _camelCaseSettings)
             };
 
             return PublishAsync(target, notification);

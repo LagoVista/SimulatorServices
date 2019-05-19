@@ -8,8 +8,6 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
 {
     public class NotificationHub : Hub
     {
-        public static NotificationHub Current { get; set; }
-
         SimulatorRuntimeManager _mgr;
 
         public NotificationHub(SimulatorRuntimeManager mgr)
