@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace LagoVista.IoT.Simulator.Runtime.Portal
 {
     public class Startup
     {
+        
+
         public Startup(IHostingEnvironment env)
         {
 
@@ -37,6 +40,20 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
             _simulatorId = Configuration.GetValue<string>("simulatorId");
             _accessKey = Configuration.GetValue<string>("accessKey");
 
+            switch (env.EnvironmentName.ToLower())
+            {
+                case "development": _environemnt = Core.Interfaces.Environments.Development; break;
+                case "test": _environemnt = Core.Interfaces.Environments.Testing; break;
+                case "staging": _environemnt = Core.Interfaces.Environments.Testing; break;
+                default: _environemnt = Core.Interfaces.Environments.Production; break;
+            }
+
+            Console.WriteLine("Simulator Startup");
+            Console.WriteLine("====================================");
+            Console.WriteLine($"Environment    : {_environemnt}");
+            Console.WriteLine($"Org            : {orgId} - {orgName}");
+            Console.WriteLine($"User           : {userId} - {userName}");
+            Console.WriteLine($"Simulator      : {_simulatorId} - {_accessKey.Substring(0,10)}...");
         }
 
         EntityHeader _org;
@@ -45,6 +62,8 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
         string _accessKey;
 
         SimulatorRuntimeManager _simRuntimeManager;
+        Core.Interfaces.Environments _environemnt;
+
 
         public IConfiguration Configuration { get; }
 
@@ -69,7 +88,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
 
         private async void StartSimManager()
         {
-            await _simRuntimeManager.InitAsync(_simulatorId, _accessKey, _org, _user, Core.Interfaces.Environments.Development);
+            await _simRuntimeManager.InitAsync(_simulatorId, _accessKey, _org, _user, _environemnt);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

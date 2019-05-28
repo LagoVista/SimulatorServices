@@ -113,6 +113,8 @@ namespace LagoVista.IoT.Simulator.Runtime
             var sasKey = GetSignature(requestId, _simAccessKey, bldr.ToString());
 
             _adminLogger.AddCustomEvent(Core.PlatformSupport.LogLevel.Message, "SimulatorRuntimeManager_InitAsync", $"Requesting configuration from: {rootUri} ");
+            Console.WriteLine($"Requesting configuration from: {rootUri}");
+
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("SAS", sasKey);
@@ -125,17 +127,27 @@ namespace LagoVista.IoT.Simulator.Runtime
             client.DefaultRequestHeaders.Add(DATE, dateStamp);
             client.DefaultRequestHeaders.Add(VERSION, version);
 
-            var json = await client.GetStringAsync(rootUri);
-
-            Runtimes.Clear();
-
-            var network = JsonConvert.DeserializeObject<SimulatorNetwork>(json);
-            foreach (var sim in network.Simulators)
+            try
             {
-                var services = _factory.GetServices();
-                var runtime = new SimulatorRuntime(services, Publisher, _adminLogger, sim);
-                await runtime.StartAsync();
-                Runtimes.Add(runtime);
+                var json = await client.GetStringAsync(rootUri);
+
+                Runtimes.Clear();
+
+                var network = JsonConvert.DeserializeObject<SimulatorNetwork>(json);
+                Console.WriteLine($"Loaded simulator network {network.Name}");
+
+                foreach (var sim in network.Simulators)
+                {
+                    var services = _factory.GetServices();
+                    var runtime = new SimulatorRuntime(services, Publisher, _adminLogger, sim);
+                    await runtime.StartAsync();
+                    Runtimes.Add(runtime);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error loading runtime.");
+                Console.WriteLine(ex.Message);
             }
         }
 
