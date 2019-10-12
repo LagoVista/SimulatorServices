@@ -2,7 +2,7 @@
   "profiles": {
     "LagoVista.IoT.Simulator.Runtime.Console": {
       "commandName": "Project",
-      "commandLineArgs": "-id=F8FB1FB758A04056A62221A15832A5AC -key=DjHdFnkVqef7lpByNmFrTHGu0ItaXQTzU8pAoqTLDNzDWRX3acogFFNyoyUxSF6+NCwZesMHY7At6cKv1QZCLw== -org=\"Software Logistics\" -orgid=C8AD4589F26842E7A1AEFBAEFC979C9B -uid=423AA7EC788C49FF8BC6EC1E66A0CABF -usrname=SimNetworkUser "
+      "commandLineArgs": "-id=F6F1CF348E404F6F8DF0A68498A40A0F -key=5hWHOkV7mCZ9LUIelC6VM2N5GDlZjvqvS+NljcbPSkpfwH/XyT0Wfu5GrlFj5wS14HSEUze/fVgb1+9iFQpfrg== -org=\"BPSA\" -orgid=F30DF8C94DC14B89A67515CE2AF47E14 -uid=F2135E2A9BC44A0D-8A7DB1C4886848AA -usrname=SimNetworkUser "
     }
   }
 }
