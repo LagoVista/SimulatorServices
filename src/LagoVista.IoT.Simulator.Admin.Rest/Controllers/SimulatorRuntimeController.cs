@@ -108,6 +108,11 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             UserEntityHeader = EntityHeader.Create(userId, userName);
 
             var network = await _simNetworkManager.GetSimulatorNetworkAsync(networkId, OrgEntityHeader, UserEntityHeader);
+            if(network == null)
+            {
+                throw new Exception("Could not find simulator for network id [networkId]");
+            }
+
             var key1 = await _secureStorage.GetSecretAsync(OrgEntityHeader, network.SharedAccessKey1SecretId, UserEntityHeader);
             if (!key1.Successful)
             {
