@@ -5,13 +5,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
-    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="2.1.877-beta0751" />
+    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="2.1.1061-beta1313" />
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.20.1" />
     <PackageReference Include="Microsoft.Azure.Devices.Shared" Version="1.16.0" />
     <PackageReference Include="Microsoft.Azure.EventHubs" Version="1.1.0" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="1.0.0" />
     <PackageReference Include="LagoVista.MQTT" Version="1.2.640-alpha1012" />
-    <PackageReference Include="AMQPNetLite" Version="2.2.0" />
+    <PackageReference Include="AMQPNetLite" Version="2.4.0" />
     <PackageReference Include="LagoVista.Client.Core" Version="1.2.633-alpha1158" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />

@@ -113,31 +113,46 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             await ConnectAsync();
 
+            var messages = new List<string>();
+
             lock (_msgSendTimers)
             {
-
-                foreach (var plan in _instance.TransmissionPlans.Where(st => st?.ForState.Id == CurrentState.Id))
+                var transmisssionPlans = _instance.TransmissionPlans.Where(st => st?.ForState.Id == CurrentState.Id);
+                if (transmisssionPlans.Any())
                 {
-                    plan.Message.Value = _simulator.MessageTemplates.Where(msg => msg.Id == plan.Message.Id).FirstOrDefault();
+                    foreach (var plan in transmisssionPlans)
+                    {
+                        plan.Message.Value = _simulator.MessageTemplates.Where(msg => msg.Id == plan.Message.Id).FirstOrDefault();
 
-                    if (plan.Message.Value == null)
-                    {
-                        _adminLogger.AddError("SimulatorRuntime_Start", $"Could not resolve message template {plan.Message.Text}", _simulator.Name.ToKVP("simulatorName"));
-                    }
-                    else
-                    {
-                        var tmr = new Timer(SendMessage, plan, plan.PeriodMS, plan.PeriodMS);
-                        _msgSendTimers.Add(tmr);
+                        if (plan.Message.Value == null)
+                        {
+                            _adminLogger.AddError("SimulatorRuntime_Start", $"Could not resolve message template {plan.Message.Text}", _simulator.Name.ToKVP("simulatorName"));
+                            messages.Add($"Could not resolve message template for {plan.Message.Text}");
+                        }
+                        else
+                        {
+                            var tmr = new Timer(SendMessage, plan, plan.PeriodMS, plan.PeriodMS);
+                            messages.Add($"Started {plan.PeriodMS}ms timer for plan {plan.Message}");
+                            _msgSendTimers.Add(tmr);
+                        }
                     }
                 }
+                else
+                {
+                    messages.Add($"No transmission plans identified for state {CurrentState.Name} on {_simulator.Name}.");
+                }
             }
-
 
             Status = new SimulatorStatus()
             {
                 IsRunning = true,
                 Text = "Running"
             };
+
+            foreach(var message in messages)
+            {
+                await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, message, CurrentState);
+            }
 
             await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Simulator Started", CurrentState);
             await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Status Update", Status);
