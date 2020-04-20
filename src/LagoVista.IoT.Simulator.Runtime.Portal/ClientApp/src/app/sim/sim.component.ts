@@ -12,6 +12,7 @@ export class SimComponent implements OnInit {
   private _hubConnection: HubConnection | undefined;
   public simulators: Simulator[];
   messages: string[] = [];
+  logmessages: string[] = [];
   message: '';
   _instanceId: string;
   _baseUrl: string;
@@ -70,10 +71,22 @@ export class SimComponent implements OnInit {
       }
     });
 
+    this._hubConnection.on('Error', (data: any) => {
+      const received = `ERROR ENTRY: ${data}`;
+      console.log(received);
+      this.logmessages.push(received);
+    });
+
+    this._hubConnection.on('Log', (data: any) => {
+      const received = `LOG ENTRY: ${data}`;
+      console.log(received);
+      this.logmessages.push(received);
+    });
+
     this._hubConnection.on('Send', (data: any) => {
       const received = `From Send: ${data}`;
       console.log(received);
-      this.messages.push(received);
+      this.logmessages.push(received);
     });
   }
 

@@ -42,6 +42,7 @@
   <div class="container">
     <div class="row">
       <div class="col-9">
+        <h4>Simulator Messages</h4>
         <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
              class="pre-scrollable">
           <div *ngFor="let msg of messages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
@@ -50,6 +51,18 @@
       <div class="col-3">
         <div *ngFor="let msg of currentSimulator.messages">
           <a href="#" (click)="sendMessage(msg.id)">{{msg.name}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>System Messages</h4>
+        <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+             class="pre-scrollable">
+          <div *ngFor="let msg of logmessages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
         </div>
       </div>
     </div>
