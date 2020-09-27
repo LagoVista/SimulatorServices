@@ -567,4 +567,7 @@
   <data name="MessageTransmissionPlan_ForState_Select" xml:space="preserve">
     <value>-select state-</value>
   </data>
+  <data name="Message_PayloadType_PointArray" xml:space="preserve">
+    <value>Point Array</value>
+  </data>
 </root>

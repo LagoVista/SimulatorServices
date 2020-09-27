@@ -6,6 +6,7 @@ using LagoVista.Core;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace LagoVista.IoT.Simulator.Runtime
 {
@@ -109,7 +110,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             return sentContent.ToString();
         }
 
-        private byte[] GetMessageBytes(MessageTransmissionPlan plan)
+        public byte[] GetMessageBytes(MessageTransmissionPlan plan)
         {
             var messageTemplate = plan.Message.Value;
 
@@ -117,11 +118,55 @@ namespace LagoVista.IoT.Simulator.Runtime
             {
                 return GetBinaryPayload(messageTemplate.BinaryPayload);
             }
+            else if(messageTemplate.PayloadType.Value == PaylodTypes.PointArray)
+            {
+                return GetPointArrayPayload(messageTemplate.BinaryPayload);
+            }
             else
             {
                 var msgText = ReplaceTokens(_instance, plan, messageTemplate.TextPayload);
                 return System.Text.UTF8Encoding.UTF8.GetBytes(msgText);
             }
+        }
+
+        private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        private byte[] GetPointArrayPayload(string payload)
+        {
+            var rnd = new Random();
+
+            var bytes = new List<Byte>();
+
+            var parameters = new Dictionary<string, string>();
+            var parts = payload.Split(';');
+            foreach(var part in parts)
+            {
+                if (part.Split('=').Length == 2)
+                {
+                    var key = part.Split('=')[0];
+                    var value = part.Split('=')[1];
+                    parameters.Add(key, value);
+                }
+            }
+
+            var pointCount = parameters.ContainsKey("pointCount") ? int.Parse(parameters["pointCount"]) : 300;
+            var interval = parameters.ContainsKey("interval") ? double.Parse(parameters["interval"]) : 1.0;
+            var min = parameters.ContainsKey("min") ? double.Parse(parameters["min"]) : 0.0;
+            var max = parameters.ContainsKey("max") ? double.Parse(parameters["max"]) : 100.0;
+
+            var range = max - min;
+
+            var seconds = Convert.ToInt32((DateTime.UtcNow - epoch).TotalSeconds);
+            bytes.AddRange(BitConverter.GetBytes(seconds));
+            bytes.AddRange(BitConverter.GetBytes((UInt16)pointCount));
+            bytes.AddRange(BitConverter.GetBytes((UInt16)(interval * 10)));
+            for(var idx = 0; idx < pointCount; ++idx)
+            {
+                var dataPoint = (rnd.NextDouble() * range) + min;
+                bytes.AddRange(BitConverter.GetBytes((Int16)(dataPoint * 100)));
+            }
+
+            return bytes.ToArray();
         }
 
         private byte[] GetBinaryPayload(string binaryPayload)
