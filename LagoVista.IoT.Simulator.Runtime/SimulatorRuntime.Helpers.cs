@@ -150,6 +150,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
 
             var pointCount = parameters.ContainsKey("pointCount") ? int.Parse(parameters["pointCount"]) : 300;
+            var sensorIndex = parameters.ContainsKey("sensorIndex") ? double.Parse(parameters["sensorIndex"]) : 1.0;
             var interval = parameters.ContainsKey("interval") ? double.Parse(parameters["interval"]) : 1.0;
             var min = parameters.ContainsKey("min") ? double.Parse(parameters["min"]) : 0.0;
             var max = parameters.ContainsKey("max") ? double.Parse(parameters["max"]) : 100.0;
@@ -158,6 +159,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             var seconds = Convert.ToInt32((DateTime.UtcNow - epoch).TotalSeconds);
             bytes.AddRange(BitConverter.GetBytes(seconds));
+            bytes.AddRange(BitConverter.GetBytes((UInt16)sensorIndex));
             bytes.AddRange(BitConverter.GetBytes((UInt16)pointCount));
             bytes.AddRange(BitConverter.GetBytes((UInt16)(interval * 10)));
             for(var idx = 0; idx < pointCount; ++idx)

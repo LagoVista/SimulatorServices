@@ -37,6 +37,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
 
             var pointsToGenerate = 300;
             var intervalParam = 2.0;
+            var sensorIndex = 5;
             var min = 5.5;
             var max = 25.5;
 
@@ -45,7 +46,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
                 Message = Core.Models.EntityHeader<Admin.Models.MessageTemplate>.Create(new Admin.Models.MessageTemplate()
                 {
                     PayloadType = Core.Models.EntityHeader<Admin.Models.PaylodTypes>.Create(Admin.Models.PaylodTypes.PointArray),
-                    BinaryPayload = $"pointCount={pointsToGenerate};interval={intervalParam};min={min};max={max}"
+                    BinaryPayload = $"pointCount={pointsToGenerate};sensorIndex={sensorIndex};interval={intervalParam};min={min};max={max}"
                 })
             });
 
@@ -60,6 +61,10 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
                 
                 var timeStamp = epoch.AddSeconds(epochSeconds);
                 Console.WriteLine($"Time Stamp {timeStamp}");
+
+                var sensorIndexValue = rdr.ReadUInt16();
+                Assert.AreEqual(sensorIndex, sensorIndexValue);
+                Console.WriteLine($"Sensor Index {sensorIndexValue}");
 
                 var pointCount = rdr.ReadUInt16();
                 Assert.AreEqual(pointsToGenerate, pointCount);

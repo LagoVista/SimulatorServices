@@ -30,8 +30,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
         [TestInitialize]
         public void Init()
         {
-
-            _runtimeServices.Setup<ITCPClient>(rs => rs.GetTCPClient()).Returns(_tcpClient.Object);
+    _runtimeServices.Setup<ITCPClient>(rs => rs.GetTCPClient()).Returns(_tcpClient.Object);
             _runtimeServices.Setup<IUDPClient>(rs => rs.GetUDPCLient()).Returns(_udpClient.Object);
         }
 
@@ -121,8 +120,6 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Simulator
             sim.Simulator.Value.AccessKey = azIoTAccessKey;
             sim.Simulator.Value.AccessKeyName = azIoTAccountPolicyName;
             
-            
-
             var msg = new MessageTemplate()
             {
                 Transport = Core.Models.EntityHeader<TransportTypes>.Create(TransportTypes.RestHttp),
