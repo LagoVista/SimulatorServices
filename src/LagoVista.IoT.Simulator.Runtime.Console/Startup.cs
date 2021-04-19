@@ -13,7 +13,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
 
         }
@@ -31,9 +31,9 @@ namespace LagoVista.IoT.Simulator.Runtime
                .AddApplicationPart(typeof(SimulatorController).GetTypeInfo().Assembly);
         }
 
-        ILoggerFactory _loggerFactory;
+//        ILoggerFactory _loggerFactory;
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
 
         }
