@@ -146,8 +146,10 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
             catch(Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Error loading runtime.");
                 Console.WriteLine(ex.Message);
+                Console.ResetColor();
             }
         }
 

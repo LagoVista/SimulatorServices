@@ -43,10 +43,17 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 
         private void CheckHeader(HttpRequest request, String header)
         {
-            if (!request.Headers.Keys.Contains(header) || String.IsNullOrEmpty(request.Headers[header].ToString()))
+            var containsHeader = request.Headers.Where(hdr => hdr.Key.ToLower() == header).Any();
+            if (!containsHeader)
             {
                 throw new NotAuthorizedException($"Missing request id header: {header}");
             }
+        }
+
+        private string GetHeaderValue(HttpRequest request, String header)
+        {
+            var headerEntry = request.Headers.Where(hdr => hdr.Key.ToLower() == header).FirstOrDefault();
+            return headerEntry.Value;
         }
 
         private string GetSignature(string requestId, string key, string source)
@@ -68,12 +75,17 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 
         protected EntityHeader OrgEntityHeader { get; private set; }
         protected EntityHeader UserEntityHeader { get; private set; }
-        
+
 
         [HttpGet("/api/simulator/network/runtime")]
         public async Task<SimulatorNetwork> ValidateRequest()
         {
             var request = HttpContext.Request;
+
+            foreach (var header in request.Headers.Keys)
+            {
+                Console.WriteLine($"{header}={request.Headers[header.ToLower()]} - {request.Headers.ContainsKey(header)} - {request.Headers.ContainsKey(header.ToLower())}");
+            }
 
             CheckHeader(request, REQUEST_ID);
             CheckHeader(request, ORG_ID);
@@ -82,17 +94,17 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             CheckHeader(request, DATE);
             CheckHeader(request, VERSION);
 
-            var authheader = request.Headers["Authorization"];
+            var authheader = GetHeaderValue(request, "authorization");
 
-            var requestId = request.Headers[REQUEST_ID];
-            var dateStamp = request.Headers[DATE];
-            var orgId = request.Headers[ORG_ID];
-            var org = request.Headers[ORG];
-            var networkId = request.Headers[NETWORK_ID];
-            var userId = request.Headers[USER_ID];
-            var userName = request.Headers[USER];
+            var requestId = GetHeaderValue(request, REQUEST_ID);
+            var dateStamp = GetHeaderValue(request, DATE);
+            var orgId = GetHeaderValue(request, ORG_ID);
+            var org = GetHeaderValue(request, ORG);
+            var networkId = GetHeaderValue(request, NETWORK_ID);
+            var userId = GetHeaderValue(request, USER_ID);
+            var userName = GetHeaderValue(request, USER);
 
-            var version = request.Headers[VERSION];
+            var version = GetHeaderValue(request, VERSION);
 
             var bldr = new StringBuilder();
             //Adding the \r\n manualy ensures that the we don't have any 
@@ -108,10 +120,13 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             UserEntityHeader = EntityHeader.Create(userId, userName);
 
             var network = await _simNetworkManager.GetSimulatorNetworkAsync(networkId, OrgEntityHeader, UserEntityHeader);
-            if(network == null)
+            if (network == null)
             {
                 throw new Exception("Could not find simulator for network id [networkId]");
             }
+
+            Console.WriteLine($"Found network {network.Name} - {network.SharedAccessKey1SecretId},{network.SharedAccessKey2SecretId}");
+            Console.WriteLine($"Calc {network.Name} - {network.SharedAccessKey1SecretId},{network.SharedAccessKey2SecretId}");
 
             var key1 = await _secureStorage.GetSecretAsync(OrgEntityHeader, network.SharedAccessKey1SecretId, UserEntityHeader);
             if (!key1.Successful)
@@ -120,10 +135,11 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             }
 
             var calculatedFromFirst = GetSignature(requestId, key1.Result, bldr.ToString());
+            Console.WriteLine($"Calc {calculatedFromFirst} - {authheader}");
 
             if (calculatedFromFirst != authheader)
             {
-                var key2 = await _secureStorage.GetSecretAsync(OrgEntityHeader, network.SharedAccessKey2, UserEntityHeader);
+                var key2 = await _secureStorage.GetSecretAsync(OrgEntityHeader, network.SharedAccessKey2SecretId, UserEntityHeader);
                 if (!key2.Successful)
                 {
                     throw new Exception(key2.Errors.First().Message);
@@ -136,7 +152,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
                 }
             }
 
-            foreach(var simulator in network.Simulators)
+            foreach (var simulator in network.Simulators)
             {
                 simulator.Simulator.Value = await _simManager.GetSimulatorAsync(simulator.Simulator.Id, OrgEntityHeader, UserEntityHeader, true);
             }

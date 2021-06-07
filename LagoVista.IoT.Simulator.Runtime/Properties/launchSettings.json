@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:23550",
-      "sslPort": 44342
+      "applicationUrl": "http://localhost:56142/",
+      "sslPort": 44305
     }
   },
   "profiles": {
@@ -15,19 +15,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "LagoVista.IoT.Simulator.Runtime.Portal": {
+    "LagoVista.IoT.Simulator.Runtime": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "sqlDebugging": false,
-      "applicationUrl": "http://localhost:5000"
-    },
-    "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}"
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }

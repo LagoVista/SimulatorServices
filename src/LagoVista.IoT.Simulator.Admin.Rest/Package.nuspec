@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>LagoVista.IoT.Simulator.Admin.Rest</id>
-    <version>2.1.1433-beta0812</version>
+    <version>2.1.1481-beta0223</version>
     <authors>Software Logistics, LLC</authors>
     <owners>Software Logistics, LLC</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

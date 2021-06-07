@@ -31,6 +31,7 @@ export class SimComponent implements OnInit {
 
   loadSimulators() {
     this.simulators = null;
+    console.log("Loading Simulators");
     this._http.get<Simulator[]>(this._baseUrl + 'api/simnetwork/simulators').subscribe(result => {
       console.log(result);
       this.simulators = result;

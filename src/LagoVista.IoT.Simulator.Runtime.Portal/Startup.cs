@@ -4,24 +4,26 @@ using LagoVista.IoT.Simulator.Runtime.Portal.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace LagoVista.IoT.Simulator.Runtime.Portal
 {
     public class Startup
     {
-        
+        private const string _corsPolicy = "AllowAll";
 
         public Startup(IWebHostEnvironment env)
         {
 
             var builder = new ConfigurationBuilder()
-    .SetBasePath(env.ContentRootPath)
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-    .AddEnvironmentVariables();
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
             Configuration = builder.Build();
 
@@ -75,16 +77,22 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
             _simRuntimeManager = new SimulatorRuntimeManager(new SimulatorRuntimeServicesFactory(), new AdminLogger(new LogWriter()));
             _serviceCollection.AddSingleton(_simRuntimeManager);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
-            
-            // In production, the Angular files will be served from this directory
-            /* todo: likely broke this.
+
+            services.AddControllersWithViews();
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            */
+
+            services.AddCors(options =>
+              options.AddPolicy(_corsPolicy,
+                  bldr => bldr.WithOrigins("http://localhost:4200", "http://localhost:5000", "http://localhost:4201")
+                  .AllowAnyMethod()
+                  .AllowCredentials()
+                  .AllowAnyHeader()
+                  ));
         }
 
         private async void StartSimManager()
@@ -107,36 +115,36 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal
                 app.UseHsts();
             }
 
-
+            app.UseCors(_corsPolicy);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //todo: Likely broke this.
-            /*  app.UseSpaStaticFiles();
-            app.UseSignalR(routes =>
+            if (!env.IsDevelopment())
             {
-                routes.MapHub<NotificationHub>("/realtime");
-            });
+                app.UseSpaStaticFiles();
+            }
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<NotificationHub>("/realtime");
             });
 
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
-            
+
+                spa.Options.SourcePath = "ClientApp";
+
                 if (env.IsDevelopment())
                 {
-                    spa.Options.SourcePath = "ClientApp";
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-            */
 
             _simRuntimeManager.Publisher = new NotificationPublisher(app.ApplicationServices);
 
