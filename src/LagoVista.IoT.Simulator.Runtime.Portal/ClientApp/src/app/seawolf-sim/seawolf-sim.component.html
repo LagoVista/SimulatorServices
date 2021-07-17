@@ -1,0 +1,98 @@
+<h1>Seawolf</h1>
+
+<p *ngIf="!simulators"><em>Loading...</em></p>
+
+<i (click)="reload()" class="fas fa-sync"></i>
+
+<table class='table table-striped' *ngIf="simulators">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>Last Update</th>
+      <th>Sim Instance</th>
+      <th>Sim Type</th>
+      <th>Current State</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let simulator of simulators">
+      <td> <i (click)="stopSimulator(simulator.instanceId)" class="flas fa-stop"></i></td>
+      <td> <i (click)="startSimulator(simulator.instanceId)" class="fas fa-play"></i></td>
+      <td>{{ simulator.lastUpdate }}</td>
+      <td><a (click)="selectSim(simulator.instanceId)" href="#"> {{ simulator.instanceName }}</a></td>
+      <td>{{ simulator.simulatorName }}</td>
+      <td>{{ simulator.currentState.name }}</td>
+      <td>{{ simulator.status.text }}</td>
+    </tr>
+  </tbody>
+</table>
+<script>
+
+function selectImage(txt){
+  console.log(txt);
+}
+
+</script>
+
+<img src='assets/BoatTopView.jpg' usemap='#sensorMap'  />
+
+<map name="sensorMap">
+  <area (click)="selectImage('livewell'); $event.stopPropagation()" title="Live Well" href="javascript:console.log('nop');" coords="339,388,383,513" shape="rect">
+  <area (click)="selectImage('trollingmotor'); $event.stopPropagation()" title="Trolling Motor" href="javascript:console.log('nop');" coords="1163,408,1214,500" shape="rect">
+  <area (click)="selectImage('starterbattery'); $event.stopPropagation()" title="Starter Battery" href="javascript:console.log('nop');" coords="219,384,294,506" shape="rect">
+  <area (click)="selectImage('batteryswitch'); $event.stopPropagation()" title="Battery Switch" href="javascript:console.log('nop');" coords="328,547,394,627" shape="rect">
+  <area (click)="selectImage('motion'); $event.stopPropagation()" title="Motion Detector" href="javascript:console.log('nop');" coords="576,504,720,635" shape="rect">
+  <area (click)="selectImage('gps'); $event.stopPropagation()" title="Motion Detector" href="javascript:console.log('nop');" coords="719,502,852,640" shape="rect">
+  <area (click)="selectImage('highlevel'); $event.stopPropagation()" title="High Water Detector" href="javascript:console.log('nop');" coords="483,490,419,398" shape="rect">
+  <area (click)="selectImage('ambienttemperature'); $event.stopPropagation()" title="Ambient Temperature" href="javascript:console.log('nop');" coords="891,197,453,59" shape="rect">
+  <area (click)="selectImage('coolertemperature'); $event.stopPropagation()" title="Cooler" href="javascript:console.log('nop');" coords="871,301,932,375" shape="rect">
+  <area (click)="selectImage('moisture'); $event.stopPropagation()" title="Moisture" href="javascript:console.log('nop');" coords="331,265,398,348" shape="rect">
+</map>
+
+
+<div name="sensorWindow" style="width: 300px; height: 300px;background-color: yellow;">
+
+</div>
+
+
+<div *ngIf="currentSimulator">
+  <h1>{{currentSimulator.instanceName}} - ({{currentSimulator.simulatorName}})</h1>
+  <div>
+    <select (change)="changeState($event.target.value)" [(ngModel)]="currentSimulator.currentState.key">
+      <option *ngFor="let state of currentSimulator.states" value="{{state.key}}">
+        {{state.name}}
+      </option>
+    </select>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-9">
+        <h4>Simulator Messages</h4>
+        <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+             class="pre-scrollable">
+          <div *ngFor="let msg of messages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div *ngFor="let msg of currentSimulator.messages">
+          <a href="#" (click)="sendMessage(msg.id)">{{msg.name}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h4>System Messages</h4>
+        <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+             class="pre-scrollable">
+          <div *ngFor="let msg of logmessages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
