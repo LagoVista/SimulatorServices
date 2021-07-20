@@ -77,10 +77,20 @@ namespace LagoVista.IoT.Simulator.Runtime
                 return InvokeResult.FromError("MQTT Client is null, could not send message");
             }
 
-            if (!_isConnected)
+            if (!_mqttClient.IsConnected)
             {
-                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is not connected, could not send message");
-                return InvokeResult.FromError("MQTT Client is not is not connected, could not send message");
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is not connected, reconnecting.");
+
+                var connectResult = await _mqttClient.ConnectAsync();
+                if (connectResult.Result == ConnAck.Accepted)
+                {
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is not connected, reconnected.");
+                }
+                else
+                {
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is not connected, could not connect, did not send message");
+                    return InvokeResult.FromError("MQTT Client is not is not connected, could not send message");
+                }
             }
 
             var qos = QOS.QOS0;
@@ -93,6 +103,12 @@ namespace LagoVista.IoT.Simulator.Runtime
                     case QualityOfServiceLevels.QOS2: qos = QOS.QOS2; break;
                 }
             }
+
+            if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_GeoPath)
+            {
+                return await SendMQTTGeoMessage(plan);
+            }
+
 
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to MQTT Server {_simulator.DefaultEndPoint} with topic {messageTemplate.Topic}");
 

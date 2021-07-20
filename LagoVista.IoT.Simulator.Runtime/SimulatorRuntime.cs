@@ -454,7 +454,32 @@ namespace LagoVista.IoT.Simulator.Runtime
             return InvokeResult.Success;
         }
 
-        private async Task<InvokeResult> SendGeoMessage(MessageTransmissionPlan plan)
+        private async Task<InvokeResult> SendMQTTGeoMessage(MessageTransmissionPlan plan)
+        {
+            var messageTemplate = plan.Message.Value;
+
+            var pointArray = messageTemplate.TextPayload.Split('\r');
+            var geoLocation = pointArray[_pointIndex++];
+            var parts = geoLocation.Split(',');
+            var lat = Convert.ToDouble(parts[0]);
+            var lon = Convert.ToDouble(parts[1]);
+            var delay = Convert.ToInt32(parts[2]) * 1000;
+
+            await _mqttClient.PublishAsync(ReplaceTokens(_instance, plan, messageTemplate.Topic), $"{lat},{lon}");
+
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Queue up point {_pointIndex} to send.");
+
+            if (this._pointIndex < pointArray.Length)
+            {
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Queue up point {_pointIndex} to send.");
+                _timer = new Timer(SendMqttGeoRequest, plan, delay, Timeout.Infinite);
+            }
+
+            return InvokeResult.Success;
+
+        }
+
+        private async Task<InvokeResult> SendHTMLGeoMessage(MessageTransmissionPlan plan)
         {
             var messageTemplate = plan.Message.Value;
 
@@ -544,7 +569,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                     if (this._pointIndex < pointArray.Length)
                     {
                         await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Queue up point {_pointIndex} to send.");
-                        _timer = new Timer(SentNextPoint, null, delay, Timeout.Infinite);
+                        _timer = new Timer(SendHttpGeoRequest, plan, delay, Timeout.Infinite);
                     }
 
                     return InvokeResult.Success;
@@ -565,7 +590,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_GeoPath)
             {
-                return await SendGeoMessage(plan);
+                return await SendHTMLGeoMessage(plan);
             }
 
             using (var client = new HttpClient())
@@ -642,8 +667,8 @@ namespace LagoVista.IoT.Simulator.Runtime
                             responseMessage = await client.DeleteAsync(uri);
                             break;
                         default:
-                            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Uknown HTTP Verb [{messageTemplate.HttpVerb}]");
-                            return InvokeResult.FromError($"Uknown HTTP Verb [{messageTemplate.HttpVerb}]");
+                            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Unknown HTTP Verb [{messageTemplate.HttpVerb}]");
+                            return InvokeResult.FromError($"Unknown HTTP Verb [{messageTemplate.HttpVerb}]");
                     }
                 }
                 catch (HttpRequestException ex)
@@ -714,14 +739,21 @@ namespace LagoVista.IoT.Simulator.Runtime
             return InvokeResult.Success;
         }
 
-        private async void SentNextPoint(Object obj)
+        private async void SendHttpGeoRequest(Object obj)
         {
             await SendRESTRequestAsync(obj as MessageTransmissionPlan);
+        }
+
+        private async void SendMqttGeoRequest(Object obj)
+        {
+            await SendMQTTMessage(obj as MessageTransmissionPlan);
         }
 
         public async Task<InvokeResult<string>> SendAsync(MessageTransmissionPlan plan)
         {
             IsBusy = true;
+
+            _pointIndex = 0;
 
             var messageTemplate = plan.Message.Value;
 
