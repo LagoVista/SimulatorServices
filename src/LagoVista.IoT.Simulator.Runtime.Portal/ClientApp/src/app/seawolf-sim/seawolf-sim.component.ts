@@ -3,6 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 
+export class Sensor {
+  name: string;
+  sensorIndex: number;
+  lowToleranceValue: number;
+  inToleranceValue: number;
+  highToleranceValue: number
+}
+
 @Component({
   selector: 'app-sim',
   templateUrl: './seawolf-sim.component.html',
@@ -17,6 +25,8 @@ export class SeaWolfSimComponent implements OnInit {
   _instanceId: string;
   _baseUrl: string;
   _http: HttpClient;
+
+  activeSensor: Sensor;
 
   public currentSimulator: Simulator;
 
@@ -89,6 +99,8 @@ export class SeaWolfSimComponent implements OnInit {
       console.log(received);
       this.logmessages.push(received);
     });
+
+    this.selectImage('livewell')
   }
 
   selectSim(instanceId: string) {
@@ -118,6 +130,35 @@ export class SeaWolfSimComponent implements OnInit {
 
   selectImage(area: string) {
     console.log(area);
+    switch (area) {
+      case 'livewell':
+        this.activeSensor = { name: 'Live Well', lowToleranceValue: 64, highToleranceValue: 92, sensorIndex: 10, inToleranceValue: 80 };
+        break;
+      case 'starterbattery':
+        this.activeSensor = { name: 'Starter Battery', lowToleranceValue: 10.5, highToleranceValue: 16.2, sensorIndex: 4, inToleranceValue: 13.8  };
+        break;
+      case 'batteryswitch':
+        this.activeSensor = { name: 'Battery Switch' };
+        break;
+      case 'coolertemperature':
+        this.activeSensor = { name: 'Cooler Temperature' };
+        break;
+      case 'gps':
+        this.activeSensor = { name: 'Location Tracking' };
+        break;
+    }
+  }
+
+  sendLowValue() {
+    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, this.activeSensor.lowToleranceValue);
+  }
+
+  sendNominalValue() {
+    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, this.activeSensor.inToleranceValue);
+  }
+
+  sendHighValue() {
+    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, this.activeSensor.highToleranceValue);
   }
 
   reload() {

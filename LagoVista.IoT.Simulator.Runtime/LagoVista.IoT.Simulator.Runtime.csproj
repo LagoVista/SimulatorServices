@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
-    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="2.1.1478-beta0515" />
+    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="3.0.1524.0953" />
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.36.0" />
     <PackageReference Include="Microsoft.Azure.Devices.Shared" Version="1.27.0" />
     <PackageReference Include="Microsoft.Azure.EventHubs" Version="4.3.1" />

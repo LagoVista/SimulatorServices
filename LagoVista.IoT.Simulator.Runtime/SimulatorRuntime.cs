@@ -149,7 +149,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                 Text = "Running"
             };
 
-            foreach(var message in messages)
+            foreach (var message in messages)
             {
                 await _notificationPublisher.PublishAsync(Targets.WebSocket, Channels.Simulator, InstanceId, message, CurrentState);
             }
@@ -180,7 +180,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                 _receiveTaskCancelTokenSource = null;
             }
 
-            switch(_simulator.DefaultTransport.Value)
+            switch (_simulator.DefaultTransport.Value)
             {
                 case TransportTypes.MQTT:
                     DisconnectMQTT();
@@ -246,6 +246,33 @@ namespace LagoVista.IoT.Simulator.Runtime
                 });
             }
         }
+
+        public async Task SendMessageAsync(MessageTemplate msg)
+        {
+            var values = new List<MessageValue>();
+            foreach (var prop in msg.DynamicAttributes)
+            {
+                values.Add(new MessageValue()
+                {
+                    Attribute = new EntityHeader<MessageDynamicAttribute>() { Id = prop.Key },
+                    Value = prop.DefaultValue
+                });
+            }
+
+            var template = new EntityHeader<MessageTemplate>()
+            {
+                Id = msg.Id,
+                Text = msg.Name,
+                Value = msg
+            };
+
+            await SendAsync(new MessageTransmissionPlan()
+            {
+                Message = template,
+                Values = values
+            });
+        }
+
 
         private async void SendMessage(Object msg)
         {

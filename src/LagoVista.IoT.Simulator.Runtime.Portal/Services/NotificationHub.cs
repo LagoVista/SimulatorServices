@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using LagoVista.IoT.Simulator.Admin.Models;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,13 +39,42 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             }
         }
 
+        public async void UpdateSensorValue(string instanceId, int sensorNumber, double sensorValue)
+        {
+            var payload = String.Empty;
+
+            for (var idx = 0; idx < 16; ++idx)
+            {
+                if (sensorNumber == idx)
+                {
+                    payload += $"{sensorValue}";
+                }
+                
+                if(idx < 15)
+                    payload += ",";
+            }
+
+            var msg = new MessageTemplate()
+            {
+                QualityOfServiceLevel = Core.Models.EntityHeader<QualityOfServiceLevels>.Create(QualityOfServiceLevels.QOS0),
+                Transport = Core.Models.EntityHeader<TransportTypes>.Create(TransportTypes.MQTT),
+                Topic = "nuviot/srvr/dvcsrvc/~deviceid~/iovalues",
+                TextPayload = payload,
+                PayloadType = Core.Models.EntityHeader<PaylodTypes>.Create(PaylodTypes.String),
+            };
+
+            var instance = _mgr.Runtimes.Where(sim => sim.InstanceId == instanceId).FirstOrDefault();
+            await instance.SendMessageAsync(msg);
+
+        }
+
         public async void Reload()
         {
             try
             {
                 await Log("Reloading simulator network.");
                 await _mgr.ReloadAsync();
-                await Log("Finsihed starting simulator network.");
+                await Log("Finished starting simulator network.");
             }
             catch (Exception ex)
             {
@@ -194,7 +224,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
                 Console.WriteLine(ex.StackTrace);
                 Console.ResetColor();
                 return Task.CompletedTask;
-            }            
+            }
         }
 
         public override Task OnConnectedAsync()

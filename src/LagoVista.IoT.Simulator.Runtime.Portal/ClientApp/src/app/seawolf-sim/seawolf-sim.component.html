@@ -21,7 +21,7 @@
       <td> <i (click)="stopSimulator(simulator.instanceId)" class="flas fa-stop"></i></td>
       <td> <i (click)="startSimulator(simulator.instanceId)" class="fas fa-play"></i></td>
       <td>{{ simulator.lastUpdate }}</td>
-      <td><a (click)="selectSim(simulator.instanceId)" href="#"> {{ simulator.instanceName }}</a></td>
+      <td><a (click)="selectSim(simulator.instanceId)"> {{ simulator.instanceName }}</a></td>
       <td>{{ simulator.simulatorName }}</td>
       <td>{{ simulator.currentState.name }}</td>
       <td>{{ simulator.status.text }}</td>
@@ -30,32 +30,49 @@
 </table>
 <script>
 
-function selectImage(txt){
-  console.log(txt);
-}
+  function selectImage(txt) {
+  }
 
 </script>
 
-<img src='assets/BoatTopView.jpg' usemap='#sensorMap'  />
-
-<map name="sensorMap">
-  <area (click)="selectImage('livewell'); $event.stopPropagation()" title="Live Well" href="javascript:console.log('nop');" coords="339,388,383,513" shape="rect">
-  <area (click)="selectImage('trollingmotor'); $event.stopPropagation()" title="Trolling Motor" href="javascript:console.log('nop');" coords="1163,408,1214,500" shape="rect">
-  <area (click)="selectImage('starterbattery'); $event.stopPropagation()" title="Starter Battery" href="javascript:console.log('nop');" coords="219,384,294,506" shape="rect">
-  <area (click)="selectImage('batteryswitch'); $event.stopPropagation()" title="Battery Switch" href="javascript:console.log('nop');" coords="328,547,394,627" shape="rect">
-  <area (click)="selectImage('motion'); $event.stopPropagation()" title="Motion Detector" href="javascript:console.log('nop');" coords="576,504,720,635" shape="rect">
-  <area (click)="selectImage('gps'); $event.stopPropagation()" title="Motion Detector" href="javascript:console.log('nop');" coords="719,502,852,640" shape="rect">
-  <area (click)="selectImage('highlevel'); $event.stopPropagation()" title="High Water Detector" href="javascript:console.log('nop');" coords="483,490,419,398" shape="rect">
-  <area (click)="selectImage('ambienttemperature'); $event.stopPropagation()" title="Ambient Temperature" href="javascript:console.log('nop');" coords="891,197,453,59" shape="rect">
-  <area (click)="selectImage('coolertemperature'); $event.stopPropagation()" title="Cooler" href="javascript:console.log('nop');" coords="871,301,932,375" shape="rect">
-  <area (click)="selectImage('moisture'); $event.stopPropagation()" title="Moisture" href="javascript:console.log('nop');" coords="331,265,398,348" shape="rect">
-</map>
-
-
-<div name="sensorWindow" style="width: 300px; height: 300px;background-color: yellow;">
-
+<div>
+  <img src='assets/BoatTopView.jpg' usemap='#sensorMap' />
+  <div style="float:right;height: 310px; margin-left: 5px; border-radius: 5px; width: 300px; background-color: #f0f0f0;border:1px solid lightgrey">
+    <h1 style='text-align: center;margin-bottom: 40px;margin-top:40px'>{{activeSensor.name}}</h1>
+    <div style='align-content: center;'>
+      <table style="width: 100%;" >
+        <tr>
+          <td (click)='sendLowValue()' style="cursor:pointer; font-weight: bold; text-align: center;color:blue;font-size:32pt">{{activeSensor.lowToleranceValue}}</td>
+          <td (click)='sendNominalValue()' style="cursor:pointer; font-weight: bold; text-align: center;font-size:32pt">{{activeSensor.inToleranceValue}}</td>
+          <td (click)='sendHighValue()' style="cursor:pointer; font-weight: bold; text-align: center;color:red;font-size:32pt">{{activeSensor.highToleranceValue}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
 
+<map name="sensorMap">
+  <area (click)="selectImage('livewell'); $event.stopPropagation()" title="Live Well"
+    href="javascript:console.log('nop');" coords="199,127,234,187" shape="rect">
+  <area (click)="selectImage('trollingmotor'); $event.stopPropagation()" title="Trolling Motor"
+    href="javascript:console.log('nop');" coords="732,120,795,198" shape="rect">
+  <area (click)="selectImage('starterbattery'); $event.stopPropagation()" title="Starter Battery"
+    href="javascript:console.log('nop');" coords="130,127,179,190" shape="rect">
+  <area (click)="selectImage('batteryswitch'); $event.stopPropagation()" title="Battery Switch"
+    href="javascript:console.log('nop');" coords="243,200,273,243" shape="rect">
+  <area (click)="selectImage('motion'); $event.stopPropagation()" title="Motion Detector"
+    href="javascript:console.log('nop');" coords="264,45,344,159" shape="rect">
+  <area (click)="selectImage('gps'); $event.stopPropagation()" title="Location Tracking"
+    href="javascript:console.log('nop');" coords="358,45,409,159" shape="rect">
+  <area (click)="selectImage('highlevel'); $event.stopPropagation()" title="High Water Detector"
+    href="javascript:console.log('nop');" coords="484,121,553,198" shape="rect">
+  <area (click)="selectImage('ambienttemperature'); $event.stopPropagation()" title="Ambient Temperature"
+    href="javascript:console.log('nop');" coords="298,6,459,42" shape="rect">
+  <area (click)="selectImage('coolertemperature'); $event.stopPropagation()" title="Cooler"
+    href="javascript:console.log('nop');" coords="144,192,185,241" shape="rect">
+  <area (click)="selectImage('moisture'); $event.stopPropagation()" title="Moisture"
+    href="javascript:console.log('nop');" coords="409,76,479,159" shape="rect">
+</map>
 
 <div *ngIf="currentSimulator">
   <h1>{{currentSimulator.instanceName}} - ({{currentSimulator.simulatorName}})</h1>
@@ -71,8 +88,9 @@ function selectImage(txt){
     <div class="row">
       <div class="col-9">
         <h4>Simulator Messages</h4>
-        <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
-             class="pre-scrollable">
+        <div
+          style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+          class="pre-scrollable">
           <div *ngFor="let msg of messages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
         </div>
       </div>
@@ -88,8 +106,9 @@ function selectImage(txt){
     <div class="row">
       <div class="col-12">
         <h4>System Messages</h4>
-        <div style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
-             class="pre-scrollable">
+        <div
+          style="background-color:black;color:yellow;font-family:'Courier New';font-size:8pt;margin:8px;padding:4px;height:780px"
+          class="pre-scrollable">
           <div *ngFor="let msg of logmessages" style="font-family: consolas;font-size:12px">{{ msg }}</div>
         </div>
       </div>
