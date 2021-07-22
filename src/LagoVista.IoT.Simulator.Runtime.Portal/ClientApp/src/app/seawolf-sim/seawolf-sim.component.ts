@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { HubConnection } from '@aspnet/signalr';
 import * as signalR from '@aspnet/signalr';
 
-export class Sensor {
+export interface Sensor {
   name: string;
   sensorIndex: number;
   lowToleranceValue: number;
+  lowWarningValue: number;
   inToleranceValue: number;
+  highWarningValue: number;
   highToleranceValue: number
 }
 
@@ -21,6 +23,7 @@ export class SeaWolfSimComponent implements OnInit {
   public simulators: Simulator[];
   messages: string[] = [];
   logmessages: string[] = [];
+  showDiagnostics = false;
   message: '';
   _instanceId: string;
   _baseUrl: string;
@@ -124,41 +127,65 @@ export class SeaWolfSimComponent implements OnInit {
   }
 
   sendMessage(messageId: string) {
-    console.log(messageId);
     this._hubConnection.send('sendMessage', this.currentSimulator.instanceId, messageId);
   }
 
   selectImage(area: string) {
     console.log(area);
     switch (area) {
-      case 'livewell':
-        this.activeSensor = { name: 'Live Well', lowToleranceValue: 64, highToleranceValue: 92, sensorIndex: 10, inToleranceValue: 80 };
+      case 'ambienttemperature':
+        this.activeSensor = { name: 'Outside Temp', lowToleranceValue: 32, lowWarningValue:36, highWarningValue:95,
+          highToleranceValue: 100, sensorIndex: 11, inToleranceValue: 78 };
         break;
-      case 'starterbattery':
-        this.activeSensor = { name: 'Starter Battery', lowToleranceValue: 10.5, highToleranceValue: 16.2, sensorIndex: 4, inToleranceValue: 13.8  };
+        case 'livewell':
+          this.activeSensor = { name: 'Live Well Temp', lowToleranceValue: 64, lowWarningValue:67, highWarningValue:89,
+            highToleranceValue: 92, sensorIndex: 10, inToleranceValue: 80 };
+          break;
+        case 'starterbattery':
+        this.activeSensor = { name: 'Starter Battery', lowToleranceValue: 10.5, lowWarningValue:12.2, highWarningValue:14.8,
+          highToleranceValue: 16.2, sensorIndex: 4, inToleranceValue: 13.8 };
         break;
       case 'batteryswitch':
-        this.activeSensor = { name: 'Battery Switch' };
+        this.activeSensor = { name: 'Battery Switch', lowToleranceValue: 0, lowWarningValue:-1, highWarningValue:-1,
+          highToleranceValue: -1, sensorIndex: 6, inToleranceValue: 1 };
         break;
       case 'coolertemperature':
-        this.activeSensor = { name: 'Cooler Temperature' };
+        this.activeSensor = { name: 'Cooler Temperature', lowToleranceValue: -1, lowWarningValue:-1, highWarningValue:28,
+          highToleranceValue: 32, sensorIndex: 12, inToleranceValue: 26 };
         break;
       case 'gps':
-        this.activeSensor = { name: 'Location Tracking' };
+        this.activeSensor = { name: 'Location Tracking', lowToleranceValue: 10.5, lowWarningValue:-1, highWarningValue:-1,
+        highToleranceValue: 16.2, sensorIndex: 4, inToleranceValue: 13.8 };
+        break;
+      case 'trollingmotor':
+        this.activeSensor = { name: 'Trolling Motor', lowToleranceValue: 36, lowWarningValue:38, highWarningValue:44,
+        highToleranceValue: 46, sensorIndex: 5, inToleranceValue: 41.4 };
+        break;
+        
+      case 'highwater':
+        this.activeSensor = { name: 'High Water', lowToleranceValue: -1, lowWarningValue:-1, highWarningValue:-1,
+        highToleranceValue: 1, sensorIndex: 13, inToleranceValue: 0 };
+        break;
+        
+      case 'vapor':
+        this.activeSensor = { name: 'Gas Vapor', lowToleranceValue: -1, lowWarningValue:-1, highWarningValue:-1,
+        highToleranceValue: 1, sensorIndex: 9, inToleranceValue: 0 };
+        break;
+
+      case 'motion':
+        this.activeSensor = { name: 'Motion', lowToleranceValue: -1, lowWarningValue:-1, highWarningValue:-1,
+        highToleranceValue: 1, sensorIndex: 14, inToleranceValue: 0 };
+        break;
+        
+      case 'moisture':
+        this.activeSensor = { name: 'Moisture', lowToleranceValue: -1, lowWarningValue:-1, highWarningValue:-1,
+        highToleranceValue: 1, sensorIndex: 15, inToleranceValue: 0 };
         break;
     }
   }
 
-  sendLowValue() {
-    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, this.activeSensor.lowToleranceValue);
-  }
-
-  sendNominalValue() {
-    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, this.activeSensor.inToleranceValue);
-  }
-
-  sendHighValue() {
-    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, this.activeSensor.highToleranceValue);
+  sendValue(value: number) {
+    this._hubConnection.send('updateSensorValue', this.currentSimulator.instanceId, this.activeSensor.sensorIndex, value);
   }
 
   reload() {
@@ -217,6 +244,7 @@ interface MessageDynamicAttribute {
 }
 
 interface Message {
+  id: string;
   key: string;
   name: string;
   description: string;
@@ -224,7 +252,7 @@ interface Message {
 }
 
 interface SimulatorStatus {
-  isRuning: boolean;
+  isRunning: boolean;
   text: string;
 }
 
