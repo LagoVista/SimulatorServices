@@ -8,8 +8,6 @@ using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Runtime.Core.Services;
 using LagoVista.IoT.Simulator.Admin.Models;
 using Microsoft.Azure.Devices.Client;
-using Microsoft.Azure.EventHubs;
-using Microsoft.Azure.ServiceBus;
 using System;
 using System.Collections.Generic;
 using System.Linq;

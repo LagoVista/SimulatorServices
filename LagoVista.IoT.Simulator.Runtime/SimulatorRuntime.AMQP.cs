@@ -83,8 +83,6 @@ namespace LagoVista.IoT.Simulator.Runtime
                                 var received = receiveLink.Receive();
                                 if (received != null)
                                 {
-                                    
-
                                     receiveLink.Accept(received);
                                 }
                             }
@@ -95,9 +93,9 @@ namespace LagoVista.IoT.Simulator.Runtime
 
                     receiveLink.Close();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    Console.WriteLine("Could not listen on AMQP");
                 }
             }, token);
         }

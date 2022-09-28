@@ -3,13 +3,12 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LagoVista.CloudStorage" Version="3.0.1955.0017" />
-    <PackageReference Include="LagoVista.Core" Version="3.0.1955.0017" />
-    <PackageReference Include="LagoVista.IoT.Logging" Version="3.0.1955.0017" />
+    <PackageReference Include="LagoVista.CloudStorage" Version="3.0.1960.0726" />
+    <PackageReference Include="LagoVista.Core" Version="3.0.1960.0726" />
+    <PackageReference Include="LagoVista.IoT.Logging" Version="3.0.1960.0726" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-  </ItemGroup>
+   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LagoVista.IoT.Simulator.Admin\LagoVista.IoT.Simulator.Admin.csproj" />
   </ItemGroup>
