@@ -1,4 +1,7 @@
 ﻿using Amqp;
+using Azure.Messaging.EventHubs;
+using Azure.Messaging.EventHubs.Producer;
+using Azure.Messaging.ServiceBus;
 using LagoVista.Client.Core;
 using LagoVista.Core;
 using LagoVista.Core.Models;
@@ -409,16 +412,13 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
 
             var connectionString = $"Endpoint=sb://{_simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={_simulator.AccessKeyName};SharedAccessKey={_simulator.AccessKey}";
-            var bldr = new ServiceBusConnectionStringBuilder(connectionString)
-            {
-                EntityPath = messageTemplate.QueueName
-            };
 
-            var client = new QueueClient(bldr, ReceiveMode.PeekLock, Microsoft.Azure.ServiceBus.RetryExponential.Default);
-
-            var msg = new Microsoft.Azure.ServiceBus.Message()
+            var sb = new Azure.Messaging.ServiceBus.ServiceBusClient(connectionString);
+            var sender = sb.CreateSender(messageTemplate.QueueName);
+          
+            var msg = new ServiceBusMessage()
             {
-                Body = GetMessageBytes(plan),
+                Body = new BinaryData(GetMessageBytes(plan)),
                 To = messageTemplate.To,
                 ContentType = messageTemplate.ContentType
             };
@@ -430,8 +430,8 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to Service Bus {_simulator.DefaultEndPoint}");
 
-            await client.SendAsync(msg);
-            await client.CloseAsync();
+            await sender.SendMessageAsync(msg);
+            await sender.CloseAsync();
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
 
@@ -467,12 +467,11 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
 
             var connectionString = $"Endpoint=sb://{_simulator.DefaultEndPoint}.servicebus.windows.net/;SharedAccessKeyName={_simulator.AccessKeyName};SharedAccessKey={_simulator.AccessKey}";
-            var connectionStringBuilder = new EventHubsConnectionStringBuilder(connectionString) { EntityPath = _simulator.HubName };
 
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to Azure Event Hub {_simulator.DefaultEndPoint}");
 
-            var client = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
-            await client.SendAsync(new EventData(GetMessageBytes(messageTemplate)));
+            var eh  = new EventHubProducerClient(connectionString);
+            await eh.SendAsync(new List<EventData>() { new EventData(GetMessageBytes(messageTemplate)) });
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
 
