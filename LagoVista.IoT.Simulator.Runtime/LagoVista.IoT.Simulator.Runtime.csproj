@@ -15,7 +15,7 @@
     <PackageReference Include="LagoVista.MQTT" Version="1.2.640-alpha1012" />
     <PackageReference Include="AMQPNetLite" Version="2.4.5" />
     <PackageReference Include="LagoVista.Client.Core" Version="1.2.633-alpha1158" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\LagoVista.IoT.Simulator.Models\LagoVista.IoT.Simulator.Models.csproj" />
