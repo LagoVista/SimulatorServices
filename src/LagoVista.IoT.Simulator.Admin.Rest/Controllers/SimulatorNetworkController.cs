@@ -56,7 +56,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         [HttpGet("/api/simulator/network/{id}")]
         public async Task<DetailResponse<SimulatorNetwork>> GetSimulatorNetworkAsync(string id)
         {
-            var simNetwork = await _simulatorNetworkManager.GetSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader);
+            var simNetwork = await _simulatorNetworkManager.GetSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader, false, false);
             return DetailResponse<Models.SimulatorNetwork>.Create(simNetwork);
         }
 
@@ -68,7 +68,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         [HttpGet("/api/simulator/network/{id}/secure")]
         public async Task<DetailResponse<SimulatorNetwork>> GetSimulatorNetworkWithKeysAsync(string id)
         {
-            var simNetwork = await _simulatorNetworkManager.GetSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader, true);
+            var simNetwork = await _simulatorNetworkManager.GetSimulatorNetworkAsync(id, OrgEntityHeader, UserEntityHeader, true, false);
             return DetailResponse<Models.SimulatorNetwork>.Create(simNetwork);
         }
 

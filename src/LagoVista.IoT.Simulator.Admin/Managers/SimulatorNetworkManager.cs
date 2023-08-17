@@ -61,10 +61,12 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
             return InvokeResult.Success;
         }
 
-        public async Task<SimulatorNetwork> GetSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false)
+        /// when we are called from client app rahter then web API, authorization is done via the headers
+        public async Task<SimulatorNetwork> GetSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets, bool alreadyAuthorized)
         {
             var simulator = await _repo.GetSimulatorNetworkAsync(id);
-            await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
+            if(!alreadyAuthorized)
+             await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
 
             if(loadSecrets)
             {

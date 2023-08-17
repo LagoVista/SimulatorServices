@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using LagoVista.IoT.Simulator.Admin.Models;
+using System.Security.Claims;
+using LagoVista.AspNetCore.Identity.Managers;
 
 namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 {
@@ -119,7 +121,14 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
             OrgEntityHeader = EntityHeader.Create(orgId, org);
             UserEntityHeader = EntityHeader.Create(userId, userName);
 
-            var network = await _simNetworkManager.GetSimulatorNetworkAsync(networkId, OrgEntityHeader, UserEntityHeader);
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimsFactory.CurrentUserId, userId));
+            claims.Add(new Claim(ClaimsFactory.CurrentOrgId, orgId));
+
+            var claimsIdentity = new ClaimsIdentity(claims);
+            HttpContext.User.AddIdentity(claimsIdentity);
+
+            var network = await _simNetworkManager.GetSimulatorNetworkAsync(networkId, OrgEntityHeader, UserEntityHeader, true, true);
             if (network == null)
             {
                 throw new Exception("Could not find simulator for network id [networkId]");

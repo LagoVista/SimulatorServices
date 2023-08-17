@@ -8,7 +8,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
     public interface ISimulatorNetworkManager
     {
         Task<InvokeResult> AddSimulatorNetworkAsync(Models.SimulatorNetwork simulator, EntityHeader org, EntityHeader user);
-        Task<Models.SimulatorNetwork> GetSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false);
+        Task<Models.SimulatorNetwork> GetSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets, bool alreadyAuthorized);
         Task<InvokeResult> UpdateSimulatorNetworkAsync(Models.SimulatorNetwork simulator, EntityHeader org, EntityHeader user);
         Task<InvokeResult> DeleteSimulatorNetworkAsync(string id, EntityHeader org, EntityHeader user);
 
