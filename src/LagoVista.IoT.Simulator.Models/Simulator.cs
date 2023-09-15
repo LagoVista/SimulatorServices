@@ -7,6 +7,7 @@ using LagoVista.Core;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using LagoVista.IoT.Simulator.Models.Resources;
+using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
@@ -46,7 +47,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
 
-    public class Simulator : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity
+    public class Simulator : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity, IFormDescriptor, IFormConditionalFields
     {
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
@@ -87,13 +88,16 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public bool IsPublic { get; set; }
 
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, WaterMark:SimulatorResources.Names.Simulator_DeploymentConfiguration_Watermark, 
+            ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeploymentConfiguration { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Device_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Device_Config, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.Simulator_Device_Config_Watermark, 
+            ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeviceConfiguration { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_DeviceType, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_DeviceType, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.Simulator_DeviceType_Watermark,
+            ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeviceType { get; set; }
 
 
@@ -103,10 +107,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<SimulatorState> SimulatorStates { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource: SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
@@ -131,13 +135,15 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public string Topic { get; set; }
 
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Subscription, HelpResource: SimulatorResources.Names.Simulator_Subscription_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Subscription, HelpResource: SimulatorResources.Names.Simulator_Subscription_Help, FieldType: FieldTypes.Text,
+            ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string Subscription { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultPort, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public int DefaultPort { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultPayloadType, HelpResource: SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType: typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultPayloadType, HelpResource: SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker,
+            EnumType: typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
         public EntityHeader<PaylodTypes> DefaultPayloadType { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Password, ResourceType: typeof(SimulatorResources), IsRequired: false)]
@@ -309,6 +315,157 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             {
                 Id = Id,
                 Text = Name
+            };
+        }
+
+        public FormConditionals GetConditionalFields()
+        {
+            return new FormConditionals()
+            {
+                ConditionalFields = new List<string>()
+                 {
+                     nameof(DefaultEndPoint),
+                     nameof(DefaultPort),
+                     nameof(ConnectionString),
+                     nameof(HubName),
+                     nameof(QueueName),
+                     nameof(Topic),
+                     nameof(Subscription),
+
+                     nameof(AuthHeader),
+                     nameof(BasicAuth),
+                      nameof(Anonymous),
+                     nameof(UserName),
+                     nameof(Password),
+
+                    nameof(AccessKeyName),
+                     nameof(TLSSSL),
+
+
+                     nameof(AccessKey)
+                 },
+                Conditionals = new List<FormConditional>()
+                {
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_Azure_EventHub,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(AccessKey),
+                             nameof(DefaultEndPoint),
+                             nameof(HubName),
+                         }
+                    },
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_IOT_HUB,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(AccessKey),
+                             nameof(DefaultEndPoint),
+                             nameof(DeviceId),
+                         }
+                    },
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_AzureServiceBus,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(AccessKey),
+                             nameof(QueueName),
+                             nameof(DefaultEndPoint),
+                             nameof(DeviceId),
+                         }
+                    },
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_MQTT,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(Anonymous),
+                             nameof(DefaultPort),
+                             nameof(DefaultEndPoint),
+                             nameof(UserName),
+                             nameof(Password),
+                             nameof(Topic),
+                         }
+                    },
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_RestHttp,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(Anonymous),
+                             nameof(DefaultPort),
+                             nameof(DefaultEndPoint),
+                             nameof(UserName),
+                             nameof(Password),
+                         }
+                    },
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_TCP,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(DefaultPort),
+                             nameof(DefaultEndPoint),
+                         }
+                    },
+                    new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_UDP,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(DefaultPort),
+                             nameof(DefaultEndPoint),
+                         }
+                    }
+                }
+            };
+        }
+
+        public List<string> GetFormFields()
+        {
+            return new List<string>()
+            {
+                nameof(Name),
+                nameof(Key),
+                nameof(DeviceId),
+                nameof(DeviceType),
+                nameof(DeviceConfiguration),
+                nameof(Description),
+                nameof(DefaultTransport),
+                nameof(DefaultEndPoint),
+                nameof(DefaultPort),
+                nameof(DefaultPayloadType),
+                nameof(ConnectionString),
+
+                nameof(HubName),
+                nameof(QueueName),
+                nameof(Topic),
+                nameof(Subscription),
+
+                nameof(Anonymous),
+                nameof(BasicAuth),
+                
+                nameof(UserName),
+                nameof(Password),
+                nameof(AuthHeader),
+                
+                nameof(TLSSSL),
+
+                nameof(AccessKeyName),
+                nameof(AccessKey),
+                
+                nameof(SimulatorStates),
+                nameof(MessageTemplates),
             };
         }
     }

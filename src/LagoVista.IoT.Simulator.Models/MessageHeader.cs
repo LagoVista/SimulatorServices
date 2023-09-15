@@ -12,7 +12,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 {
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageHeader_Title, SimulatorResources.Names.MessageHeader_Help,SimulatorResources.Names.MessageHeader_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class MessageHeader : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable
+    public class MessageHeader : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable, IFormDescriptor
     {
         public MessageHeader()
         {
@@ -35,6 +35,18 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
+
+        public List<string> GetFormFields()
+        {
+            return new List<string>()
+            {
+                nameof(Name),
+                nameof(Key),
+                nameof(HeaderName),
+                nameof(Value),
+                nameof(Description)
+            };
+        }
 
         public IEntityHeader ToEntityHeader()
         {

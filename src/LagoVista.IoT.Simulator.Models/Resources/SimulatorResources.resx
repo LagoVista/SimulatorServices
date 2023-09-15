@@ -570,4 +570,13 @@
   <data name="Message_PayloadType_PointArray" xml:space="preserve">
     <value>Point Array</value>
   </data>
+  <data name="Simulator_DeploymentConfiguration_Watermark" xml:space="preserve">
+    <value>-select deployment configuration-</value>
+  </data>
+  <data name="Simulator_DeviceType_Watermark" xml:space="preserve">
+    <value>-select device type-</value>
+  </data>
+  <data name="Simulator_Device_Config_Watermark" xml:space="preserve">
+    <value>-select device configuration-</value>
+  </data>
 </root>

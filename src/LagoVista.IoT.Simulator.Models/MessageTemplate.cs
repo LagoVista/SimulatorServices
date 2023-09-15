@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using LagoVista.Core.Validation;
 using LagoVista.IoT.Simulator.Models.Resources;
+using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
@@ -45,7 +46,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     }
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageTemplate_Title, SimulatorResources.Names.MessageTemplate_Help, SimulatorResources.Names.MessageTemplate_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable
+    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable, IFormDescriptor, IFormConditionalFields
     {
         public const string PayloadTypes_Text = "text";
         public const string PayloadTypes_Binary = "binary";
@@ -73,14 +74,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public String Id { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
-        public string Name { get; set; }        
+        public string Name { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType, HelpResource: SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType:typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark:SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
-        public EntityHeader<PaylodTypes> PayloadType { get; set; } 
+        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType, HelpResource: SimulatorResources.Names.Message_PayloadType_Help, FieldType: FieldTypes.Picker, EnumType: typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
+        public EntityHeader<PaylodTypes> PayloadType { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Key, HelpResource: SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]
-        public string Key { get; set; }   
-        
+        public string Key { get; set; }
+
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
@@ -89,7 +90,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public List<MessageHeader> MessageHeaders { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
-        public List<KeyValuePair<string,string>> Properties { get; set; }
+        public List<KeyValuePair<string, string>> Properties { get; set; }
 
 
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
@@ -140,12 +141,151 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_EndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string EndPoint { get; set; }
 
-    
+
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_GeoPoints, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<SimulatorGeoLocation> GeoPoints { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Port, FieldType: FieldTypes.Integer, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public int Port { get; set; }
+
+        public FormConditionals GetConditionalFields()
+        {
+            return new FormConditionals()
+            {
+                ConditionalFields = new List<string>()
+                {
+                    nameof(HttpVerb),
+                    nameof(QueueName),
+                    nameof(QualityOfServiceLevel),
+                    nameof(RetainFlag),
+                    nameof(Topic),
+                    nameof(GeoPoints),
+                    nameof(TextPayload),
+                    nameof(BinaryPayload),
+                    nameof(AppendCR),
+                    nameof(AppendLF),
+                },
+                Conditionals = new List<FormConditional>()
+                 {
+                     new FormConditional()
+                     {
+                          Field = nameof(PayloadType),
+                          Value = PayloadTypes_Binary,
+                          VisibleFields = new List<string>() {nameof(BinaryPayload)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(PayloadType),
+                          Value = PayloadTypes_Text,
+                          VisibleFields = new List<string>() {nameof(AppendCR), nameof(AppendLF), nameof(TextPayload)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(PayloadType),
+                          Value = PayloadTypes_GeoPath,
+                          VisibleFields = new List<string>() {nameof(GeoPoints)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(PayloadType),
+                          Value = PayloadTypes_PointArray,
+                          VisibleFields = new List<string>() {nameof(TextPayload)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_AMQP,
+                          VisibleFields = new List<string>() {nameof(QueueName), nameof(Topic)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_MQTT,
+                          VisibleFields = new List<string>() {nameof(Topic), nameof(QualityOfServiceLevel), nameof(RetainFlag)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_RestHttp,
+                          VisibleFields = new List<string>() {nameof(HttpVerb), nameof(PathAndQueryString), nameof(Port), nameof(EndPoint)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_RestHttps,
+                          VisibleFields = new List<string>() {nameof(HttpVerb), nameof(PathAndQueryString), nameof(Port), nameof(EndPoint)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_AzureServiceBus,
+                          VisibleFields = new List<string>() {nameof(QueueName), nameof(Topic)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_IOT_HUB,
+                          VisibleFields = new List<string>() {nameof(QueueName), nameof(Topic)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_Azure_EventHub,
+                          VisibleFields = new List<string>() {nameof(QueueName), nameof(Topic)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_RabbitMQ,
+                          VisibleFields = new List<string>() {nameof(QueueName), nameof(Topic)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_TCP,
+                          VisibleFields = new List<string>() {nameof(Port)}
+                     },
+                     new FormConditional()
+                     {
+                          Field = nameof(Transport),
+                          Value = Simulator.Transport_UDP,
+                          VisibleFields = new List<string>() {nameof(Port)}
+                     }
+
+                 }
+            };
+        }
+
+        public List<string> GetFormFields()
+        {
+            return new List<string>()
+            {
+                nameof(Name),
+                nameof(PayloadType),
+                nameof(Key),
+                nameof(Description),
+                nameof(TextPayload),
+                nameof(BinaryPayload),
+                nameof(QueueName),
+                nameof(HttpVerb),
+                nameof(PathAndQueryString),
+                nameof(To),
+                nameof(MessageId),
+                nameof(ContentType),
+                nameof(Topic),
+                nameof(RetainFlag),
+                nameof(AppendCR),
+                nameof(AppendLF),
+                nameof(Transport),
+                nameof(EndPoint),
+                nameof(Port),
+
+                nameof(GeoPoints),
+                nameof(DynamicAttributes),
+                nameof(Properties),
+
+            };
+        }
 
         public IEntityHeader ToEntityHeader()
         {
@@ -159,13 +299,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [CustomValidator]
         public void Validate(ValidationResult result)
         {
-            if(EntityHeader.IsNullOrEmpty(Transport))
+            if (EntityHeader.IsNullOrEmpty(Transport))
             {
                 result.AddUserError("Transport is a Required Field.");
                 return;
             }
 
-            switch(Transport.Value)
+            switch (Transport.Value)
             {
                 case TransportTypes.MQTT:
                     if (String.IsNullOrEmpty(Topic)) result.AddUserError("Topic is a Required Field.");
@@ -192,11 +332,11 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                             result.AddUserError("Currently only the HTTP Verbs GET, POST, PUT and DELETE are supported.");
                         }
                     }
-                    
+
                     break;
             }
 
-            foreach(var hdr in MessageHeaders)
+            foreach (var hdr in MessageHeaders)
             {
                 hdr.Validate(result);
             }

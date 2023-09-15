@@ -12,7 +12,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorInstance_Title, SimulatorResources.Names.SimulatorInstance_Help, SimulatorResources.Names.SimulatorInstance_Description,
     EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class SimulatorInstance : IEntityHeaderEntity, IValidateable
+    public class SimulatorInstance : IEntityHeaderEntity, IValidateable, IFormDescriptor
     {
         public SimulatorInstance()
         {
@@ -42,6 +42,19 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_TransmissionPlan, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<MessageTransmissionPlan> TransmissionPlans { get; set; }
+
+        public List<string> GetFormFields()
+        {
+            return new List<string>()
+            {
+                nameof(Name),
+                nameof(DeviceId),
+                nameof(Key),
+                nameof(Description),
+                nameof(Simulator),                
+                nameof(TransmissionPlans)
+            };
+        }
 
         public IEntityHeader ToEntityHeader()
         {

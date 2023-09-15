@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿/*9/15/2023 6:55:29 PM*/
+using System.Globalization;
 using System.Reflection;
 
 //Resources:SimulatorResources:Common_Description
@@ -371,18 +372,27 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_Deployment_Config
 
 		public static string Simulator_Deployment_Config { get { return GetResourceString("Simulator_Deployment_Config"); } }
+//Resources:SimulatorResources:Simulator_DeploymentConfiguration_Watermark
+
+		public static string Simulator_DeploymentConfiguration_Watermark { get { return GetResourceString("Simulator_DeploymentConfiguration_Watermark"); } }
 //Resources:SimulatorResources:Simulator_Description
 
 		public static string Simulator_Description { get { return GetResourceString("Simulator_Description"); } }
 //Resources:SimulatorResources:Simulator_Device_Config
 
 		public static string Simulator_Device_Config { get { return GetResourceString("Simulator_Device_Config"); } }
+//Resources:SimulatorResources:Simulator_Device_Config_Watermark
+
+		public static string Simulator_Device_Config_Watermark { get { return GetResourceString("Simulator_Device_Config_Watermark"); } }
 //Resources:SimulatorResources:Simulator_DeviceId
 
 		public static string Simulator_DeviceId { get { return GetResourceString("Simulator_DeviceId"); } }
 //Resources:SimulatorResources:Simulator_DeviceType
 
 		public static string Simulator_DeviceType { get { return GetResourceString("Simulator_DeviceType"); } }
+//Resources:SimulatorResources:Simulator_DeviceType_Watermark
+
+		public static string Simulator_DeviceType_Watermark { get { return GetResourceString("Simulator_DeviceType_Watermark"); } }
 //Resources:SimulatorResources:Simulator_Help
 
 		public static string Simulator_Help { get { return GetResourceString("Simulator_Help"); } }
@@ -615,10 +625,13 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_DefaultPort = "Simulator_DefaultPort";
 			public const string Simulator_DefaultTransport = "Simulator_DefaultTransport";
 			public const string Simulator_Deployment_Config = "Simulator_Deployment_Config";
+			public const string Simulator_DeploymentConfiguration_Watermark = "Simulator_DeploymentConfiguration_Watermark";
 			public const string Simulator_Description = "Simulator_Description";
 			public const string Simulator_Device_Config = "Simulator_Device_Config";
+			public const string Simulator_Device_Config_Watermark = "Simulator_Device_Config_Watermark";
 			public const string Simulator_DeviceId = "Simulator_DeviceId";
 			public const string Simulator_DeviceType = "Simulator_DeviceType";
+			public const string Simulator_DeviceType_Watermark = "Simulator_DeviceType_Watermark";
 			public const string Simulator_Help = "Simulator_Help";
 			public const string Simulator_HubName = "Simulator_HubName";
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
@@ -663,3 +676,4 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 		}
 	}
 }
+

@@ -2,17 +2,14 @@
 using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.Validation;
-using LagoVista.IoT.Simulator.Admin;
 using LagoVista.IoT.Simulator.Models.Resources;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorState_Title, SimulatorResources.Names.SimulatorState_Help, SimulatorResources.Names.SimulatorState_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class SimulatorState : IIDEntity, IKeyedEntity, INamedEntity, IDescriptionEntity, IValidateable, IEntityHeaderEntity
+    public class SimulatorState : IIDEntity, IKeyedEntity, INamedEntity, IDescriptionEntity, IValidateable, IEntityHeaderEntity, IFormDescriptor
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -28,6 +25,16 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
+
+        public List<string> GetFormFields()
+        {
+            return new List<string>()
+            {
+                nameof(Name),
+                nameof(Key),
+                nameof(Description)
+            };
+        }
 
         public IEntityHeader ToEntityHeader()
         {

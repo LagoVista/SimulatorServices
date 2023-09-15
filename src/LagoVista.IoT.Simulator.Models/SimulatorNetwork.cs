@@ -12,7 +12,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetwork_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,
         EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-    public class SimulatorNetwork : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity
+    public class SimulatorNetwork : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity, IFormDescriptor
     {
         public SimulatorNetwork()
         {
@@ -72,6 +72,19 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 IsPublic = IsPublic,
                 Key = Key,
                 Name = Name
+            };
+        }
+
+        public List<string> GetFormFields()
+        {
+            return new List<string>()
+            {
+                nameof(Name),
+                nameof(Key),
+                nameof(Description),
+                nameof(Simulators),
+                nameof(SharedAccessKey1),
+                nameof(SharedAccessKey2)
             };
         }
 
