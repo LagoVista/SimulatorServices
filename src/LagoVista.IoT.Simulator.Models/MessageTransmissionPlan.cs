@@ -36,7 +36,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_MessageTemplate, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.MessageTransmissionPlan_SelectMessage, ResourceType: typeof(SimulatorResources))]
         public EntityHeader<MessageTemplate> Message { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_Values, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_Values, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageValue> Values { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_ForState, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.MessageTransmissionPlan_ForState_Select, ResourceType: typeof(SimulatorResources))]

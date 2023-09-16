@@ -40,7 +40,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string DeviceId { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_TransmissionPlan, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_TransmissionPlan, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageTransmissionPlan> TransmissionPlans { get; set; }
 
         public List<string> GetFormFields()
@@ -48,10 +48,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             return new List<string>()
             {
                 nameof(Name),
+                nameof(Simulator),
                 nameof(DeviceId),
                 nameof(Key),
                 nameof(Description),
-                nameof(Simulator),                
                 nameof(TransmissionPlans)
             };
         }

@@ -43,14 +43,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_Simulators, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
         public List<SimulatorInstance> Simulators { get; set; }
 
-
-        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey1, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Secret, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey1, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Secret,
+            SecureIdFieldName:nameof(SharedAccessKey1SecretId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string SharedAccessKey1 { get; set; }
 
         public string SharedAccessKey1SecretId { get; set; }
 
-
-        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey2, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Secret, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey2, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Secret,
+            SecureIdFieldName: nameof(SharedAccessKey2SecretId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string SharedAccessKey2 { get; set; }
 
         public string SharedAccessKey2SecretId { get; set; }
@@ -82,10 +82,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 nameof(Name),
                 nameof(Key),
                 nameof(Description),
-                nameof(Simulators),
                 nameof(SharedAccessKey1),
-                nameof(SharedAccessKey2)
-            };
+                nameof(SharedAccessKey2),
+                nameof(Simulators),
+              };
         }
 
         public IEntityHeader ToEntityHeader()
