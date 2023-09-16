@@ -579,4 +579,10 @@
   <data name="Simulator_Device_Config_Watermark" xml:space="preserve">
     <value>-select device configuration-</value>
   </data>
+  <data name="MessageDynamicAttribute_ParameterType_Watermark" xml:space="preserve">
+    <value>-select parameter type-</value>
+  </data>
+  <data name="Simulator_PipelineModule_Config_Watermark" xml:space="preserve">
+    <value>-select pipeline configuration-</value>
+  </data>
 </root>

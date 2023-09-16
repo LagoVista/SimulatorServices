@@ -86,14 +86,14 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageHeader> MessageHeaders { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Properties, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<KeyValuePair<string, string>> Properties { get; set; }
 
 
-        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageDynamicAttribute> DynamicAttributes { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Message_PathAndQueryString, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
@@ -273,6 +273,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 nameof(MessageId),
                 nameof(ContentType),
                 nameof(Topic),
+                nameof(QualityOfServiceLevel),  
                 nameof(RetainFlag),
                 nameof(AppendCR),
                 nameof(AppendLF),
@@ -280,10 +281,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 nameof(EndPoint),
                 nameof(Port),
 
-                nameof(GeoPoints),
                 nameof(DynamicAttributes),
                 nameof(Properties),
-
+                nameof(MessageHeaders),
+                nameof(GeoPoints),
             };
         }
 

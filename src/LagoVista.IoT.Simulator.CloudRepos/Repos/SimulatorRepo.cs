@@ -37,32 +37,32 @@ namespace LagoVista.IoT.Simulator.CloudRepos.Repos
         {
             var items = await base.QueryAsync(qry => qry.IsPublic == true || qry.OwnerOrganization.Id == orgId);
 
-            return from item in items
+            return from item in items.OrderBy(fld => fld.Name)
                    select item.CreateSummary();
         }
 
-        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId)
+        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId, string deploymentConfigId)
         {
-            var items = await base.QueryAsync(qry => qry.OwnerOrganization.Id == deploymentConfigId);
+            var items = await base.QueryAsync(qry => qry.DeploymentConfiguration != null && qry.DeploymentConfiguration.Id == deploymentConfigId &&  qry.OwnerOrganization.Id == deploymentConfigId);
 
-            return from item in items
+            return from item in items.OrderBy(fld => fld.Name)
                    select item.CreateSummary();
         }
 
-        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId)
+        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId, string deviceConfigId)
         {
-            var items = await base.QueryAsync(qry => qry.OwnerOrganization.Id == deviceConfigId);
+            var items = await base.QueryAsync(qry => qry.DeviceConfiguration != null && qry.DeviceConfiguration.Id == deviceConfigId);
 
-            return from item in items
+            return from item in items.OrderBy(fld=>fld.Name)
                    select item.CreateSummary();
         }
 
 
-        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string pipelineModuleConfigId)
+        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string orgId, string pipelineModuleConfigId)
         {
-            var items = await base.QueryAsync(qry => qry.PipelineModuleConfiguration.Id == pipelineModuleConfigId);
+            var items = await base.QueryAsync(qry => qry.PipelineModuleConfiguration.Id == pipelineModuleConfigId && qry.OwnerOrganization.Id == orgId);
 
-            return from item in items
+            return from item in items.OrderBy(fld => fld.Name)
                    select item.CreateSummary();
         }
 
@@ -77,11 +77,11 @@ namespace LagoVista.IoT.Simulator.CloudRepos.Repos
             return base.UpsertDocumentAsync(simulator);
         }
 
-        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string deviceTypeId)
+        public async Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId, string deviceTypeId)
         {
-            var items = await base.QueryAsync(qry => qry.DeviceType.Id == deviceTypeId);
+            var items = await base.QueryAsync(qry => qry.DeviceType != null && qry.DeviceType.Id == deviceTypeId && qry.OwnerOrganization.Id == orgId);
 
-            return from item in items
+            return from item in items.OrderBy(fld => fld.Name)
                    select item.CreateSummary();
         }
     }

@@ -24,7 +24,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }
         
-        [FormField(LabelResource: SimulatorResources.Names.MessageDynamicAttribute_ParameterType, FieldType: FieldTypes.Picker, EnumType: typeof(ParameterTypes), ResourceType: typeof(SimulatorResources), IsRequired: true)]
+        [FormField(LabelResource: SimulatorResources.Names.MessageDynamicAttribute_ParameterType, FieldType: FieldTypes.Picker, WaterMark: SimulatorResources.Names.MessageDynamicAttribute_ParameterType_Watermark,
+            EnumType: typeof(ParameterTypes), ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public EntityHeader<ParameterTypes> ParameterType { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Key, HelpResource: SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]

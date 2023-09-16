@@ -1,4 +1,4 @@
-﻿/*9/15/2023 6:55:29 PM*/
+﻿/*9/16/2023 8:17:00 AM*/
 using System.Globalization;
 using System.Reflection;
 
@@ -168,6 +168,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageDynamicAttribute_ParameterType
 
 		public static string MessageDynamicAttribute_ParameterType { get { return GetResourceString("MessageDynamicAttribute_ParameterType"); } }
+//Resources:SimulatorResources:MessageDynamicAttribute_ParameterType_Watermark
+
+		public static string MessageDynamicAttribute_ParameterType_Watermark { get { return GetResourceString("MessageDynamicAttribute_ParameterType_Watermark"); } }
 //Resources:SimulatorResources:MessageDynamicAttribute_Title
 
 		public static string MessageDynamicAttribute_Title { get { return GetResourceString("MessageDynamicAttribute_Title"); } }
@@ -408,6 +411,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_PipelineModule_Config
 
 		public static string Simulator_PipelineModule_Config { get { return GetResourceString("Simulator_PipelineModule_Config"); } }
+//Resources:SimulatorResources:Simulator_PipelineModule_Config_Watermark
+
+		public static string Simulator_PipelineModule_Config_Watermark { get { return GetResourceString("Simulator_PipelineModule_Config_Watermark"); } }
 //Resources:SimulatorResources:Simulator_QueueName
 
 		public static string Simulator_QueueName { get { return GetResourceString("Simulator_QueueName"); } }
@@ -557,6 +563,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string MessageDynamicAttribute_Description = "MessageDynamicAttribute_Description";
 			public const string MessageDynamicAttribute_Help = "MessageDynamicAttribute_Help";
 			public const string MessageDynamicAttribute_ParameterType = "MessageDynamicAttribute_ParameterType";
+			public const string MessageDynamicAttribute_ParameterType_Watermark = "MessageDynamicAttribute_ParameterType_Watermark";
 			public const string MessageDynamicAttribute_Title = "MessageDynamicAttribute_Title";
 			public const string MessageHeader_Description = "MessageHeader_Description";
 			public const string MessageHeader_HeaderName = "MessageHeader_HeaderName";
@@ -637,6 +644,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_MessageTemplates = "Simulator_MessageTemplates";
 			public const string Simulator_Password = "Simulator_Password";
 			public const string Simulator_PipelineModule_Config = "Simulator_PipelineModule_Config";
+			public const string Simulator_PipelineModule_Config_Watermark = "Simulator_PipelineModule_Config_Watermark";
 			public const string Simulator_QueueName = "Simulator_QueueName";
 			public const string Simulator_SimulatorStates = "Simulator_SimulatorStates";
 			public const string Simulator_Subscription = "Simulator_Subscription";

@@ -100,8 +100,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeviceType { get; set; }
 
-
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_PipelineModule_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_PipelineModule_Config, FieldType: FieldTypes.EntityHeaderPicker, ResourceType: typeof(SimulatorResources),
+            WaterMark: SimulatorResources.Names.Simulator_PipelineModule_Config_Watermark)]
         public EntityHeader PipelineModuleConfiguration { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
@@ -116,7 +116,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource: SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
         public EntityHeader<CredentialsStorage> CredentialStorage { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultTransport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), IsRequired: true, WaterMark: SimulatorResources.Names.Transport_SelectTransportType)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultTransport, FieldType: FieldTypes.Picker, EnumType: typeof(TransportTypes), ResourceType: typeof(SimulatorResources), IsRequired: true,
+                WaterMark: SimulatorResources.Names.Transport_SelectTransportType)]
         public EntityHeader<TransportTypes> DefaultTransport { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_DefaultEndPoint, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
@@ -146,12 +147,12 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             EnumType: typeof(PaylodTypes), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Message_SelectPayloadType, IsRequired: true)]
         public EntityHeader<PaylodTypes> DefaultPayloadType { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Password, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Password, FieldType: FieldTypes.Secret, SecureIdFieldName: nameof(PasswordSecureId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String Password { get; set; }
 
         public string PasswordSecureId { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_AuthHeader, FieldType: FieldTypes.Password, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_AuthHeader, FieldType: FieldTypes.Secret, SecureIdFieldName: nameof(AuthHeaderSecureId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AuthHeader { get; set; }
         public String AuthHeaderSecureId { get; set; }
 
@@ -164,7 +165,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Simulator_AccessKeyName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AccessKeyName { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_AccessKey, FieldType: FieldTypes.Password, ResourceType: typeof(SimulatorResources), IsRequired: false)]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_AccessKey, FieldType: FieldTypes.Secret, SecureIdFieldName: nameof(AccessKeySecureId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String AccessKey { get; set; }
 
         public String AccessKeySecureId { get; set; }
@@ -407,6 +408,19 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                              nameof(Password),
                          }
                     },
+                      new FormConditional()
+                    {
+                         Field = nameof(DefaultTransport),
+                         Value = Transport_RestHttps,
+                         VisibleFields = new List<string>()
+                         {
+                             nameof(Anonymous),
+                             nameof(DefaultPort),
+                             nameof(DefaultEndPoint),
+                             nameof(UserName),
+                             nameof(Password),
+                         }
+                    },
                     new FormConditional()
                     {
                          Field = nameof(DefaultTransport),
@@ -438,6 +452,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 nameof(Name),
                 nameof(Key),
                 nameof(DeviceId),
+
+                nameof(DeploymentConfiguration),
+                nameof(PipelineModuleConfiguration),
                 nameof(DeviceType),
                 nameof(DeviceConfiguration),
                 nameof(Description),

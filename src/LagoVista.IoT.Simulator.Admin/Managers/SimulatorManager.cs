@@ -144,28 +144,28 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
             return await _simulatorRepo.GetSimulatorsForOrgAsync(orgId);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId, EntityHeader org, EntityHeader user)
+        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForDeploymentConfigAsync(orgId);
+            await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
+            return await _simulatorRepo.GetSimulatorsForDeploymentConfigAsync(org.Id, deploymentConfigId);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId, EntityHeader org, EntityHeader user)
+        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId,  EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForDeviceConfigAsync(orgId);
+            await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
+            return await _simulatorRepo.GetSimulatorsForDeviceConfigAsync(org.Id, deviceConfigId);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId, EntityHeader org, EntityHeader user)
+        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string deviceTypeId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForDeviceTypesAsync(orgId);
+            await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
+            return await _simulatorRepo.GetSimulatorsForDeviceTypesAsync(org.Id, deviceTypeId);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string orgId, EntityHeader org, EntityHeader user)
+        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string pipelineModuleId, EntityHeader org, EntityHeader user)
         {
-            await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForPipelineModuleConfigAsync(orgId);
+            await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
+            return await _simulatorRepo.GetSimulatorsForPipelineModuleConfigAsync(org.Id, pipelineModuleId);
         }
 
 

@@ -10,10 +10,10 @@ namespace LagoVista.IoT.Simulator.Admin.Repos
     {
         Task AddSimulatorAsync(Models.Simulator simulator);
         Task<Models.Simulator> GetSimulatorAsync(string id);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string orgId);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId);
+        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId, string deploymentConfigId);
+        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId, string deviceConfigId);
+        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string orgId, string pipelienModuleId);
+        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId, string deviceTypeid);
         Task<IEnumerable<SimulatorSummary>> GetSimulatorsForOrgAsync(string orgId);
         Task UpdateSimulatorAsync(Models.Simulator simulator);
         Task DeleteSimulatorAsync(string id);

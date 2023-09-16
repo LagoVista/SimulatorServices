@@ -9,6 +9,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public double? Altitude { get; set; }
         public double Seconds { get; set; }
     }
 }
