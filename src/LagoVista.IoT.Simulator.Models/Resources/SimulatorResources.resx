@@ -468,8 +468,8 @@
   <data name="SimulatorNetwork_Help" xml:space="preserve">
     <value>A Simulator Network is a collection of simulators that can be instantiated and send messages at specific intervals</value>
   </data>
-  <data name="SimulatorNetwork_Simulators" xml:space="preserve">
-    <value>Simulators</value>
+  <data name="SimulatorNetwork_SimulatorInstances" xml:space="preserve">
+    <value>Simulator Instances</value>
   </data>
   <data name="SimulatorNetwork_Title" xml:space="preserve">
     <value>Simulator Network</value>
