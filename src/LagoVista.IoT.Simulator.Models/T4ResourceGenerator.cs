@@ -1,4 +1,4 @@
-﻿/*9/16/2023 8:17:00 AM*/
+﻿/*9/16/2023 5:50:31 PM*/
 using System.Globalization;
 using System.Reflection;
 
@@ -474,9 +474,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:SimulatorNetwork_Help
 
 		public static string SimulatorNetwork_Help { get { return GetResourceString("SimulatorNetwork_Help"); } }
-//Resources:SimulatorResources:SimulatorNetwork_Simulators
+//Resources:SimulatorResources:SimulatorNetwork_SimulatorInstances
 
-		public static string SimulatorNetwork_Simulators { get { return GetResourceString("SimulatorNetwork_Simulators"); } }
+		public static string SimulatorNetwork_SimulatorInstances { get { return GetResourceString("SimulatorNetwork_SimulatorInstances"); } }
 //Resources:SimulatorResources:SimulatorNetwork_Title
 
 		public static string SimulatorNetwork_Title { get { return GetResourceString("SimulatorNetwork_Title"); } }
@@ -665,7 +665,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string SimulatorNetwork_AccessKey2 = "SimulatorNetwork_AccessKey2";
 			public const string SimulatorNetwork_Description = "SimulatorNetwork_Description";
 			public const string SimulatorNetwork_Help = "SimulatorNetwork_Help";
-			public const string SimulatorNetwork_Simulators = "SimulatorNetwork_Simulators";
+			public const string SimulatorNetwork_SimulatorInstances = "SimulatorNetwork_SimulatorInstances";
 			public const string SimulatorNetwork_Title = "SimulatorNetwork_Title";
 			public const string SimulatorState_Description = "SimulatorState_Description";
 			public const string SimulatorState_Help = "SimulatorState_Help";
