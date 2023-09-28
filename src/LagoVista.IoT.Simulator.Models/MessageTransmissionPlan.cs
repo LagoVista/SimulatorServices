@@ -11,7 +11,8 @@ using System.Collections.Generic;
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageTransmissionPlan_Title, SimulatorResources.Names.MessageTransmissionPlan_Help, SimulatorResources.Names.MessageTransmissionPlan_Description,
-    EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
+    EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        FactoryUrl: "/api/simulator/instance/transmissionplan/factory")]
     public class MessageTransmissionPlan : IEntityHeaderEntity, IValidateable, IFormDescriptor
     {
         public MessageTransmissionPlan()

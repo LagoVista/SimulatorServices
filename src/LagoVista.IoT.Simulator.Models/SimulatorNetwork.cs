@@ -11,7 +11,8 @@ using System.Collections.Generic;
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetwork_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,
-        EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
+        EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        SaveUrl: "/api/simulator/network", GetUrl: "/api/simulator/network/{id}", DeleteUrl: "/api/simulator/network/{id}", FactoryUrl: "/api/simulator/network/factory", GetListUrl: "/api/simulator/networks")]
     public class SimulatorNetwork : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity, IFormDescriptor
     {
         public SimulatorNetwork()
@@ -44,7 +45,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public List<SimulatorInstance> Simulators { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey1, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Secret,
-            SecureIdFieldName:nameof(SharedAccessKey1SecretId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
+            SecureIdFieldName: nameof(SharedAccessKey1SecretId), ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string SharedAccessKey1 { get; set; }
 
         public string SharedAccessKey1SecretId { get; set; }
@@ -98,6 +99,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         }
     }
 
+    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetwork_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,
+    EntityDescriptionAttribute.EntityTypes.Summary, typeof(SimulatorResources),
+    SaveUrl: "/api/simulator/network", GetUrl: "/api/simulator/network/{id}", DeleteUrl: "/api/simulator/network/{id}", FactoryUrl: "/api/simulator/network/factory", GetListUrl: "/api/simulator/networks")]
     public class SimulatorNetworkSummary : SummaryData
     {
 

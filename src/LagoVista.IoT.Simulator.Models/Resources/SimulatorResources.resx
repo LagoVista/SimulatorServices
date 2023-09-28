@@ -585,4 +585,10 @@
   <data name="Simulator_PipelineModule_Config_Watermark" xml:space="preserve">
     <value>-select pipeline configuration-</value>
   </data>
+  <data name="Message_PayloadType_CSV" xml:space="preserve">
+    <value>CSV File Upload</value>
+  </data>
+  <data name="Simulator_CSVResourceId" xml:space="preserve">
+    <value>CSV File</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-﻿/*9/16/2023 5:50:31 PM*/
+﻿/*9/28/2023 2:03:12 PM*/
 using System.Globalization;
 using System.Reflection;
 
@@ -141,6 +141,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Message_PayloadType_Binary
 
 		public static string Message_PayloadType_Binary { get { return GetResourceString("Message_PayloadType_Binary"); } }
+//Resources:SimulatorResources:Message_PayloadType_CSV
+
+		public static string Message_PayloadType_CSV { get { return GetResourceString("Message_PayloadType_CSV"); } }
 //Resources:SimulatorResources:Message_PayloadType_GeoPath
 
 		public static string Message_PayloadType_GeoPath { get { return GetResourceString("Message_PayloadType_GeoPath"); } }
@@ -360,6 +363,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_CredentialsStorage_Select
 
 		public static string Simulator_CredentialsStorage_Select { get { return GetResourceString("Simulator_CredentialsStorage_Select"); } }
+//Resources:SimulatorResources:Simulator_CSVResourceId
+
+		public static string Simulator_CSVResourceId { get { return GetResourceString("Simulator_CSVResourceId"); } }
 //Resources:SimulatorResources:Simulator_DefaultEndPoint
 
 		public static string Simulator_DefaultEndPoint { get { return GetResourceString("Simulator_DefaultEndPoint"); } }
@@ -554,6 +560,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Message_PathAndQueryString = "Message_PathAndQueryString";
 			public const string Message_PayloadType = "Message_PayloadType";
 			public const string Message_PayloadType_Binary = "Message_PayloadType_Binary";
+			public const string Message_PayloadType_CSV = "Message_PayloadType_CSV";
 			public const string Message_PayloadType_GeoPath = "Message_PayloadType_GeoPath";
 			public const string Message_PayloadType_Help = "Message_PayloadType_Help";
 			public const string Message_PayloadType_PointArray = "Message_PayloadType_PointArray";
@@ -627,6 +634,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_CredentialsStorage_OnDevice = "Simulator_CredentialsStorage_OnDevice";
 			public const string Simulator_CredentialsStorage_Prompt = "Simulator_CredentialsStorage_Prompt";
 			public const string Simulator_CredentialsStorage_Select = "Simulator_CredentialsStorage_Select";
+			public const string Simulator_CSVResourceId = "Simulator_CSVResourceId";
 			public const string Simulator_DefaultEndPoint = "Simulator_DefaultEndPoint";
 			public const string Simulator_DefaultPayloadType = "Simulator_DefaultPayloadType";
 			public const string Simulator_DefaultPort = "Simulator_DefaultPort";

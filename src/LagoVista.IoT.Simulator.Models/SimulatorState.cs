@@ -8,7 +8,9 @@ using System.Collections.Generic;
 
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
-    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorState_Title, SimulatorResources.Names.SimulatorState_Help, SimulatorResources.Names.SimulatorState_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
+    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorState_Title, SimulatorResources.Names.SimulatorState_Help, 
+        SimulatorResources.Names.SimulatorState_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        FactoryUrl: "/api/simulator/state/factory")]
     public class SimulatorState : IIDEntity, IKeyedEntity, INamedEntity, IDescriptionEntity, IValidateable, IEntityHeaderEntity, IFormDescriptor
     {
         [JsonProperty("id")]

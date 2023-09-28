@@ -45,8 +45,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         Prompt
     }
 
-    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
-
+    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, 
+        SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        SaveUrl: "/api/simulator", GetUrl: "/api/simulator/{id}", GetListUrl: "/api/org/simulators", FactoryUrl: "/api/simulator/factory", DeleteUrl: "/api/simulator/{id}")]
     public class Simulator : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity, IFormDescriptor, IFormConditionalFields
     {
         public const string Transport_RestHttp = "resthttp";

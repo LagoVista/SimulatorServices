@@ -11,7 +11,8 @@ using System.Collections.Generic;
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorInstance_Title, SimulatorResources.Names.SimulatorInstance_Help, SimulatorResources.Names.SimulatorInstance_Description,
-    EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources))]
+    EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        FactoryUrl: "/api/simulator/instance/factory")]
     public class SimulatorInstance : IEntityHeaderEntity, IValidateable, IFormDescriptor
     {
         public SimulatorInstance()
@@ -42,6 +43,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_TransmissionPlan, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageTransmissionPlan> TransmissionPlans { get; set; }
+
+
 
         public List<string> GetFormFields()
         {
