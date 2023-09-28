@@ -212,7 +212,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                      {
                           Field = nameof(PayloadType),
                           Value = PayloadTypes_CSVFile,
-                          VisibleFields = new List<string>() {nameof(CsvFileResourceId)}
+                          VisibleFields = new List<string>() {nameof(CsvFileResourceId), nameof(TextPayload)}
                      },
                      new FormConditional()
                      {
