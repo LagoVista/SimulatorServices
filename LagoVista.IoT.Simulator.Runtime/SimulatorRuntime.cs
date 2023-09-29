@@ -486,7 +486,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             var geoLocation = pointArray[_pointIndex++];
             var parts = geoLocation.Split(',');
             var lat = Convert.ToDouble(parts[0]);
-            var lon = Convert.ToDouble(parts[1]);
+            var lon = Convert.ToDouble(parts[1]);            
             var delay = Convert.ToInt32(parts[2]) * 1000;
 
             await _mqttClient.PublishAsync(ReplaceTokens(_instance, plan, messageTemplate.Topic), $"{lat},{lon}");
@@ -607,6 +607,7 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
 
         }
+
 
         private async Task<InvokeResult> SendRESTRequestAsync(MessageTransmissionPlan plan)
         {
