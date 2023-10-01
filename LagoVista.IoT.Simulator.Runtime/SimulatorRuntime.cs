@@ -243,7 +243,8 @@ namespace LagoVista.IoT.Simulator.Runtime
                 await SendAsync(new MessageTransmissionPlan()
                 {
                     Message = template,
-                    Values = values
+                    Values = values,
+                    OneTime = true
                 });
             }
         }

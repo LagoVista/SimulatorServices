@@ -11,7 +11,7 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
     public interface ISimulatorManager
     {
         Task<InvokeResult> AddSimulatorAsync(Models.Simulator simulator, EntityHeader org, EntityHeader user);
-        Task<Models.Simulator> GetSimulatorAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false);
+        Task<Models.Simulator> GetSimulatorAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false, bool loadCSV = false);
         Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForOrgsAsync(string id, EntityHeader user);
         Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, EntityHeader org, EntityHeader user);
         Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId, EntityHeader org, EntityHeader user);

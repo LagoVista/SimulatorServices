@@ -71,10 +71,19 @@ namespace LagoVista.IoT.Simulator.Runtime
         {
             var messageTemplate = plan.Message.Value;
 
-            if (_mqttClient == null)
+            if (_mqttClient == null && !plan.OneTime)
             {
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is null, could not send message");
                 return InvokeResult.FromError("MQTT Client is null, could not send message");
+            }
+
+            var temporaryConnection = false;
+
+            if(_mqttClient == null && plan.OneTime)
+            {
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client is null, creating temporary to send message");
+                await MQTTConnectAsync();
+                temporaryConnection = true;
             }
 
             if (!_mqttClient.IsConnected)
@@ -109,16 +118,23 @@ namespace LagoVista.IoT.Simulator.Runtime
                 return await SendMQTTGeoMessage(plan);
             }
 
+            var topic = ReplaceTokens(_instance, plan, messageTemplate.Topic);
 
-            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to MQTT Server {_simulator.DefaultEndPoint} with topic {messageTemplate.Topic}");
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Sending message to MQTT Server {_simulator.DefaultEndPoint} with topic {topic}");
 
-            await _mqttClient.PublishAsync(ReplaceTokens(_instance, plan, messageTemplate.Topic), GetMessageBytes(plan), qos, messageTemplate.RetainFlag);
+            await _mqttClient.PublishAsync(topic, GetMessageBytes(plan), qos, messageTemplate.RetainFlag);
 
             ReceivedContent = $"{DateTime.Now} {SimulatorRuntimeResources.SendMessage_MessagePublished}";
 
             await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, ReceivedContent);
 
-            return InvokeResult.Success;
+            if (temporaryConnection)
+            {
+                await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, "MQTT Client was null, removing temporary.");
+                DisconnectMQTT();
+            }
+
+                return InvokeResult.Success;
         }
     }
 }

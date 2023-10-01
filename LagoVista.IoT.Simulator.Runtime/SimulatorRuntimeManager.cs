@@ -112,6 +112,17 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             var sasKey = GetSignature(requestId, _simAccessKey, bldr.ToString());
 
+            Console.WriteLine("------------------------");
+            Console.WriteLine(">" + _simAccessKey + "<");
+            Console.WriteLine("------------------------");
+            Console.WriteLine(bldr.ToString());
+            Console.WriteLine("------------------------");
+            Console.WriteLine($"Length: {bldr.ToString().Length}");
+            Console.WriteLine("------------------------");
+            Console.WriteLine(">" + sasKey + "<");
+            Console.WriteLine("------------------------");
+
+
             _adminLogger.AddCustomEvent(Core.PlatformSupport.LogLevel.Message, "SimulatorRuntimeManager_InitAsync", $"Requesting configuration from: {rootUri} ");
             Console.WriteLine($"Requesting configuration from: {rootUri}");
 

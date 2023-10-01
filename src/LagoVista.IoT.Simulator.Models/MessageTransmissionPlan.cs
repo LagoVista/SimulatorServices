@@ -43,6 +43,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.MessageTransmissionPlan_ForState, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.MessageTransmissionPlan_ForState_Select, ResourceType: typeof(SimulatorResources))]
         public EntityHeader<SimulatorState> ForState { get; set; }
 
+        public bool OneTime { get; set; } = false;
+
         public List<string> GetFormFields()
         {
             return new List<string>()

@@ -132,6 +132,8 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Simulator_CSVResourceId, FieldType: FieldTypes.FileUpload, ResourceType: typeof(SimulatorResources))]
         public String CsvFileResourceId { get; set; }
 
+        public String CsvFileContents { get; set; }
+
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Topic, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String Topic { get; set; }
 

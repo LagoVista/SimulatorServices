@@ -163,7 +163,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
 
             foreach (var simulator in network.Simulators)
             {
-                simulator.Simulator.Value = await _simManager.GetSimulatorAsync(simulator.Simulator.Id, OrgEntityHeader, UserEntityHeader, true);
+                simulator.Simulator.Value = await _simManager.GetSimulatorAsync(simulator.Simulator.Id, OrgEntityHeader, UserEntityHeader, true, true);
             }
 
             return network;

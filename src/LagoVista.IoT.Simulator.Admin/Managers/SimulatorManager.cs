@@ -10,19 +10,22 @@ using LagoVista.Core;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static LagoVista.Core.Models.AuthorizeResult;
+using LagoVista.MediaServices.Interfaces;
 
 namespace LagoVista.IoT.Simulator.Admin.Managers
 {
     public class SimulatorManager : ManagerBase, ISimulatorManager
     {
-        ISimulatorRepo _simulatorRepo;
-        ISecureStorage _secureStorage;
+        private readonly ISimulatorRepo _simulatorRepo;
+        private readonly ISecureStorage _secureStorage;
+        private readonly IMediaServicesManager _mediaServices;
 
-        public SimulatorManager(ISimulatorRepo simulatorRepo, ISecureStorage secureStorage, IAdminLogger logger, IAppConfig appConfig, IDependencyManager depmanager, ISecurity security) :
+        public SimulatorManager(ISimulatorRepo simulatorRepo, ISecureStorage secureStorage, IMediaServicesManager mediaServices, IAdminLogger logger, IAppConfig appConfig, IDependencyManager depmanager, ISecurity security) :
             base(logger, appConfig, depmanager, security)
         {
-            _simulatorRepo = simulatorRepo;
-            _secureStorage = secureStorage;
+            _simulatorRepo = simulatorRepo ?? throw new ArgumentNullException(nameof(simulatorRepo));
+            _secureStorage = secureStorage ?? throw new ArgumentNullException(nameof(secureStorage));
+            _mediaServices = mediaServices ?? throw new ArgumentNullException(nameof(mediaServices));
         }
 
         public async Task<InvokeResult> AddSimulatorAsync(Models.Simulator simulator, EntityHeader org, EntityHeader user)
@@ -95,33 +98,51 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
             return InvokeResult.Success;
         }
 
-        public async Task<Models.Simulator> GetSimulatorAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false)
+        public async Task<Models.Simulator> GetSimulatorAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false, bool loadResourceFile = false)
         {
             var simulator = await _simulatorRepo.GetSimulatorAsync(id);
 
-            if (!String.IsNullOrEmpty(simulator.AccessKeySecureId))
+            if (loadSecrets)
             {
-                 var result = await _secureStorage.GetSecretAsync(org, simulator.AccessKeySecureId, user);
-                if (!result.Successful) throw new Exception("Could not get access key from secure id.");
-                simulator.AccessKey = result.Result;
+                if (!String.IsNullOrEmpty(simulator.AccessKeySecureId))
+                {
+                    var result = await _secureStorage.GetSecretAsync(org, simulator.AccessKeySecureId, user);
+                    if (!result.Successful) throw new Exception("Could not get access key from secure id.");
+                    simulator.AccessKey = result.Result;
+                }
+
+                if (!String.IsNullOrEmpty(simulator.PasswordSecureId))
+                {
+                    var result = await _secureStorage.GetSecretAsync(org, simulator.PasswordSecureId, user);
+                    if (!result.Successful) throw new Exception("Could not get password from from secure id.");
+                    simulator.Password = result.Result;
+                }
+
+                if (!String.IsNullOrEmpty(simulator.AuthHeaderSecureId))
+                {
+                    var result = await _secureStorage.GetSecretAsync(org, simulator.AuthHeaderSecureId, user);
+                    if (!result.Successful) throw new Exception("Could not get auth header from secure id.");
+                    simulator.AuthHeader = result.Result;
+                }
             }
 
-            if (!String.IsNullOrEmpty(simulator.PasswordSecureId))
+            if (loadResourceFile)
             {
-                var result = await _secureStorage.GetSecretAsync(org, simulator.PasswordSecureId, user);
-                if (!result.Successful) throw new Exception("Could not get password from from secure id.");
-                simulator.Password = result.Result;
-            }
+                Console.WriteLine("[SimulatorManager__GetSimulatorAsync] Loading CSV Resources");
+                foreach (var msg in simulator.MessageTemplates)
+                {
+                    if(!String.IsNullOrEmpty(msg.CsvFileResourceId))
+                    {
+                        Console.WriteLine($"[SimulatorManager__GetSimulatorAsync] Found valid file {msg.CsvFileResourceId}");
 
-            if (!String.IsNullOrEmpty(simulator.AuthHeaderSecureId))
-            {
-                var result = await _secureStorage.GetSecretAsync(org, simulator.AuthHeaderSecureId, user);
-                if (!result.Successful) throw new Exception("Could not get auth header from secure id.");
-                simulator.AuthHeader = result.Result;
+                        var resource = await _mediaServices.GetResourceMediaAsync(msg.CsvFileResourceId, org, user);
+                        msg.CsvFileContents = System.Text.ASCIIEncoding.ASCII.GetString(resource.ImageBytes);
+                        Console.WriteLine($"[SimulatorManager__GetSimulatorAsync] added content: {msg.CsvFileContents.Length}");
+                    }
+                }
             }
 
             await AuthorizeAsync(simulator, AuthorizeActions.Read, user, org);
-
 
             //Added 2/24/2019, just ensure that all simulators a have default state.
             if (!simulator.SimulatorStates.Where(sim => sim.Key == "default").Any())
