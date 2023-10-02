@@ -240,6 +240,11 @@ namespace LagoVista.IoT.Simulator.Runtime
                     Value = msg
                 };
 
+                if(template.Value.PayloadType.Value == PaylodTypes.CSVFile)
+                {
+
+                }
+
                 await SendAsync(new MessageTransmissionPlan()
                 {
                     Message = template,

@@ -55,6 +55,26 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
         }
 
+       
+
+        private async Task<InvokeResult> SendCSVMessage(MessageTransmissionPlan plan)
+        {
+            var lines = plan.Message.Value.CsvFileContents.Split("\r");
+            
+            foreach(var line in lines)
+            {
+                var parts = line.Split(',');
+                var formatParts = plan.Message.Value.TextPayload;
+                var bldr = new StringBuilder();
+                foreach(var prt in formatParts)
+                {
+                    
+                }
+            }
+
+            return InvokeResult.Success;
+        }
+
 
         private void DisconnectMQTT()
         {
@@ -104,6 +124,7 @@ namespace LagoVista.IoT.Simulator.Runtime
 
             var qos = QOS.QOS0;
 
+
             if (!EntityHeader.IsNullOrEmpty(messageTemplate.QualityOfServiceLevel))
             {
                 switch (messageTemplate.QualityOfServiceLevel.Value)
@@ -113,9 +134,15 @@ namespace LagoVista.IoT.Simulator.Runtime
                 }
             }
 
+            
+
             if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_GeoPath)
             {
                 return await SendMQTTGeoMessage(plan);
+            }
+            else if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_CSVFile)
+            {
+                return await SendCSVMessage(plan);
             }
 
             var topic = ReplaceTokens(_instance, plan, messageTemplate.Topic);
