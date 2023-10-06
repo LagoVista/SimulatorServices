@@ -4,6 +4,7 @@ using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Validation;
 using LagoVista.IoT.Runtime.Core.Services;
 using LagoVista.IoT.Simulator.Admin.Models;
+using LagoVista.IoT.Simulator.Runtime.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,26 +54,6 @@ namespace LagoVista.IoT.Simulator.Runtime
             {
                 await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Error connecting to {_simulator.DefaultTransport.Text} - {_simulator.DefaultEndPoint} on {_simulator.DefaultPort}.");
             }
-        }
-
-       
-
-        private async Task<InvokeResult> SendCSVMessage(MessageTransmissionPlan plan)
-        {
-            var lines = plan.Message.Value.CsvFileContents.Split("\r");
-            
-            foreach(var line in lines)
-            {
-                var parts = line.Split(',');
-                var formatParts = plan.Message.Value.TextPayload;
-                var bldr = new StringBuilder();
-                foreach(var prt in formatParts)
-                {
-                    
-                }
-            }
-
-            return InvokeResult.Success;
         }
 
 
@@ -134,7 +115,7 @@ namespace LagoVista.IoT.Simulator.Runtime
                 }
             }
 
-            
+           
 
             if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_GeoPath)
             {
@@ -142,7 +123,9 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
             else if (messageTemplate.PayloadType.Id == MessageTemplate.PayloadTypes_CSVFile)
             {
-                return await SendCSVMessage(plan);
+                temporaryConnection = false;
+                var csvPlan = CSVPlan.Create(plan.Message.Value.TextPayload, plan.Message.Value.CsvFileContents);
+                return await SendCSVMessage(plan, csvPlan);
             }
 
             var topic = ReplaceTokens(_instance, plan, messageTemplate.Topic);

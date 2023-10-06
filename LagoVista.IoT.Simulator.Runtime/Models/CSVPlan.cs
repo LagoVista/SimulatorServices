@@ -7,15 +7,20 @@ namespace LagoVista.IoT.Simulator.Runtime.Models
 {
     public class CSVPlan
     {
-        private List<string> _messages;
+        private List<CSVPlanMessage> _messages = new List<CSVPlanMessage>();
         private int _currentIndex;
         private int _nextSend;
         private DateTimeOffset _start;
+        
+        public class CSVPlanMessage
+        {
+            public string Contents { get; set; }
+            public DateTimeOffset TimeStamp { get; set; }
+        }
 
         public static CSVPlan Create(string messageTemplate, string contents)
         {
             var formatParts = messageTemplate.Split(",");
-
 
             var plan = new CSVPlan();
             plan._start = DateTimeOffset.UtcNow;
@@ -24,6 +29,8 @@ namespace LagoVista.IoT.Simulator.Runtime.Models
             {
                 if (!String.IsNullOrEmpty(line.Trim()))
                 {
+                    var message = new CSVPlanMessage();
+
                     var formatString = String.Empty;
                     var csvParts = line.Split(',');
                     if(csvParts.Length != formatParts.Length)
@@ -37,30 +44,32 @@ namespace LagoVista.IoT.Simulator.Runtime.Models
 
                         if (formatParts[idx].Contains("epochms"))
                         {
-                            var dateStamp = plan._start.AddSeconds(float.Parse(part));
-                            csvParts[idx] = dateStamp.ToUnixTimeMilliseconds().ToString();
+                            message.TimeStamp = plan._start.AddSeconds(float.Parse(part));
+                            csvParts[idx] = message.TimeStamp.ToUnixTimeMilliseconds().ToString();
                         }
-                        else if (formatParts[idx].Contains("epoch"))
+                        else if (formatParts[idx].Contains("epochseconds"))
                         {
-                            var dateStamp = plan._start.AddSeconds(float.Parse(part));
-                            csvParts[idx] = dateStamp.ToUnixTimeSeconds().ToString();
+                            message.TimeStamp = plan._start.AddSeconds(float.Parse(part));
+                            csvParts[idx] = message.TimeStamp.ToUnixTimeSeconds().ToString();
                         }
                         else if (formatParts[idx].Contains("jsdate"))
                         {
-                            var dateStamp = plan._start.AddSeconds(float.Parse(part));
-                            csvParts[idx] = dateStamp.DateTime.ToJSONString();
+                            message.TimeStamp = plan._start.AddSeconds(float.Parse(part));
+                            csvParts[idx] = message.TimeStamp.DateTime.ToJSONString();
                         }
 
                         formatString += $"{{{idx}}},";
                     }
 
                     formatString = formatString.TrimEnd(',');
-                    var formattedLine = string.Format(formatString, csvParts);
-                    Debug.WriteLine(formattedLine);
+                    message.Contents = string.Format(formatString, csvParts);
+                    plan._messages.Add(message);
                 }
             }
 
             return plan;
         }
+
+        public List<CSVPlanMessage> Messages { get => _messages; }
     }
 }

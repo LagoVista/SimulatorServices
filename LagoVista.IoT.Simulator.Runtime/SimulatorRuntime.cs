@@ -10,6 +10,7 @@ using LagoVista.Core.Validation;
 using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Runtime.Core.Services;
 using LagoVista.IoT.Simulator.Admin.Models;
+using LagoVista.IoT.Simulator.Runtime.Models;
 using Microsoft.Azure.Devices.Client;
 using System;
 using System.Collections.Generic;
@@ -506,7 +507,30 @@ namespace LagoVista.IoT.Simulator.Runtime
             }
 
             return InvokeResult.Success;
+        }
 
+        private async Task<InvokeResult> SendCSVMessage(MessageTransmissionPlan plan, CSVPlan csvPlan)
+        {
+            var messageTemplate = plan.Message.Value;
+
+            var msg = csvPlan.Messages[this._pointIndex++];
+
+            await _mqttClient.PublishAsync(ReplaceTokens(_instance, plan, messageTemplate.Topic), msg.Contents);
+
+            await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Queue up point {_pointIndex} to send.");
+
+            if (this._pointIndex < csvPlan.Messages.Count)
+            {
+                var thisPoint = csvPlan.Messages[this._pointIndex-1];
+                var nextPoint = csvPlan.Messages[this._pointIndex];
+
+                var delta = nextPoint.TimeStamp - thisPoint.TimeStamp;
+
+                    await _notificationPublisher.PublishTextAsync(Targets.WebSocket, Channels.Simulator, InstanceId, $"Queue up point {_pointIndex} to send.");
+                _timer = new Timer(SendMqttGeoRequest, plan, (int)delta.TotalMilliseconds, Timeout.Infinite);
+            }
+
+            return InvokeResult.Success;
         }
 
         private async Task<InvokeResult> SendHTMLGeoMessage(MessageTransmissionPlan plan)
