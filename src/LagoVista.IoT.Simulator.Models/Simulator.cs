@@ -48,7 +48,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, 
         SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
         SaveUrl: "/api/simulator", GetUrl: "/api/simulator/{id}", GetListUrl: "/api/org/simulators", FactoryUrl: "/api/simulator/factory", DeleteUrl: "/api/simulator/{id}")]
-    public class Simulator : ModelBase, IKeyedEntity, IIDEntity, INamedEntity, IOwnedEntity, IAuditableEntity, IValidateable, INoSQLEntity, IEntityHeaderEntity, IFormDescriptor, IFormConditionalFields
+    public class Simulator : EntityBase,  IValidateable, IFormDescriptor, IFormConditionalFields
     {
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
@@ -72,22 +72,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             Id = Guid.NewGuid().ToId();
         }
 
-        public string DatabaseName { get; set; }
-        public string EntityType { get; set; }
-
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
-        public string Name { get; set; }
-
-
-        [FormField(LabelResource: SimulatorResources.Names.Common_Key, HelpResource: SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]
-        public string Key { get; set; }
-
-        [FormField(LabelResource: SimulatorResources.Names.Common_IsPublic, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
-        public bool IsPublic { get; set; }
-
+      
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, WaterMark:SimulatorResources.Names.Simulator_DeploymentConfiguration_Watermark, 
             ResourceType: typeof(SimulatorResources))]
@@ -180,14 +165,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public String DeviceId { get; set; }
-
-
-        public string CreationDate { get; set; }
-        public string LastUpdatedDate { get; set; }
-        public EntityHeader CreatedBy { get; set; }
-        public EntityHeader LastUpdatedBy { get; set; }
-        public EntityHeader OwnerOrganization { get; set; }
-        public EntityHeader OwnerUser { get; set; }
 
         public SimulatorSummary CreateSummary()
         {
