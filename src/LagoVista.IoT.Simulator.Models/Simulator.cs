@@ -288,15 +288,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             }
         }
 
-        public IEntityHeader ToEntityHeader()
-        {
-            return new EntityHeader()
-            {
-                Id = Id,
-                Text = Name
-            };
-        }
-
+        
         public FormConditionals GetConditionalFields()
         {
             return new FormConditionals()

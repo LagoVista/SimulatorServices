@@ -64,15 +64,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 nameof(Simulators),
               };
         }
-
-        public IEntityHeader ToEntityHeader()
-        {
-            return new EntityHeader()
-            {
-                Id = Id,
-                Text = Name
-            };
-        }
     }
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetwork_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,

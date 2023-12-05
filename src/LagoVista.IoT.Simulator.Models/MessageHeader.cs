@@ -50,7 +50,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             };
         }
 
-        public IEntityHeader ToEntityHeader()
+        public EntityHeader ToEntityHeader()
         {
             return new EntityHeader()
             {
