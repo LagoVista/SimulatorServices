@@ -46,9 +46,9 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     }
 
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulator_Title, SimulatorResources.Names.Simulator_Description, 
-        SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources), Icon: "icon-fo-information-computer",
         SaveUrl: "/api/simulator", GetUrl: "/api/simulator/{id}", GetListUrl: "/api/org/simulators", FactoryUrl: "/api/simulator/factory", DeleteUrl: "/api/simulator/{id}")]
-    public class Simulator : EntityBase,  IValidateable, IFormDescriptor, IFormConditionalFields
+    public class Simulator : EntityBase,  IValidateable, IFormDescriptor, IFormConditionalFields, IIconEntity, ISummaryFactory, IFormDescriptorCol2, IFormDescriptorBottom
     {
         public const string Transport_RestHttp = "resthttp";
         public const string Transport_RestHttps = "resthttps";
@@ -70,19 +70,26 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             SimulatorStates = new List<SimulatorState>();
             MessageTemplates = new List<MessageTemplate>();
             Id = Guid.NewGuid().ToId();
+            Icon = "icon-fo-information-computer";
         }
 
-      
+        [FormField(LabelResource: SimulatorResources.Names.Common_Icon, FieldType: FieldTypes.Icon, ResourceType: typeof(SimulatorResources), IsRequired: false, IsUserEditable: true)]
+        public string Icon { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, WaterMark:SimulatorResources.Names.Simulator_DeploymentConfiguration_Watermark, 
+
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, EntityHeaderPickerUrl: "/api/deployment/instances", WaterMark:SimulatorResources.Names.Simulator_DeploymentConfiguration_Watermark, 
             ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeploymentConfiguration { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_Device_Config, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.Simulator_Device_Config_Watermark, 
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Device_Config, FieldType: FieldTypes.EntityHeaderPicker, EntityHeaderPickerUrl: "/api/deviceconfigs", WaterMark: SimulatorResources.Names.Simulator_Device_Config_Watermark, 
             ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeviceConfiguration { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_DeviceType, FieldType: FieldTypes.EntityHeaderPicker, WaterMark: SimulatorResources.Names.Simulator_DeviceType_Watermark,
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_Solution, FieldType: FieldTypes.EntityHeaderPicker, EntityHeaderPickerUrl: "/api/deployment/solutions", WaterMark: SimulatorResources.Names.Simulator_Device_Config_Watermark,
+             ResourceType: typeof(SimulatorResources))]
+        public EntityHeader Solution { get; set; }
+    
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_DeviceType, FieldType: FieldTypes.EntityHeaderPicker, EntityHeaderPickerUrl: "/api/devicetypes", WaterMark: SimulatorResources.Names.Simulator_DeviceType_Watermark,
             ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeviceType { get; set; }
 
@@ -93,10 +100,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildListInline, InPlaceEditing:false, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, HelpResource:SimulatorResources.Names.Simulator_States_Help, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<SimulatorState> SimulatorStates { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource: SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
@@ -173,6 +180,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 Id = Id,
                 Name = Name,
                 Key = Key,
+                Icon = Icon,
                 Description = Description,
                 EndPoint = DefaultEndPoint,
                 Port = DefaultPort,
@@ -305,13 +313,12 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
                      nameof(AuthHeader),
                      nameof(BasicAuth),
-                      nameof(Anonymous),
+                     nameof(Anonymous),
                      nameof(UserName),
                      nameof(Password),
 
-                    nameof(AccessKeyName),
+                     nameof(AccessKeyName),
                      nameof(TLSSSL),
-
 
                      nameof(AccessKey)
                  },
@@ -421,13 +428,28 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             {
                 nameof(Name),
                 nameof(Key),
-                nameof(DeviceId),
-
+                nameof(Icon),
+               
                 nameof(DeploymentConfiguration),
-                nameof(PipelineModuleConfiguration),
                 nameof(DeviceType),
                 nameof(DeviceConfiguration),
-                nameof(Description),
+                nameof(Solution),
+                
+                nameof(SimulatorStates),
+                nameof(MessageTemplates),
+            };
+        }
+
+        ISummaryData ISummaryFactory.CreateSummary()
+        {
+            return CreateSummary();
+        }
+
+        public List<string> GetFormFieldsCol2()
+        {
+            return new List<string>()
+            { 
+                nameof(DeviceId),
                 nameof(DefaultTransport),
                 nameof(DefaultEndPoint),
                 nameof(DefaultPort),
@@ -441,30 +463,36 @@ namespace LagoVista.IoT.Simulator.Admin.Models
 
                 nameof(Anonymous),
                 nameof(BasicAuth),
-                
+
                 nameof(UserName),
                 nameof(Password),
                 nameof(AuthHeader),
-                
+
                 nameof(TLSSSL),
 
                 nameof(AccessKeyName),
                 nameof(AccessKey),
-                
-                nameof(SimulatorStates),
-                nameof(MessageTemplates),
+            };
+        }
+
+        public List<string> GetFormFieldsBottom()
+        {
+            return new List<string>()
+            {
+                nameof(Description),
             };
         }
     }
 
+    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.Simulators_Title, SimulatorResources.Names.Simulator_Description,
+       SimulatorResources.Names.Simulator_Description, EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources), Icon: "icon-fo-information-computer", 
+       SaveUrl: "/api/simulator", GetUrl: "/api/simulator/{id}", GetListUrl: "/api/org/simulators", FactoryUrl: "/api/simulator/factory", DeleteUrl: "/api/simulator/{id}")]
     public class SimulatorSummary : SummaryData
     {
         public String EndPoint { get; set; }
         public int Port { get; set; }
         public String TransportType { get; set; }
-
         public string DeviceConfiguration { get; set; }
-
         public string DeviceType { get; set; }
     }
 }

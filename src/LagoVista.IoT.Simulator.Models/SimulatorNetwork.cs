@@ -11,22 +11,27 @@ using System.Collections.Generic;
 namespace LagoVista.IoT.Simulator.Admin.Models
 {
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetwork_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,
-        EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
+        EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources), Icon:"icon-pz-speed-1",
         SaveUrl: "/api/simulator/network", GetUrl: "/api/simulator/network/{id}", DeleteUrl: "/api/simulator/network/{id}", FactoryUrl: "/api/simulator/network/factory", GetListUrl: "/api/simulator/networks")]
-    public class SimulatorNetwork : EntityBase, IValidateable, IFormDescriptor, IDescriptionEntity
+    public class SimulatorNetwork : EntityBase, IValidateable, IFormDescriptor, IDescriptionEntity, IIconEntity, ISummaryFactory
     {
         public SimulatorNetwork()
         {
             Id = Guid.NewGuid().ToId();
-            Simulators = new List<SimulatorInstance>();
+            Simulators = new List<SimulatorInstance>(); 
+            Icon = "icon-pz-speed-1z";
         }
+
+
+        [FormField(LabelResource: SimulatorResources.Names.Common_Icon, FieldType: FieldTypes.Icon, ResourceType: typeof(SimulatorResources), IsRequired: false, IsUserEditable: true)]
+        public string Icon { get; set; }
 
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources), IsRequired: false)]
         public string Description { get; set; }
 
 
-        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_SimulatorInstances, FieldType: FieldTypes.ChildList, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_SimulatorInstances, FieldType: FieldTypes.ChildListInline, FactoryUrl: "/api/simulator/instance/factory", ResourceType: typeof(SimulatorResources))]
         public List<SimulatorInstance> Simulators { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_AccessKey1, HelpResource: SimulatorResources.Names.SimulatorNetwork_AccessKey_Help, FieldType: FieldTypes.Secret,
@@ -48,6 +53,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                 Description = Description,
                 IsPublic = IsPublic,
                 Key = Key,
+                Icon = Icon,
                 Name = Name
             };
         }
@@ -58,16 +64,22 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             {
                 nameof(Name),
                 nameof(Key),
+                nameof(Icon),
                 nameof(Description),
                 nameof(SharedAccessKey1),
                 nameof(SharedAccessKey2),
                 nameof(Simulators),
               };
         }
+
+        ISummaryData ISummaryFactory.CreateSummary()
+        {
+            return CreateSummary();
+        }
     }
 
-    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetwork_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,
-    EntityDescriptionAttribute.EntityTypes.Summary, typeof(SimulatorResources),
+    [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.SimulatorNetworks_Title, SimulatorResources.Names.SimulatorNetwork_Help, SimulatorResources.Names.SimulatorNetwork_Description,
+    EntityDescriptionAttribute.EntityTypes.Summary, typeof(SimulatorResources), Icon: "icon-pz-speed-1",
     SaveUrl: "/api/simulator/network", GetUrl: "/api/simulator/network/{id}", DeleteUrl: "/api/simulator/network/{id}", FactoryUrl: "/api/simulator/network/factory", GetListUrl: "/api/simulator/networks")]
     public class SimulatorNetworkSummary : SummaryData
     {

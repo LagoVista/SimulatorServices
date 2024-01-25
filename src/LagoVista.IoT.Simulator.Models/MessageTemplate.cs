@@ -50,7 +50,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     [EntityDescription(SimulatorDomain.SimulatorAdmin, SimulatorResources.Names.MessageTemplate_Title, SimulatorResources.Names.MessageTemplate_Help, SimulatorResources.Names.MessageTemplate_Description, 
         EntityDescriptionAttribute.EntityTypes.SimpleModel, typeof(SimulatorResources),
         FactoryUrl: "/api/simulator/messagetemplate/factory")]
-    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable, IFormDescriptor, IFormConditionalFields
+    public class MessageTemplate : IIDEntity, INamedEntity, IKeyedEntity, IEntityHeaderEntity, IValidateable, IFormDescriptor, IFormDescriptorCol2, IFormConditionalFields, IFormDescriptorBottom
     {
         public const string PayloadTypes_Text = "text";
         public const string PayloadTypes_Binary = "binary";
@@ -70,7 +70,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public MessageTemplate()
         {
             MessageHeaders = new List<MessageHeader>();
-            Properties = new List<KeyValuePair<string, string>>();
             DynamicAttributes = new List<MessageDynamicAttribute>();
             GeoPoints = new List<SimulatorGeoLocation>();
             Id = Guid.NewGuid().ToId();
@@ -91,23 +90,21 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_MessageHeaders, FactoryUrl: "/api/simulator/messageheader/factory", FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageHeader> MessageHeaders { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_Properties, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
-        public List<KeyValuePair<string, string>> Properties { get; set; }
 
-
-        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_DynamicAttributes, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_DynamicAttributes, FactoryUrl: "/api/simulator/dyanimaicAttribute/factory", 
+           HelpResource:SimulatorResources.Names.MessageTemplate_DynamicAttributes_Help, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageDynamicAttribute> DynamicAttributes { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Message_PathAndQueryString, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String PathAndQueryString { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType_Text, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_TextPayload, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string TextPayload { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Message_PayloadType_Binary, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_BinaryPayload, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string BinaryPayload { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_QueueName, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: false)]
@@ -122,14 +119,18 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_To, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String To { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_MessageId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_MessageId, HelpResource:SimulatorResources.Names.MessageTemplate_MessageId_Help,  FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String MessageId { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.MessageTemplate_ContentType, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources))]
         public String ContentType { get; set; }
 
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_CSVResourceId, FieldType: FieldTypes.FileUpload, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Message_DeviceMessageDefinition, HelpResource:SimulatorResources.Names.Message_DeviceMessageDefinition_Help, FieldType: FieldTypes.EntityHeaderPicker,
+            EntityHeaderPickerUrl: "/api/devicemessagetypes", ResourceType: typeof(SimulatorResources))]
+        public EntityHeader DeviceMessageDefinition { get; set; }
+
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_CSVResourceId, FieldType: FieldTypes.FileUpload, UploadUrl: "/api/media/resources/${modelid}?saveresource=true", ResourceType: typeof(SimulatorResources))]
         public String CsvFileResourceId { get; set; }
 
         public String CsvFileContents { get; set; }
@@ -175,6 +176,7 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                     nameof(RetainFlag),
                     nameof(Topic),
                     nameof(GeoPoints),
+                    nameof(ContentType),
                     nameof(TextPayload),
                     nameof(MessageHeaders),
                     nameof(BinaryPayload),
@@ -190,13 +192,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                      {
                           Field = nameof(PayloadType),
                           Value = PayloadTypes_Binary,
-                          VisibleFields = new List<string>() {nameof(BinaryPayload)}
+                          VisibleFields = new List<string>() { nameof(AppendCR), nameof(AppendLF), nameof(BinaryPayload)}
                      },
                      new FormConditional()
                      {
                           Field = nameof(PayloadType),
                           Value = PayloadTypes_Text,
-                          VisibleFields = new List<string>() {nameof(AppendCR), nameof(AppendLF), nameof(TextPayload)}
+                          VisibleFields = new List<string>() {nameof(TextPayload)}
                      },
                      new FormConditional()
                      {
@@ -232,19 +234,22 @@ namespace LagoVista.IoT.Simulator.Admin.Models
                      {
                           Field = nameof(Transport),
                           Value = Simulator.Transport_RestHttp,
-                          VisibleFields = new List<string>() {nameof(RestVerb), nameof(ContentType), nameof(PathAndQueryString), nameof(Port), nameof(EndPoint), nameof(MessageHeaders) }
+                          VisibleFields = new List<string>() {nameof(RestVerb), nameof(ContentType), nameof(PathAndQueryString), nameof(Port), nameof(EndPoint), nameof(MessageHeaders) },
+                          RequiredFields = new List<string>() {nameof(RestVerb), nameof(Port), nameof(EndPoint)}
                      },
                      new FormConditional()
                      {
                           Field = nameof(Transport),
                           Value = Simulator.Transport_RestHttps,
-                          VisibleFields = new List<string>() {nameof(RestVerb), nameof(ContentType), nameof(PathAndQueryString), nameof(Port), nameof(EndPoint), nameof(MessageHeaders) }
+                          VisibleFields = new List<string>() {nameof(RestVerb), nameof(ContentType), nameof(PathAndQueryString), nameof(Port), nameof(EndPoint), nameof(MessageHeaders) },
+                          RequiredFields = new List<string>() {nameof(RestVerb), nameof(Port), nameof(EndPoint)}
+                           
                      },
                      new FormConditional()
                      {
                           Field = nameof(Transport),
                           Value = Simulator.Transport_AzureServiceBus,
-                          VisibleFields = new List<string>() {nameof(QueueName), nameof(Topic)}
+                          VisibleFields = new List<string>() {nameof(QueueName), nameof(ContentType), nameof(Topic)}
                      },
                      new FormConditional()
                      {
@@ -286,32 +291,41 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             return new List<string>()
             {
                 nameof(Name),
+                nameof(Key),
                 nameof(EndPoint),
                 nameof(Port),
                 nameof(Transport),
-                nameof(PayloadType),
-                nameof(Key),
+            };
+        }
+
+        public List<string> GetFormFieldsBottom()
+        {
+            return new List<string>()
+            {
                 nameof(Description),
+            };
+        }
 
-                nameof(RestVerb),
-                nameof(PathAndQueryString),
-
+        public List<string> GetFormFieldsCol2()
+        {
+            return new List<string>()
+            {
+                nameof(MessageId),
+                nameof(DynamicAttributes),
+                nameof(PayloadType),
                 nameof(QueueName),
                 nameof(To),
-                nameof(MessageId),
-                nameof(ContentType),
                 nameof(Topic),
-                nameof(QualityOfServiceLevel),  
+                nameof(QualityOfServiceLevel),
                 nameof(RetainFlag),
                 nameof(AppendCR),
                 nameof(AppendLF),
-                
-                nameof(CsvFileResourceId),
-                nameof(DynamicAttributes),
-                nameof(Properties),
+                nameof(RestVerb),
+                nameof(PathAndQueryString),     
                 nameof(MessageHeaders),
+                nameof(CsvFileResourceId),
+                nameof(ContentType),
                 nameof(GeoPoints),
-
                 nameof(TextPayload),
                 nameof(BinaryPayload),
             };

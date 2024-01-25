@@ -1,7 +1,5 @@
-﻿using LagoVista.IoT.Simulator.Admin.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LagoVista.Core.Models.UIMetaData;
+using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
 
 namespace LagoVista.IoT.Simulator.Admin.Repos
@@ -10,11 +8,12 @@ namespace LagoVista.IoT.Simulator.Admin.Repos
     {
         Task AddSimulatorAsync(Models.Simulator simulator);
         Task<Models.Simulator> GetSimulatorAsync(string id);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId, string deploymentConfigId);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId, string deviceConfigId);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string orgId, string pipelienModuleId);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId, string deviceTypeid);
-        Task<IEnumerable<SimulatorSummary>> GetSimulatorsForOrgAsync(string orgId);
+        Task<ListResponse<SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string orgId, string deploymentConfigId, ListRequest listRequest);
+        Task<ListResponse<SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string orgId, string deviceConfigId, ListRequest listRequest);
+        Task<ListResponse<SimulatorSummary>> GetSimulatorsForSolutionAsync(string orgId, string solutionId, ListRequest listRequest);
+        Task<ListResponse<SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(string orgId, string pipelienModuleId, ListRequest listRequest);
+        Task<ListResponse<SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string orgId, string deviceTypeid, ListRequest listRequest);
+        Task<ListResponse<SimulatorSummary>> GetSimulatorsForOrgAsync(string orgId, ListRequest listRequest);
         Task UpdateSimulatorAsync(Models.Simulator simulator);
         Task DeleteSimulatorAsync(string id);
         Task<bool> QueryKeyInUseAsync(string key, string org);

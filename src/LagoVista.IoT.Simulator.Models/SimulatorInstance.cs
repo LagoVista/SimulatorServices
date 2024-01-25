@@ -24,6 +24,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        [FormField(LabelResource: SimulatorResources.Names.Common_Icon, FieldType: FieldTypes.Icon, ResourceType: typeof(SimulatorResources), IsRequired: false, IsUserEditable: true)]
+        public string Icon { get; set; }
+
+
         [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }
 
@@ -41,19 +45,19 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_DeviceId, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string DeviceId { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_TransmissionPlan, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.SimulatorInstance_TransmissionPlan, FactoryUrl: "/api/simulator/instance/transmissionplan/factory", 
+            FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<MessageTransmissionPlan> TransmissionPlans { get; set; }
-
-
 
         public List<string> GetFormFields()
         {
             return new List<string>()
             {
                 nameof(Name),
+                nameof(Key),
+                nameof(Icon),
                 nameof(Simulator),
                 nameof(DeviceId),
-                nameof(Key),
                 nameof(Description),
                 nameof(TransmissionPlans)
             };

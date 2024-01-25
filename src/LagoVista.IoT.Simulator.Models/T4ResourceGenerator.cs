@@ -1,4 +1,4 @@
-﻿/*9/28/2023 2:03:12 PM*/
+﻿/*1/25/2024 9:07:41 AM*/
 using System.Globalization;
 using System.Reflection;
 
@@ -57,6 +57,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
         }*/
 		
 		public static string Common_Description { get { return GetResourceString("Common_Description"); } }
+//Resources:SimulatorResources:Common_Icon
+
+		public static string Common_Icon { get { return GetResourceString("Common_Icon"); } }
 //Resources:SimulatorResources:Common_IsPublic
 
 		public static string Common_IsPublic { get { return GetResourceString("Common_IsPublic"); } }
@@ -123,6 +126,12 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:HttpVerb_PUT
 
 		public static string HttpVerb_PUT { get { return GetResourceString("HttpVerb_PUT"); } }
+//Resources:SimulatorResources:Message_DeviceMessageDefinition
+
+		public static string Message_DeviceMessageDefinition { get { return GetResourceString("Message_DeviceMessageDefinition"); } }
+//Resources:SimulatorResources:Message_DeviceMessageDefinition_Help
+
+		public static string Message_DeviceMessageDefinition_Help { get { return GetResourceString("Message_DeviceMessageDefinition_Help"); } }
 //Resources:SimulatorResources:Message_MessageHeaders
 
 		public static string Message_MessageHeaders { get { return GetResourceString("Message_MessageHeaders"); } }
@@ -222,6 +231,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageTemplate_DynamicAttributes
 
 		public static string MessageTemplate_DynamicAttributes { get { return GetResourceString("MessageTemplate_DynamicAttributes"); } }
+//Resources:SimulatorResources:MessageTemplate_DynamicAttributes_Help
+
+		public static string MessageTemplate_DynamicAttributes_Help { get { return GetResourceString("MessageTemplate_DynamicAttributes_Help"); } }
 //Resources:SimulatorResources:MessageTemplate_EndPoint
 
 		public static string MessageTemplate_EndPoint { get { return GetResourceString("MessageTemplate_EndPoint"); } }
@@ -240,6 +252,9 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:MessageTemplate_MessageId
 
 		public static string MessageTemplate_MessageId { get { return GetResourceString("MessageTemplate_MessageId"); } }
+//Resources:SimulatorResources:MessageTemplate_MessageId_Help
+
+		public static string MessageTemplate_MessageId_Help { get { return GetResourceString("MessageTemplate_MessageId_Help"); } }
 //Resources:SimulatorResources:MessageTemplate_Port
 
 		public static string MessageTemplate_Port { get { return GetResourceString("MessageTemplate_Port"); } }
@@ -426,6 +441,12 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:Simulator_SimulatorStates
 
 		public static string Simulator_SimulatorStates { get { return GetResourceString("Simulator_SimulatorStates"); } }
+//Resources:SimulatorResources:Simulator_Solution
+
+		public static string Simulator_Solution { get { return GetResourceString("Simulator_Solution"); } }
+//Resources:SimulatorResources:Simulator_States_Help
+
+		public static string Simulator_States_Help { get { return GetResourceString("Simulator_States_Help"); } }
 //Resources:SimulatorResources:Simulator_Subscription
 
 		public static string Simulator_Subscription { get { return GetResourceString("Simulator_Subscription"); } }
@@ -486,6 +507,12 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 //Resources:SimulatorResources:SimulatorNetwork_Title
 
 		public static string SimulatorNetwork_Title { get { return GetResourceString("SimulatorNetwork_Title"); } }
+//Resources:SimulatorResources:SimulatorNetworks_Title
+
+		public static string SimulatorNetworks_Title { get { return GetResourceString("SimulatorNetworks_Title"); } }
+//Resources:SimulatorResources:Simulators_Title
+
+		public static string Simulators_Title { get { return GetResourceString("Simulators_Title"); } }
 //Resources:SimulatorResources:SimulatorState_Description
 
 		public static string SimulatorState_Description { get { return GetResourceString("SimulatorState_Description"); } }
@@ -532,6 +559,7 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 		public static class Names
 		{
 			public const string Common_Description = "Common_Description";
+			public const string Common_Icon = "Common_Icon";
 			public const string Common_IsPublic = "Common_IsPublic";
 			public const string Common_Key = "Common_Key";
 			public const string Common_Key_Help = "Common_Key_Help";
@@ -554,6 +582,8 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string HttpVerb_GET = "HttpVerb_GET";
 			public const string HttpVerb_POST = "HttpVerb_POST";
 			public const string HttpVerb_PUT = "HttpVerb_PUT";
+			public const string Message_DeviceMessageDefinition = "Message_DeviceMessageDefinition";
+			public const string Message_DeviceMessageDefinition_Help = "Message_DeviceMessageDefinition_Help";
 			public const string Message_MessageHeaders = "Message_MessageHeaders";
 			public const string Message_MessageToken_Help = "Message_MessageToken_Help";
 			public const string Message_MessageTokens = "Message_MessageTokens";
@@ -587,12 +617,14 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string MessageTemplate_ContentType = "MessageTemplate_ContentType";
 			public const string MessageTemplate_Description = "MessageTemplate_Description";
 			public const string MessageTemplate_DynamicAttributes = "MessageTemplate_DynamicAttributes";
+			public const string MessageTemplate_DynamicAttributes_Help = "MessageTemplate_DynamicAttributes_Help";
 			public const string MessageTemplate_EndPoint = "MessageTemplate_EndPoint";
 			public const string MessageTemplate_GeoPoints = "MessageTemplate_GeoPoints";
 			public const string MessageTemplate_Help = "MessageTemplate_Help";
 			public const string MessageTemplate_HttpVerb = "MessageTemplate_HttpVerb";
 			public const string MessageTemplate_HttpVerb_Select = "MessageTemplate_HttpVerb_Select";
 			public const string MessageTemplate_MessageId = "MessageTemplate_MessageId";
+			public const string MessageTemplate_MessageId_Help = "MessageTemplate_MessageId_Help";
 			public const string MessageTemplate_Port = "MessageTemplate_Port";
 			public const string MessageTemplate_Properties = "MessageTemplate_Properties";
 			public const string MessageTemplate_QOS_Select = "MessageTemplate_QOS_Select";
@@ -655,6 +687,8 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string Simulator_PipelineModule_Config_Watermark = "Simulator_PipelineModule_Config_Watermark";
 			public const string Simulator_QueueName = "Simulator_QueueName";
 			public const string Simulator_SimulatorStates = "Simulator_SimulatorStates";
+			public const string Simulator_Solution = "Simulator_Solution";
+			public const string Simulator_States_Help = "Simulator_States_Help";
 			public const string Simulator_Subscription = "Simulator_Subscription";
 			public const string Simulator_Subscription_Help = "Simulator_Subscription_Help";
 			public const string Simulator_Title = "Simulator_Title";
@@ -675,6 +709,8 @@ namespace LagoVista.IoT.Simulator.Models.Resources
 			public const string SimulatorNetwork_Help = "SimulatorNetwork_Help";
 			public const string SimulatorNetwork_SimulatorInstances = "SimulatorNetwork_SimulatorInstances";
 			public const string SimulatorNetwork_Title = "SimulatorNetwork_Title";
+			public const string SimulatorNetworks_Title = "SimulatorNetworks_Title";
+			public const string Simulators_Title = "Simulators_Title";
 			public const string SimulatorState_Description = "SimulatorState_Description";
 			public const string SimulatorState_Help = "SimulatorState_Help";
 			public const string SimulatorState_Title = "SimulatorState_Title";

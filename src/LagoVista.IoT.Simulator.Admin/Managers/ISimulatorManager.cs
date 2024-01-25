@@ -12,11 +12,12 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
     {
         Task<InvokeResult> AddSimulatorAsync(Models.Simulator simulator, EntityHeader org, EntityHeader user);
         Task<Models.Simulator> GetSimulatorAsync(string id, EntityHeader org, EntityHeader user, bool loadSecrets = false, bool loadCSV = false);
-        Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForOrgsAsync(string id, EntityHeader user);
-        Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, EntityHeader org, EntityHeader user);
-        Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId, EntityHeader org, EntityHeader user);
-        Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string pipelineConfigId, EntityHeader org, EntityHeader user);
-        Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string pipelineConfigId, EntityHeader org, EntityHeader user);
+        Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForOrgsAsync(string id, ListRequest listRequest, EntityHeader user);
+        Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, ListRequest listRequest, EntityHeader org, EntityHeader user);
+        Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId, ListRequest listRequest, EntityHeader org, EntityHeader user);
+        Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForSolutionAsync(string solutionId, ListRequest listRequest, EntityHeader org, EntityHeader user);
+        Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string pipelineConfigId, ListRequest listRequest, EntityHeader org, EntityHeader user);
+        Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string pipelineConfigId, ListRequest listRequest, EntityHeader org, EntityHeader user);
         Task<InvokeResult> UpdateSimulatorAsync(Models.Simulator simulator, EntityHeader org, EntityHeader user);
         Task<InvokeResult> DeleteSimulatorAsync(string id, EntityHeader org, EntityHeader user);
 

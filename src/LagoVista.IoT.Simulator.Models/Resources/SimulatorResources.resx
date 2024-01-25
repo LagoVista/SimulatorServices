@@ -193,16 +193,16 @@
     <value>This wil be the value that is assigned to the header.  You can use the tokens {epoch} {deviceid} {jsonutcdate} to have these populated at run time</value>
   </data>
   <data name="MessageTemplate_BinaryPayload" xml:space="preserve">
-    <value>Binary Payload</value>
+    <value>Binary Payload Contents</value>
   </data>
   <data name="MessageTemplate_Description" xml:space="preserve">
-    <value>A Message Tempmlate is used to contain the payload which consist of a string or binary characters that can be used by the simulators to help troubleshoot your Deployments, Device Configurations and Pipeline Module Configurations</value>
+    <value>A Message Template is used to contain the payload which consist of a string or binary characters that can be used by the simulators to help test and troubleshoot your Deployments, Device Configurations and Pipeline Module Configurations</value>
   </data>
   <data name="MessageTemplate_Help" xml:space="preserve">
-    <value>A Message Tempmlate is used to contain the payload which consist of a string or binary characters that can be used by the simulators to help troubleshoot your Deployments, Device Configurations and Pipeline Module Configurations</value>
+    <value>A Message Template is used to contain the payload which consist of a string or binary characters that can be used by the simulators to help test and troubleshoot your Deployments, Device Configurations and Pipeline Module Configurations</value>
   </data>
   <data name="MessageTemplate_TextPayload" xml:space="preserve">
-    <value>Text Payload</value>
+    <value>Text Payload Contents</value>
   </data>
   <data name="MessageTemplate_Title" xml:space="preserve">
     <value>Message Template</value>
@@ -590,5 +590,32 @@
   </data>
   <data name="Simulator_CSVResourceId" xml:space="preserve">
     <value>CSV File</value>
+  </data>
+  <data name="Common_Icon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="Message_DeviceMessageDefinition" xml:space="preserve">
+    <value>Message Definition</value>
+  </data>
+  <data name="Message_DeviceMessageDefinition_Help" xml:space="preserve">
+    <value>Optionally select a message definition as defined in NuvIoT that can be associated with this simulator</value>
+  </data>
+  <data name="Simulator_Solution" xml:space="preserve">
+    <value>Solution</value>
+  </data>
+  <data name="SimulatorNetworks_Title" xml:space="preserve">
+    <value>Simulator Networks</value>
+  </data>
+  <data name="Simulators_Title" xml:space="preserve">
+    <value>Simulators</value>
+  </data>
+  <data name="MessageTemplate_DynamicAttributes_Help" xml:space="preserve">
+    <value>Dynamic Attributes are used to define fields within the message content, path, query string or topic that can be changed when the message is sent with the simulator.</value>
+  </data>
+  <data name="MessageTemplate_MessageId_Help" xml:space="preserve">
+    <value>The Message Id can be populated on the message template, if it is, it can be used within a dynamic field within the message content, path, query string or topic.</value>
+  </data>
+  <data name="Simulator_States_Help" xml:space="preserve">
+    <value>Simulator States are used within Simulator Networks to setup transmission plans for messages.  Within simulator networks messages can be scheduled to be sent when the simulator is in a particular state.</value>
   </data>
 </root>

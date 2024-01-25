@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static LagoVista.Core.Models.AuthorizeResult;
 using LagoVista.MediaServices.Interfaces;
+using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.IoT.Simulator.Admin.Managers
 {
@@ -159,34 +160,40 @@ namespace LagoVista.IoT.Simulator.Admin.Managers
             return simulator;
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForOrgsAsync(string orgId, EntityHeader user)
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForOrgsAsync(string orgId, ListRequest listRequest, EntityHeader user)
         {
             await AuthorizeOrgAccessAsync(user, orgId, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForOrgAsync(orgId);
+            return await _simulatorRepo.GetSimulatorsForOrgAsync(orgId, listRequest);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, EntityHeader org, EntityHeader user)
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(string deploymentConfigId, ListRequest listRequest, EntityHeader org, EntityHeader user)
         {
             await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForDeploymentConfigAsync(org.Id, deploymentConfigId);
+            return await _simulatorRepo.GetSimulatorsForDeploymentConfigAsync(org.Id, deploymentConfigId, listRequest);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId,  EntityHeader org, EntityHeader user)
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(string deviceConfigId, ListRequest listRequest, EntityHeader org, EntityHeader user)
         {
             await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForDeviceConfigAsync(org.Id, deviceConfigId);
+            return await _simulatorRepo.GetSimulatorsForDeviceConfigAsync(org.Id, deviceConfigId, listRequest);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string deviceTypeId, EntityHeader org, EntityHeader user)
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForSolutionAsync(string solutionId, ListRequest listRequest, EntityHeader org, EntityHeader user)
         {
             await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForDeviceTypesAsync(org.Id, deviceTypeId);
+            return await _simulatorRepo.GetSimulatorsForSolutionAsync(org.Id, solutionId, listRequest);
         }
 
-        public async Task<IEnumerable<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string pipelineModuleId, EntityHeader org, EntityHeader user)
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceTypesAsync(string deviceTypeId, ListRequest listRequest, EntityHeader org, EntityHeader user)
         {
             await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
-            return await _simulatorRepo.GetSimulatorsForPipelineModuleConfigAsync(org.Id, pipelineModuleId);
+            return await _simulatorRepo.GetSimulatorsForDeviceTypesAsync(org.Id, deviceTypeId, listRequest);
+        }
+
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleAsync(string pipelineModuleId, ListRequest listRequest, EntityHeader org, EntityHeader user)
+        {
+            await AuthorizeOrgAccessAsync(user, org.Id, typeof(Models.Simulator));
+            return await _simulatorRepo.GetSimulatorsForPipelineModuleConfigAsync(org.Id, pipelineModuleId, listRequest);
         }
 
 

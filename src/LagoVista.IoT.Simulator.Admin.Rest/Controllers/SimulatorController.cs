@@ -61,11 +61,20 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// Simulators - Get For Org
         /// </summary>
         /// <returns></returns>
+        [HttpGet("/api/simulators")]
+        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulators()
+        {
+            return await simulatorManager.GetSimulatorsForOrgsAsync(OrgEntityHeader.Id, GetListRequestFromHeader(), UserEntityHeader);
+        }
+
+        /// <summary>
+        /// Simulators - Get For Org
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("/api/org/simulators")]
         public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForOrgAsync()
         {
-            var simulators = await simulatorManager.GetSimulatorsForOrgsAsync(OrgEntityHeader.Id, UserEntityHeader);
-            return ListResponse<Models.SimulatorSummary>.Create(simulators);
+            return await simulatorManager.GetSimulatorsForOrgsAsync(OrgEntityHeader.Id, GetListRequestFromHeader(), UserEntityHeader);
         }
 
         /// <summary>
@@ -76,8 +85,7 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         [HttpGet("/api/deployment/instance/{id}/simulators")]
         public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeploymentConfigAsync(String id)
         {
-            var simulators = await simulatorManager.GetSimulatorsForOrgsAsync(id, UserEntityHeader);
-            return ListResponse<Models.SimulatorSummary>.Create(simulators);
+            return await simulatorManager.GetSimulatorsForDeploymentConfigAsync(id, GetListRequestFromHeader(), OrgEntityHeader, UserEntityHeader);
         }
 
         /// <summary>
@@ -85,11 +93,22 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("/api/solution/{id}/simulators")]
-        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(String id)
+        [HttpGet("/api/deviceconfig/{id}/simulators")]
+        public Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceConfigAsync(String id)
         {
-            var simulators = await simulatorManager.GetSimulatorsForDeviceConfigAsync(id, OrgEntityHeader, UserEntityHeader);
-            return ListResponse<Models.SimulatorSummary>.Create(simulators);
+            return simulatorManager.GetSimulatorsForDeviceConfigAsync(id, GetListRequestFromHeader(), OrgEntityHeader, UserEntityHeader);
+        }
+
+
+        /// <summary>
+        /// Simulators - Get For Device Config
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/api/solution/{id}/simulators")]
+        public Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForSolutionAsync(String id)
+        {
+            return simulatorManager.GetSimulatorsForSolutionAsync(id, GetListRequestFromHeader(), OrgEntityHeader, UserEntityHeader);
         }
 
         /// <summary>
@@ -98,10 +117,9 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("/api/pipeline/{id}/simulators")]
-        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(String id)
+        public  Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForPipelineModuleConfigAsync(String id)
         {
-            var simulators = await simulatorManager.GetSimulatorsForPipelineModuleAsync(id, OrgEntityHeader, UserEntityHeader);
-            return ListResponse<Models.SimulatorSummary>.Create(simulators);
+            return simulatorManager.GetSimulatorsForPipelineModuleAsync(id, GetListRequestFromHeader(), OrgEntityHeader, UserEntityHeader);
         }
 
         /// <summary>
@@ -110,12 +128,10 @@ namespace LagoVista.IoT.Simulator.Admin.Rest.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("/api/devicetype/{id}/simulators")]
-        public async Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceTypeAsync(String id)
+        public Task<ListResponse<Models.SimulatorSummary>> GetSimulatorsForDeviceTypeAsync(String id)
         {
-            var simulators = await simulatorManager.GetSimulatorsForPipelineModuleAsync(id, OrgEntityHeader, UserEntityHeader);
-            return ListResponse<Models.SimulatorSummary>.Create(simulators);
+            return simulatorManager.GetSimulatorsForDeviceTypesAsync(id, GetListRequestFromHeader(), OrgEntityHeader, UserEntityHeader);
         }
-
 
         /// <summary>
         /// Simulators - Delete
