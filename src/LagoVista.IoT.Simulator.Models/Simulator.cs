@@ -100,10 +100,10 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
         public string Description { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildListInline, InPlaceEditing:false, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildListInline, FactoryUrl: "/api/simulator/messagetemplate/factory", InPlaceEditing:false, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, HelpResource:SimulatorResources.Names.Simulator_States_Help, FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
+        [FormField(LabelResource: SimulatorResources.Names.Simulator_SimulatorStates, HelpResource:SimulatorResources.Names.Simulator_States_Help, FactoryUrl: "/api/simulator/state/factory", FieldType: FieldTypes.ChildListInline, ResourceType: typeof(SimulatorResources))]
         public List<SimulatorState> SimulatorStates { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Simulator_CredentialsStorage, HelpResource: SimulatorResources.Names.Simulator_CredentialsStorage_Help, FieldType: FieldTypes.Picker, EnumType: typeof(CredentialsStorage), ResourceType: typeof(SimulatorResources), WaterMark: SimulatorResources.Names.Simulator_CredentialsStorage_Select)]
