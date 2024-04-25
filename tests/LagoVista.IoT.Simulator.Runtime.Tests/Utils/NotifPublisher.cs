@@ -1,4 +1,5 @@
-﻿using LagoVista.IoT.Runtime.Core.Models.Messaging;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using LagoVista.IoT.Runtime.Core.Services;
 using Newtonsoft.Json;
 using System;
@@ -45,6 +46,17 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Utils
             Console.WriteLine($"{text}");
             Console.WriteLine(JsonConvert.SerializeObject(message));
             Console.WriteLine(typeof(TPayload));
+            Console.WriteLine("--------------------------------------------------------------");
+            Console.WriteLine();
+
+            return Task.FromResult(default(object));
+        }
+
+        public Task PublishAsync<TEntity>(Targets target, TEntity entity, NotificationVerbosity verbosity = NotificationVerbosity.Normal) where TEntity : IIDEntity
+        {
+            Console.WriteLine("--------------------------------------------------------------");
+            Console.WriteLine($"{typeof(TEntity).Name} {entity.Id}");
+            Console.WriteLine($"{verbosity}");
             Console.WriteLine("--------------------------------------------------------------");
             Console.WriteLine();
 

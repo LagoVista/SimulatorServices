@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Models;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.Models;
 using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using LagoVista.IoT.Runtime.Core.Services;
 using Microsoft.AspNetCore.SignalR;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 
@@ -69,7 +71,26 @@ namespace LagoVista.IoT.Simulator.Runtime.Portal.Services
             return PublishAsync(target, notification);
         }
 
-        public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, string text, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
+        public Task PublishAsync<TEntity>(Targets target, TEntity entity, NotificationVerbosity verbosity = NotificationVerbosity.Normal) where TEntity : IIDEntity
+        {
+            Console.WriteLine("--------------------------------------------------------------");
+            Console.WriteLine($"{typeof(TEntity).Name} {entity.Id}");
+            Console.WriteLine($"{verbosity}");
+            ConsoleWriteLine("--------------------------------------------------------------");
+            ConsoleWriteLine();
+
+            var notification = new Notification()
+            {
+                Channel = EntityHeader<Channels>.Create(Channels.Entity),
+                ChannelId = entity.Id,
+                PayloadType = typeof(TEntity).Name,
+                Payload = JsonConvert.SerializeObject(entity, _camelCaseSettings)
+            };
+
+            return PublishAsync(target, notification);
+        }
+
+            public Task PublishAsync<TPayload>(Targets target, Channels channel, string channelId, string text, TPayload message, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {
             ConsoleWriteLine("--------------------------------------------------------------");
             ConsoleWriteLine($"{channel} {channelId}");
