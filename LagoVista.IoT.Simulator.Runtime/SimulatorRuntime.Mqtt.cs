@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Models;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.Models;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Networking.Models;
 using LagoVista.Core.Validation;

@@ -1,4 +1,5 @@
 ﻿using LagoVista.Client.Core;
+using LagoVista.Core.Interfaces;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Validation;
 using LagoVista.IoT.Logging.Loggers;

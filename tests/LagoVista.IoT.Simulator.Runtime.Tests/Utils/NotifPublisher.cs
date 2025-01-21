@@ -1,4 +1,5 @@
 ﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.Models;
 using LagoVista.IoT.Runtime.Core.Models.Messaging;
 using LagoVista.IoT.Runtime.Core.Services;
 using Newtonsoft.Json;
@@ -62,6 +63,7 @@ namespace LagoVista.IoT.Simulator.Runtime.Tests.Utils
 
             return Task.FromResult(default(object));
         }
+
 
         public Task PublishTextAsync(Targets target, Channels channel, string channelId, string text, NotificationVerbosity verbosity = NotificationVerbosity.Normal)
         {

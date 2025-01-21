@@ -1,4 +1,5 @@
 ﻿using LagoVista.Client.Core.Models;
+using LagoVista.Core.Interfaces;
 using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Runtime.Core.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

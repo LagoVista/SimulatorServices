@@ -4,6 +4,7 @@ using Azure.Messaging.EventHubs.Producer;
 using Azure.Messaging.ServiceBus;
 using LagoVista.Client.Core;
 using LagoVista.Core;
+using LagoVista.Core.Interfaces;
 using LagoVista.Core.Models;
 using LagoVista.Core.Networking.Interfaces;
 using LagoVista.Core.Validation;

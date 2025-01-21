@@ -1,4 +1,5 @@
 ﻿using Amqp;
+using LagoVista.Core.Interfaces;
 using LagoVista.IoT.Runtime.Core.Services;
 using System;
 using System.Collections.Generic;

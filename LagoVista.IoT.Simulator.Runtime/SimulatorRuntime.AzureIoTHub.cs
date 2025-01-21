@@ -1,4 +1,5 @@
-﻿using LagoVista.Core.Validation;
+﻿using LagoVista.Core.Interfaces;
+using LagoVista.Core.Validation;
 using LagoVista.IoT.Runtime.Core.Services;
 using LagoVista.IoT.Simulator.Admin.Models;
 using Microsoft.Azure.Devices.Client;
