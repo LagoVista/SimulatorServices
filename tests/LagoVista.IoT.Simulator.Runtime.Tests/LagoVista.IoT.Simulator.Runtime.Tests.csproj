@@ -16,8 +16,4 @@
     <Folder Include="SimulatorNetwork\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\LagoVista.IoT.Simulator.Runtime\LagoVista.IoT.Simulator.Runtime.csproj" />
-  </ItemGroup>
-
 </Project>
