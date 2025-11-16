@@ -1,4 +1,8 @@
-﻿using LagoVista.IoT.Simulator.Admin.Models;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 4b0edaf9dbfe13c54ff061f9013c6f2bf81c4a7744edc32821d1f6b34f794ad1
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using LagoVista.IoT.Simulator.Admin.Models;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;

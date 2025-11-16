@@ -1,4 +1,8 @@
-﻿using Amqp;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 0b78f92303ebc1592e37c4aa5a45eea9536ffee31bbc0f7d39362b12c917d2f0
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using Amqp;
 using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
 using Azure.Messaging.ServiceBus;

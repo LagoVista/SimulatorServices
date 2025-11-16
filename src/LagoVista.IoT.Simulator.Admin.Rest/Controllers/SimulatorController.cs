@@ -1,4 +1,8 @@
-﻿using LagoVista.Core;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 03ccac8edc7f2f68e29bb9603b4ddc1d192b1ca88e83abf6d0266578af03d657
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using LagoVista.Core;
 using LagoVista.Core.Models;
 using LagoVista.Core.Models.UIMetaData;
 using LagoVista.Core.Validation;

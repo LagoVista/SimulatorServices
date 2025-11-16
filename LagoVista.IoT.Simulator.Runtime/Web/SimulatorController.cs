@@ -1,4 +1,8 @@
-﻿using LagoVista.Core.Exceptions;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 05ac665b7d4539b481f66cde94672179135c09857fa936aeec541fb88c006255
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using LagoVista.Core.Exceptions;
 using LagoVista.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,8 @@
-﻿using Amqp;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: a3b193467442230669cf1f9e4618a040eaadf48dbd0de4cd8e32bfa674f90e31
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using Amqp;
 using LagoVista.Core.Interfaces;
 using LagoVista.IoT.Runtime.Core.Services;
 using System;

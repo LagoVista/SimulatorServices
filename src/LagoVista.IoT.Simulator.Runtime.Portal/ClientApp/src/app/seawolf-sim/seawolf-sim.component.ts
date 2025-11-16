@@ -1,3 +1,7 @@
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: bdfccbc314af925a74da7127005aad1c22944079c38aaa79a183f8514f123dfb
+// IndexVersion: 2
+// --- END CODE INDEX META ---
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HubConnection } from '@aspnet/signalr';

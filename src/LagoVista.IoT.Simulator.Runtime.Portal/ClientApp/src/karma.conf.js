@@ -1,3 +1,7 @@
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 2f2a1c969f3df63c29a8e2848007236829b53f7782e30b124aa5a69263990817
+// IndexVersion: 2
+// --- END CODE INDEX META ---
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 

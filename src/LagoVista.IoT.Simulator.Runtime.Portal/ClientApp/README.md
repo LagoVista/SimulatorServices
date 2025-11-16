@@ -1,3 +1,7 @@
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: b90c4260165305100b7467c3cc0be38c75c8a9d1acecd03e43a3e4d15a7c53ce
+// IndexVersion: 2
+// --- END CODE INDEX META ---
 # LagoVista.IoT.Simulator.Runtime.Portal
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.

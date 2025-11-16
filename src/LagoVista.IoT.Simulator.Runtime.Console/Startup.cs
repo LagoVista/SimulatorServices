@@ -1,4 +1,8 @@
-﻿using LagoVista.IoT.Simulator.Runtime.Web;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: ef5f68e6db9168afbe5921aa7d525fafd00762a95285460c2c91312974821517
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using LagoVista.IoT.Simulator.Runtime.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

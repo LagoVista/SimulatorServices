@@ -1,4 +1,8 @@
-﻿using LagoVista.IoT.Simulator.Runtime.Models;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: f60d89fe4df067c944cfb0410a21c7eda022cba4e9d8ac8467b0e64ae4974506
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using LagoVista.IoT.Simulator.Runtime.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

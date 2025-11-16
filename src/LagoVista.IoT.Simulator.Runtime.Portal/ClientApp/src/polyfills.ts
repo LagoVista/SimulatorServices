@@ -1,3 +1,7 @@
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: f45e345b82080929485950644a2fe40f1eb369a9e10df267bfeee46a22e1f1f9
+// IndexVersion: 2
+// --- END CODE INDEX META ---
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.

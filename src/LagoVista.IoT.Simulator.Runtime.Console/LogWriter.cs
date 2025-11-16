@@ -1,4 +1,8 @@
-﻿using LagoVista.IoT.Logging.Loggers;
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 5470d98dd6ae40af32f7e7a80254c2e60b66bb140fd343b7ce7c23fe77f1918f
+// IndexVersion: 2
+// --- END CODE INDEX META ---
+using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Logging.Models;
 using System;
 using System.Collections.Generic;

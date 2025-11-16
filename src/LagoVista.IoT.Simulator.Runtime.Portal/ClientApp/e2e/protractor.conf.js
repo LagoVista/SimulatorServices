@@ -1,3 +1,7 @@
+// --- BEGIN CODE INDEX META (do not edit) ---
+// ContentHash: 8e705846c88bcce2e276c5769cd2bf4a5b3b0d1f12d8a518a418fd973c33faa3
+// IndexVersion: 2
+// --- END CODE INDEX META ---
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
