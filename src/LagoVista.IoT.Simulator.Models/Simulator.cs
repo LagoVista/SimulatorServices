@@ -101,9 +101,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             WaterMark: SimulatorResources.Names.Simulator_PipelineModule_Config_Watermark)]
         public EntityHeader PipelineModuleConfiguration { get; set; }
 
-        [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources))]
-        public string Description { get; set; }
-
         [FormField(LabelResource: SimulatorResources.Names.Simulator_MessageTemplates, FieldType: FieldTypes.ChildListInline, FactoryUrl: "/api/simulator/messagetemplate/factory", InPlaceEditing:false, ResourceType: typeof(SimulatorResources))]
         public List<MessageTemplate> MessageTemplates { get; set; }
 

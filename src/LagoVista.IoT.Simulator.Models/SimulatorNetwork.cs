@@ -31,10 +31,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
         public string Icon { get; set; }
 
 
-        [FormField(LabelResource: SimulatorResources.Names.Common_Description, FieldType: FieldTypes.MultiLineText, ResourceType: typeof(SimulatorResources), IsRequired: false)]
-        public string Description { get; set; }
-
-
         [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_SimulatorInstances, FieldType: FieldTypes.ChildListInline, FactoryUrl: "/api/simulator/instance/factory", ResourceType: typeof(SimulatorResources))]
         public List<SimulatorInstance> Simulators { get; set; }
 
