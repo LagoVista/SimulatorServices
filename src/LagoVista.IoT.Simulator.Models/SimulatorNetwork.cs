@@ -26,11 +26,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             Icon = "icon-pz-speed-1z";
         }
 
-
-        [FormField(LabelResource: SimulatorResources.Names.Common_Icon, FieldType: FieldTypes.Icon, ResourceType: typeof(SimulatorResources), IsRequired: false, IsUserEditable: true)]
-        public string Icon { get; set; }
-
-
         [FormField(LabelResource: SimulatorResources.Names.SimulatorNetwork_SimulatorInstances, FieldType: FieldTypes.ChildListInline, FactoryUrl: "/api/simulator/instance/factory", ResourceType: typeof(SimulatorResources))]
         public List<SimulatorInstance> Simulators { get; set; }
 

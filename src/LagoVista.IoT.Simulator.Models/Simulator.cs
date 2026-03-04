@@ -77,10 +77,6 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             Icon = "icon-fo-information-computer";
         }
 
-        [FormField(LabelResource: SimulatorResources.Names.Common_Icon, FieldType: FieldTypes.Icon, ResourceType: typeof(SimulatorResources), IsRequired: false, IsUserEditable: true)]
-        public string Icon { get; set; }
-
-
         [FormField(LabelResource: SimulatorResources.Names.Simulator_Deployment_Config, FieldType: FieldTypes.EntityHeaderPicker, EntityHeaderPickerUrl: "/api/deployment/instances", WaterMark:SimulatorResources.Names.Simulator_DeploymentConfiguration_Watermark, 
             ResourceType: typeof(SimulatorResources))]
         public EntityHeader DeploymentConfiguration { get; set; }

@@ -25,13 +25,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
             Id = Guid.NewGuid().ToId();
         }
 
-        public String Id { get; set; }
+        public NormalizedId32 Id { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.MessageHeader_Key, HelpResource:SimulatorResources.Names.MessageHeader_Key_Help,  FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired:true)]
-        public string Key { get; set; }
+        public LagoVistaKey Key { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.MessageHeader_HeaderName, HelpResource: SimulatorResources.Names.MessageHeader_HeaderName_Help, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string HeaderName { get; set; }

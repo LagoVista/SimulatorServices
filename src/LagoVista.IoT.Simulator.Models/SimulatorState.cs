@@ -18,13 +18,13 @@ namespace LagoVista.IoT.Simulator.Admin.Models
     public class SimulatorState : IIDEntity, IKeyedEntity, INamedEntity, IDescriptionEntity, IValidateable, IEntityHeaderEntity, IFormDescriptor
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public NormalizedId32 Id { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Name, FieldType: FieldTypes.Text, ResourceType: typeof(SimulatorResources), IsRequired: true)]
         public string Name { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_Key, HelpResource: SimulatorResources.Names.Common_Key_Help, FieldType: FieldTypes.Key, RegExValidationMessageResource: SimulatorResources.Names.Common_Key_Validation, ResourceType: typeof(SimulatorResources), IsRequired: true)]
-        public string Key { get; set; }
+        public LagoVistaKey Key { get; set; }
 
         [FormField(LabelResource: SimulatorResources.Names.Common_IsPublic, FieldType: FieldTypes.CheckBox, ResourceType: typeof(SimulatorResources))]
         public bool IsPublic { get; set; }
