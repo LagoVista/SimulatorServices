@@ -3,8 +3,12 @@
 // IndexVersion: 2
 // --- END CODE INDEX META ---
 using LagoVista.Core.Interfaces;
+using LagoVista.IoT.Logging.Loggers;
+using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.IoT.Simulator.Admin.Repos;
 using LagoVista.IoT.Simulator.CloudRepos.Repos;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LagoVista.IoT.Simulator.CloudRepos
 {
@@ -17,3 +21,17 @@ namespace LagoVista.IoT.Simulator.CloudRepos
         }
     }
 }
+
+namespace LagoVista.DependencyInjection
+{
+    public static class SimulatorServices
+    {
+        public static void AddSimulatorServicesModule(this IServiceCollection services, IConfigurationRoot configRoot, IAdminLogger logger)
+        {
+            LagoVista.IoT.Simulator.CloudRepos.Startup.ConfigureServices(services);
+            LagoVista.IoT.Simulator.Admin.Startup.ConfigureServices(services);
+            services.AddMetaDataHelper<Simulator>();
+        }
+    }
+}
+
