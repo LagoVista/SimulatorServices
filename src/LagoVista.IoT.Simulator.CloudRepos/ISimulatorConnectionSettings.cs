@@ -11,9 +11,7 @@ namespace LagoVista.IoT.Simulator.CloudRepos
 {
     public interface ISimulatorConnectionSettings
     {
-        IConnectionSettings SimulatorDocDbStorage { get; set; }
-        IConnectionSettings SimulatorTableStorage { get; set; }
-
-        bool ShouldConsolidateCollections { get; }
+        IConnectionSettings SimulatorDocDbStorage { get; }
+        IConnectionSettings SimulatorTableStorage { get; }
     }
 }

@@ -18,6 +18,7 @@ namespace LagoVista.IoT.Simulator.CloudRepos
         {
             services.AddTransient<ISimulatorRepo, SimulatorRepo>();
             services.AddTransient<ISimulatorNetworkRepo, SimulatorNetworkRepo>();
+            services.AddTransient<ISimulatorConnectionSettings, SimulatorConnectionSettings>();
         }
     }
 }
