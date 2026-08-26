@@ -2,20 +2,21 @@
 // ContentHash: 3d2f71cdd8fa47e3093b45c81bb9de4eac89eb40364e49b5ea53e7545de74505
 // IndexVersion: 2
 // --- END CODE INDEX META ---
+using LagoVista.CloudStorage.DocumentDB;
+using LagoVista.CloudStorage.Interfaces;
+using LagoVista.Core.Models.UIMetaData;
+using LagoVista.IoT.Logging.Loggers;
+using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.IoT.Simulator.Admin.Repos;
 using System.Collections.Generic;
 using System.Linq;
-using LagoVista.IoT.Simulator.Admin.Models;
 using System.Threading.Tasks;
-using LagoVista.CloudStorage.DocumentDB;
-using LagoVista.IoT.Logging.Loggers;
-using LagoVista.Core.Models.UIMetaData;
 
 namespace LagoVista.IoT.Simulator.CloudRepos.Repos
 {
     public class SimulatorRepo : DocumentDBRepoBase<Admin.Models.Simulator>, ISimulatorRepo
     {
-        public SimulatorRepo(ISimulatorConnectionSettings repoSettings, IAdminLogger logger) : base(repoSettings.SimulatorDocDbStorage.Uri, repoSettings.SimulatorDocDbStorage.AccessKey, repoSettings.SimulatorDocDbStorage.ResourceName, logger)
+        public SimulatorRepo(IDocumentCloudCachedServices services) : base(services)
         {
         }
 

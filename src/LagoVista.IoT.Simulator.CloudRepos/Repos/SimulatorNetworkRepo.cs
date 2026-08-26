@@ -3,6 +3,7 @@
 // IndexVersion: 2
 // --- END CODE INDEX META ---
 using LagoVista.CloudStorage.DocumentDB;
+using LagoVista.CloudStorage.Interfaces;
 using LagoVista.IoT.Logging.Loggers;
 using LagoVista.IoT.Simulator.Admin.Models;
 using LagoVista.IoT.Simulator.Admin.Repos;
@@ -16,8 +17,7 @@ namespace LagoVista.IoT.Simulator.CloudRepos.Repos
     public class SimulatorNetworkRepo : DocumentDBRepoBase<Admin.Models.SimulatorNetwork>, ISimulatorNetworkRepo
     {
 
-        public SimulatorNetworkRepo(ISimulatorConnectionSettings repoSettings, IAdminLogger logger) 
-            : base(repoSettings.SimulatorDocDbStorage.Uri, repoSettings.SimulatorDocDbStorage.AccessKey, repoSettings.SimulatorDocDbStorage.ResourceName, logger)
+        public SimulatorNetworkRepo(IDocumentCloudCachedServices services) : base(services)
         {
         }
 
