@@ -1,19 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Moq" Version="4.18.2" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.10.4" />
-    <PackageReference Include="Microsoft.NET.Test.SDK" Version="17.7.2" />
-    <PackageReference Include="Microsoft.CodeCoverage" Version="17.7.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.10.4" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="Microsoft.NET.Test.SDK" />
+    <PackageReference Include="Microsoft.CodeCoverage" />
+    <PackageReference Include="MSTest.TestFramework" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="SimulatorNetwork\" />
   </ItemGroup>
-
 </Project>

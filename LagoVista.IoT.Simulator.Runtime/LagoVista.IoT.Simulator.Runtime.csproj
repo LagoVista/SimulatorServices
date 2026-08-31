@@ -6,16 +6,16 @@
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.12.2" />
-    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
-    <PackageReference Include="DotNetty.Buffers" Version="0.7.5" />
-    <PackageReference Include="LagoVista.IoT.Runtime.Core" Version="3.0.3387.2047" />
-    <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.42.3" />
-    <PackageReference Include="Microsoft.Azure.Devices.Shared" Version="1.30.4" />
-    <PackageReference Include="LagoVista.MQTT" Version="1.2.640-alpha1012" />
-    <PackageReference Include="AMQPNetLite" Version="2.5.1" />
-    <PackageReference Include="LagoVista.Client.Core" Version="3.0.3301.0734" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+    <PackageReference Include="Azure.Messaging.EventHubs.Processor" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" />
+    <PackageReference Include="DotNetty.Buffers" />
+    <PackageReference Include="LagoVista.IoT.Runtime.Core" />
+    <PackageReference Include="Microsoft.Azure.Devices.Client" />
+    <PackageReference Include="Microsoft.Azure.Devices.Shared" />
+    <PackageReference Include="LagoVista.MQTT" />
+    <PackageReference Include="AMQPNetLite" />
+    <PackageReference Include="LagoVista.Client.Core" />
+    <PackageReference Include="Portable.BouncyCastle" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\LagoVista.IoT.Simulator.Models\LagoVista.IoT.Simulator.Models.csproj" />

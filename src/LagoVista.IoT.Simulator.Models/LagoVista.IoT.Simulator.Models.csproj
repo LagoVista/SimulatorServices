@@ -5,7 +5,7 @@
     <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LagoVista.IoT.DeviceAdmin" Version="3.0.3387.2047" />
+    <PackageReference Include="LagoVista.IoT.DeviceAdmin" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="T4ResourceGenerator.cs">
@@ -16,8 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\SimulatorResources.resx">
-      <Generator>
-      </Generator>
+      <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
