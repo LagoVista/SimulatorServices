@@ -8,18 +8,18 @@
     <PackageVersion Include="Azure.Messaging.ServiceBus" Version="7.20.1" />
     <PackageVersion Include="DotNetty.Buffers" Version="0.7.5" />
     <PackageVersion Include="LagoVista.Client.Core" Version="3.0.3301.734" />
-    <PackageVersion Include="LagoVista.CloudStorage" Version="7.0.3" />
-    <PackageVersion Include="LagoVista.Core.Authentication" Version="7.0.3" />
-    <PackageVersion Include="LagoVista.Core.Configuration" Version="7.0.3" />
-    <PackageVersion Include="LagoVista.IoT.DeviceAdmin" Version="7.0.2" />
-    <PackageVersion Include="LagoVista.IoT.Runtime.Core" Version="7.0.2" />
-    <PackageVersion Include="LagoVista.IoT.Web.Common" Version="7.0.2" />
-    <PackageVersion Include="LagoVista.MediaServices" Version="7.0.3" />
+    <PackageVersion Include="LagoVista.CloudStorage" Version="7.0.5" />
+    <PackageVersion Include="LagoVista.Core.Authentication" Version="7.0.4" />
+    <PackageVersion Include="LagoVista.Core.Configuration" Version="7.0.4" />
+    <PackageVersion Include="LagoVista.IoT.DeviceAdmin" Version="7.0.3" />
+    <PackageVersion Include="LagoVista.IoT.Runtime.Core" Version="7.0.3" />
+    <PackageVersion Include="LagoVista.IoT.Web.Common" Version="7.0.3" />
+    <PackageVersion Include="LagoVista.MediaServices" Version="7.0.4" />
     <PackageVersion Include="LagoVista.MQTT" Version="1.2.640-alpha1012" />
     <PackageVersion Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="9.0.13" />
     <PackageVersion Include="Microsoft.Azure.Devices.Client" Version="1.42.3" />
     <PackageVersion Include="Microsoft.Azure.Devices.Shared" Version="1.30.4" />
-    <PackageVersion Include="Microsoft.CodeCoverage" Version="17.7.2" />
+    <PackageVersion Include="Microsoft.CodeCoverage" Version="17.14.1" />
     <PackageVersion Include="Microsoft.NET.Test.SDK" Version="17.14.1" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.10.4" />
